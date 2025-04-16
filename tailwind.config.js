@@ -13,5 +13,5 @@ module.exports = windmill({
       },
     },
   },
-  plugins: [require('tailgrids/plugin')], // ✅ TailGrids plugin added here
+ 
 });

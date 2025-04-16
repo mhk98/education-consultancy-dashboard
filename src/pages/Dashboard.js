@@ -78,12 +78,12 @@ function Dashboard() {
           </button>
 
           {/* Request Program Options */}
-          <button className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm md:text-base hover:bg-blue-700 transition">
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm md:text-base hover:bg-blue-700 transition">
             + Request Program Options from KC Team
           </button>
 
           {/* Register New Student */}
-          <button className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm md:text-base hover:bg-blue-700 transition">
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm md:text-base hover:bg-blue-700 transition">
             + Register New Student
           </button>
         </div>

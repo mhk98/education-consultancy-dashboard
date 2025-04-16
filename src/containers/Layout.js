@@ -29,7 +29,7 @@ function Layout() {
         <Main>
           <Suspense fallback={<ThemedSuspense />}>
             <Switch>
-              {routes.map((route, i) => {
+              {/* {routes.map((route, i) => {
                 return route.component ? (
                   <Route
                     key={i}
@@ -38,7 +38,18 @@ function Layout() {
                     render={(props) => <route.component {...props} />}
                   />
                 ) : null
-              })}
+              })} */}
+              {routes.map((route, i) => {
+  return route.component ? (
+    <Route
+      key={i}
+      exact={true}
+      path={`/app${route.path}`}
+      render={(props) => <route.component {...props} />}
+    />
+  ) : null
+})}
+
               <Redirect exact from="/app" to="/app/dashboard" />
               <Route component={Page404} />
             </Switch>
