@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-const FilterPanel = () => {
+const StudentFilter = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [selectedIntakes, setSelectedIntakes] = useState([]);
@@ -94,10 +94,24 @@ const FilterPanel = () => {
           />
         </div>
 
+        {/* Status */}
+        <div className="flex flex-col">
+          <label className="text-sm text-black mb-1">Status</label>
+          <Select
+            isMulti
+            options={countryOptions}
+            onChange={(selectedOptions) =>
+              setSelectedCountries(selectedOptions.map(option => option.value))
+            }
+            className="text-sm"
+            placeholder="Select Status"
+          />
+        </div>
+
         {/* Apply Button */}
         <div className="lg:col-span-5 text-left">
           <button className="w-full md:w-auto border border-blue-500 text-blue-600 font-medium rounded-md px-4 py-2 hover:bg-blue-50 transition">
-            Apply Filter
+            Search
           </button>
         </div>
       </div>
@@ -105,4 +119,4 @@ const FilterPanel = () => {
   );
 };
 
-export default FilterPanel;
+export default StudentFilter;

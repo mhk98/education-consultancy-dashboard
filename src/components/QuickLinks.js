@@ -14,7 +14,7 @@ const quickLinks = [
 
 export default function QuickLinks() {
   return (
-    <div className="w-full mx-auto px-4 py-6">
+    <div className="w-full mx-auto  py-6">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Quick Links</h2>
       <div className="space-y-4">
         {quickLinks.map((link, index) => (

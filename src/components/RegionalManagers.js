@@ -21,7 +21,7 @@ const managers = [
   
   export default function RegionalManagers() {
     return (
-      <div className="w-full mx-auto px-4 py-6">
+      <div className="w-full mx-auto py-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">
           Contact Regional Manager
         </h2>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import response from '../utils/demo/tableData'
-import FilterPanel from '../components/FilterPanel'
-import StudentTable from '../components/Students/StudentTable'
-import StudentFilter from '../components/Students/StudentFilter'
+import { TbDownload } from 'react-icons/tb'
+import ApplicationsFilterPanel from '../components/Applications/ApplicationsFilterPanel'
+import ApplicationsTable from '../components/Applications/ApplicationsTable'
 
-function Students() {
+function Applications() {
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
 
@@ -30,30 +30,27 @@ function Students() {
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         {/* Left: Title and Subtitle */}
         <div>
-          <h4 className="text-2xl md:text-md font-semibold text-gray-900">Students</h4>
-          <p className="text-sm md:text-sm text-gray-500 mt-1">Manage your Students and their Profiles</p>
+          <h4 className="text-2xl md:text-md font-semibold text-gray-900">Applications</h4>
+          <p className="text-sm md:text-sm text-gray-500 mt-1">Manage your Students’ Applications.</p>
         </div>
 
         {/* Right: Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="">
           {/* Request Program Options */}
-          <button className="px-4 py-2 bg-white text-blue-600 border-2 border-blue-600 rounded-md text-sm md:text-base transition">
-            Archived Students
+          <button className="flex items-center sm:flex-row gap-3 px-4 py-2 bg-white text-blue-600 border-2 border-blue-600 rounded-md text-sm md:text-base transition">
+            <span>Export Application Data </span>
+            <TbDownload />
           </button>
-
-          {/* Register New Student */}
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm md:text-base hover:bg-blue-700 transition">
-            + Register New Student
-          </button>
+          
         </div>
       </div>
     </div>
       {/* <CTA /> */}
 
-    <StudentFilter/>
-      <StudentTable/>
+    <ApplicationsFilterPanel/>
+      <ApplicationsTable/>
     </>
   )
 }
 
-export default Students
+export default Applications
