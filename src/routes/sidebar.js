@@ -22,26 +22,26 @@ const routes = [
     icon: 'FormsIcon',
     name: 'Students',
   },
-  // {
-  //   path: '/app/applications',
-  //   icon: 'FormsIcon',
-  //   name: 'Applications',
-  // },
-  // {
-  //   path: '/app/wallet',
-  //   icon: 'FormsIcon',
-  //   name: 'Wallet',
-  // },
-  // {
-  //   path: '/app/commission-payments',
-  //   icon: 'FormsIcon',
-  //   name: 'Commission Payments',
-  // },
-  // {
-  //   path: '/app/manage-enquiries',
-  //   icon: 'FormsIcon',
-  //   name: 'Manage Enquiries',
-  // },
+  {
+    path: '/app/applications',
+    icon: 'FormsIcon',
+    name: 'Applications',
+  },
+  {
+    path: '/app/wallet',
+    icon: 'FormsIcon',
+    name: 'Wallet',
+  },
+  {
+    path: '/app/commission-payments',
+    icon: 'FormsIcon',
+    name: 'Commission Payments',
+  },
+  {
+    path: '/app/manage-enquiries',
+    icon: 'FormsIcon',
+    name: 'Manage Enquiries',
+  },
   // {
   //   path: '/app/cards',
   //   icon: 'CardsIcon',
