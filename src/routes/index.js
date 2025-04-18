@@ -2,6 +2,9 @@ import { lazy } from 'react'
 import Students from '../pages/Students'
 import Applications from '../pages/Applications'
 import Wallet from '../pages/Wallet'
+import CommissionPayment from '../pages/CommissionPayment'
+import Enquiries from '../pages/Enquiries'
+import StudentEditProfile from '../components/Students/StudentEditProfile'
 
 // use lazy for better code splitting, a.k.a. load faster
 const Dashboard = lazy(() => import('../pages/Dashboard'))
@@ -34,6 +37,10 @@ const routes = [
     component: Students,
   },
   {
+    path: '/editprofile',
+    component: StudentEditProfile,
+  },
+  {
     path: '/applications',
     component: Applications,
   },
@@ -42,12 +49,12 @@ const routes = [
     component: Wallet,
   },
   {
-    path: '/charts',
-    component: Charts,
+    path: '/commission-payments',
+    component: CommissionPayment,
   },
   {
-    path: '/buttons',
-    component: Buttons,
+    path: '/manage-enquiries',
+    component: Enquiries,
   },
   {
     path: '/modals',

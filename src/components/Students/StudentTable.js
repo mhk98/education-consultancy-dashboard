@@ -1,5 +1,7 @@
 import React from "react";
 import { FaEnvelope, FaPhone, FaLink, FaTrash } from "react-icons/fa";
+import { LiaEditSolid } from "react-icons/lia";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 const students = [
   {
@@ -85,7 +87,10 @@ export default function StudentTable() {
                 </span>
               </td>
               <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
-                <FaLink className="cursor-pointer" />
+                {/* <FaLink className="cursor-pointer" /> */}
+                <Link to='/app/editprofile'>
+                <LiaEditSolid  className="cursor-pointer" />
+                </Link>
                 <FaTrash className="cursor-pointer text-red-500" />
               </td>
             </tr>

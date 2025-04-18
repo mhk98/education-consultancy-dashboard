@@ -1,6 +1,7 @@
 import React, { lazy } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import AccessibleNavigationAnnouncer from './components/AccessibleNavigationAnnouncer'
+import StudentEditProfile from './components/Students/StudentEditProfile'
 
 const Layout = lazy(() => import('./containers/Layout'))
 const Login = lazy(() => import('./pages/Login'))
@@ -19,6 +20,7 @@ function App() {
 
           {/* Place new routes over this */}
           <Route path="/app" component={Layout} />
+          <Route path="/editprofile" component={StudentEditProfile} />
           {/* If you have an index page, you can remothis Redirect */}
           <Redirect exact from="/" to="/login" />
         </Switch>
