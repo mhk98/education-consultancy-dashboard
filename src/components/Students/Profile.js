@@ -38,7 +38,7 @@ export default function Profile() {
 
 
          {/* Separated Content Section Below */}
-              <div className="mt-4 p-4 bg-white rounded-md shadow-md">
+              <div className="mt-4 p-4 bg-white rounded-md">
               {isPersonal ? (
                 <div>
 

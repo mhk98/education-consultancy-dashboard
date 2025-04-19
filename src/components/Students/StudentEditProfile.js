@@ -73,7 +73,7 @@ export default function StudentEditProfile() {
       </div>
 
          {/* Separated Content Section Below */}
-              <div className="mt-4 p-4 bg-white rounded-md shadow-md">
+              <div className="mt-4 p-4 bg-white">
               {isProfile ? (
                 <div>
                     <Profile/>
