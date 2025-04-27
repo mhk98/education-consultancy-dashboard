@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const academicApi = createApi({
   reducerPath: "academicApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://education-consultancy-backend.onrender.com/api/v1/",
+    baseUrl: "http://localhost:5000/api/v1/",
   }),
 
   tagTypes: ["academic"], // Define the tag type
@@ -28,7 +28,7 @@ export const academicApi = createApi({
     updateAcademic: build.mutation({
       query: ({ id, data }) => ({
         url: `/academic/${id}`,
-        method: "PATCH",
+        method: "PUT",
         body: data,
       }),
       invalidatesTags: ["academic"],
