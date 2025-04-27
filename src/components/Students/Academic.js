@@ -4,8 +4,8 @@ import { FaInfoCircle } from "react-icons/fa";
 import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui'
 import { Input, Select, Textarea } from '@windmill/react-ui'
 import toast from "react-hot-toast";
-import { useUpdateAcademicMutation } from "../../features/academic/academic";
-import { useGetDataByIdQuery } from "../../features/application/application";
+import { useGetDataByIdQuery, useUpdateAcademicMutation } from "../../features/academic/academic";
+
 
 const Academic = ({id}) => {
 
@@ -82,7 +82,7 @@ const Academic = ({id}) => {
                         academic? (
                             <div className="card-body p-8 shadow-md bg-base-100 rounded-md">
                             <div className="grid grid-cols-1 gap-4">
-                              <h2 className="text-lg font-bold text-blue-700">{academic?.twelvethInstitution}</h2>
+                              <h2 className="text-lg font-bold text-blue-700">{academic?.twelvethBoard}</h2>
                                 <h3 className="text-md font-semibold text-blue-600 mt-1">{academic?.twelvethInstitution}</h3>
                                 <p className="text-gray-700">{academic?.twelvethLocation}</p>
                                 <p className="text-gray-500 mt-2">
@@ -120,6 +120,18 @@ const Academic = ({id}) => {
                             className="input input-bordered w-full form-control shadow-md p-3"
                           />
                             {errors.twelvethEndDate && <p style={{ color: "red", marginTop: "5px" }}>{errors.twelvethEndDate.message}</p>}
+            
+                        </div>
+
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700">Board</label>
+                          <Input
+                            type="text"
+                            name="twelvethBoard"
+                            {...register('twelvethBoard')}
+                            className="input input-bordered w-full form-control shadow-md p-3"
+                          />
+                            {errors.twelvethBoard && <p style={{ color: "red", marginTop: "5px" }}>{errors.twelvethBoard.message}</p>}
             
                         </div>
                        
@@ -208,7 +220,7 @@ const Academic = ({id}) => {
                       
                 
                       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
-                          <ModalHeader>Grade 12th or equivalent</ModalHeader>
+                          <ModalHeader>Grade 10th or equivalent</ModalHeader>
                           <ModalBody>
                           <form onSubmit={handleSubmit(onEditSubmit)}>
                         <div className="mb-4">
@@ -232,6 +244,18 @@ const Academic = ({id}) => {
                             className="input input-bordered w-full form-control shadow-md p-3"
                           />
                             {errors.tenthEndDate && <p style={{ color: "red", marginTop: "5px" }}>{errors.tenthEndDate.message}</p>}
+            
+                        </div>
+
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700">Board</label>
+                          <Input
+                            type="text"
+                            name="tenthBoard"
+                            {...register('tenthBoard')}
+                            className="input input-bordered w-full form-control shadow-md p-3"
+                          />
+                            {errors.tenthBoard && <p style={{ color: "red", marginTop: "5px" }}>{errors.tenthBoard.message}</p>}
             
                         </div>
                        

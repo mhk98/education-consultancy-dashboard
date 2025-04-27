@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PersonalInformation from "./PersonalInformation";
 import Academic from "./Academic";
+import Tests from "./Tests";
 
 const  Profile = ({id}) => {
 
@@ -53,13 +54,9 @@ const  Profile = ({id}) => {
                  <Academic id={id}/>
 
                 </div>
-              ) : isWork ? (
+              )  : (
 
-                <p>hello</p>
-
-              ) : (
-
-                <p>How are you</p>
+                <Tests id={id}/>
 
               )
             
