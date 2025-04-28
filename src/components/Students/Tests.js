@@ -98,7 +98,7 @@ const Tests = ({id}) => {
                               </div>
                               
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12">
                             <div className="text-md">
                                 <span className="text-gray-600">Reading</span><br />
                                 <span>{test?.reading}</span>
@@ -136,6 +136,16 @@ const Tests = ({id}) => {
             className="input input-bordered w-full form-control shadow-md p-3"
           />
           {errors.examinationDate && <p className="text-red-500 text-sm mt-1">{errors.examinationDate.message}</p>}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm mb-1 text-gray-700">Waiver</label>
+          <Input
+            type="text"
+            {...register('waiver')}
+            className="input input-bordered w-full form-control shadow-md p-3"
+          />
+          {errors.waiver && <p className="text-red-500 text-sm mt-1">{errors.waiver.message}</p>}
         </div>
 
         <div className="mb-4">
@@ -187,8 +197,8 @@ const Tests = ({id}) => {
           />
           {errors.speaking && <p className="text-red-500 text-sm mt-1">{errors.speaking.message}</p>}
         </div>
-
-        <div className="mb-4 md:col-span-2">
+        
+        <div className="mb-4">
           <label className="block text-sm mb-1 text-gray-700">TRF No</label>
           <Input
             type="text"
