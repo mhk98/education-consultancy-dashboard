@@ -26,7 +26,7 @@ export const documentApi = createApi({
     }),
 
     updateDocument: build.mutation({
-      query: ({ id, data }) => ({
+      query: ({ data, id }) => ({
         url: `/document/${id}`,
         method: "PUT",
         body: data,
@@ -43,6 +43,16 @@ export const documentApi = createApi({
       refetchOnMountOrArgChange: true,
       pollingInterval: 1000,
     }),
+
+    getDataById: build.query({
+      query: (id) => ({
+        url: `document/${id}`,
+      }),
+      providesTags: ["document"],
+
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 1000,
+    }),
   }),
 });
 
@@ -50,5 +60,6 @@ export const {
  useCreateDocumentMutation,
  useDeleteDocumentMutation,
  useUpdateDocumentMutation,
- useGetAllDocumentQuery
+ useGetAllDocumentQuery,
+ useGetDataByIdQuery,
 } = documentApi;

@@ -3,6 +3,7 @@ import { FaRegCopy } from "react-icons/fa";
 import Profile from "./Profile";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
 import Applications from "./Applications";
+import Document from "./Document";
 
 const StudentEditProfile = () => {
 
@@ -93,7 +94,7 @@ const StudentEditProfile = () => {
       
                 </div>
               ) : (
-                <p>hello</p>
+                <Document id={id}/>
               )
             
             }
