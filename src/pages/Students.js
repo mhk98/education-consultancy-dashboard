@@ -162,7 +162,7 @@ function Students() {
                   )}
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm mb-1 text-gray-700">Email</label>
+                  <label className="block text-sm mb-1 text-gray-700">Password</label>
                   <Input
                     type="password"
                     {...register("Password")}

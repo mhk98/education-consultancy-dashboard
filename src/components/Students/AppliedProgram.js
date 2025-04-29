@@ -153,6 +153,7 @@
 import React, { useEffect, useState } from "react";
 import { FiPaperclip, FiSend } from "react-icons/fi";
 import { useGetDataByIdQuery } from "../../features/application/application";
+// import CommentBox from "./StudentCommentBox";
 
 const AppliedProgram = ({ id }) => {
   const [tab, setTab] = useState("kc");
@@ -308,6 +309,8 @@ const AppliedProgram = ({ id }) => {
                     </button>
                   </div>
                 </div>
+
+                // <CommentBox id={id}/>
               )}
             </div>
           </>

@@ -242,7 +242,7 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui'
 
-const BASE_URL = "http://localhost:5000/"; // your backend base
+const BASE_URL = "http://localhost:4000/"; // your backend base
 
 const StudentDocument = ({ id }) => {
   const {
