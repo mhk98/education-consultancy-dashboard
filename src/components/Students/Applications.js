@@ -44,7 +44,7 @@ const Applications = ({id}) => {
           </div>
         ) : (
           <div>
-            <AppliedProgram id={id}/>
+            <AppliedProgram user_id={id}/>
           </div>
         )}
       </div>

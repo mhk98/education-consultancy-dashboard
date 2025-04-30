@@ -7,6 +7,8 @@ import { applicationApi } from "../features/application/application";
 import { documentApi } from "../features/document/document";
 import { academicApi } from "../features/academic/academic";
 import { testsApi } from "../features/tests/tests";
+import { studentCommentApi } from "../features/studentComment/studentComment";
+import { studentReplyApi } from "../features/studentReply/studentReply";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +18,8 @@ const store = configureStore({
     [documentApi.reducerPath]: documentApi.reducer,
     [academicApi.reducerPath]: academicApi.reducer,
     [testsApi.reducerPath]: testsApi.reducer,
+    [studentCommentApi.reducerPath]: studentCommentApi.reducer,
+    [studentReplyApi.reducerPath]: studentReplyApi.reducer,
   
   },
 
@@ -28,6 +32,8 @@ const store = configureStore({
         documentApi.middleware,
         academicApi.middleware,
         testsApi.middleware,
+        studentCommentApi.middleware,
+        studentReplyApi.middleware,
       
     ),
 });
