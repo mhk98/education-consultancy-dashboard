@@ -43,7 +43,7 @@ const Document = ({id}) => {
           </div>
         ) : (
           <div>
-            <p>This is kc document</p>
+            <p>KC document is empty</p>
           </div>
         )}
       </div>

@@ -4,6 +4,7 @@ import { NavLink, Route } from 'react-router-dom'
 import * as Icons from '../../icons'
 import SidebarSubmenu from './SidebarSubmenu'
 import { Button } from '@windmill/react-ui'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 
 function Icon({ icon, ...props }) {
   const Icon = Icons[icon]
@@ -43,10 +44,12 @@ function SidebarContent() {
       </ul>
       <div className="px-6 my-6">
         <Button>
-          Create account
+         <Link to="/create-account">
+         Create account
           <span className="ml-2" aria-hidden="true">
             +
           </span>
+         </Link>
         </Button>
       </div>
     </div>

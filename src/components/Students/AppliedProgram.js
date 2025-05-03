@@ -558,7 +558,7 @@ const AppliedProgram = ({ user_id }) => {
             <div className="p-4">
               <div className="text-sm mb-2">
                 <span className="ml-2 bg-red-400 text-white text-xs px-2 py-1 rounded">
-                  1st Priority
+                  {item.priority}
                 </span>
               </div>
               <div className="text-sm mb-1">
@@ -630,9 +630,9 @@ const AppliedProgram = ({ user_id }) => {
                   placeholder="Write comments..."
                   className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
                 />
-                <button className="text-blue-600 hover:text-blue-800">
+                {/* <button className="text-blue-600 hover:text-blue-800">
                   <FiPaperclip size={20} />
-                </button>
+                </button> */}
                 <button
                   className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
                   onClick={handleCommentSubmit}
@@ -642,7 +642,7 @@ const AppliedProgram = ({ user_id }) => {
               </div>
 
               {/* Optional Checkbox */}
-              {tab === "kc" && (
+              {/* {tab === "kc" && (
                 <label className="inline-flex items-center mt-2">
                   <input
                     type="checkbox"
@@ -654,7 +654,7 @@ const AppliedProgram = ({ user_id }) => {
                     Hide this message and attachment from counselor
                   </span>
                 </label>
-              )}
+              )} */}
             </div>
           </>
         ) : (

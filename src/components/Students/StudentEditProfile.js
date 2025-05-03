@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import Profile from "./Profile";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
 import Applications from "./Applications";
 import Document from "./Document";
+import { useGetDataByIdQuery } from "../../features/auth/auth";
 
 const StudentEditProfile = () => {
 
-  const qrLink = "https://yourdomain.com/student-registration";
+  const qrLink = "https://demo.eaconsultancy.info/login";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(qrLink);
@@ -24,6 +25,18 @@ const StudentEditProfile = () => {
 
     const {id} = useParams()
 
+   const { data, isLoading, isError, error } = useGetDataByIdQuery(id);
+         const [user, setUser] = useState(null);
+         
+         useEffect(() => {
+           if (isError) {
+             console.log(error?.data?.message || "An error occurred");
+           } else if (!isLoading && data) {
+            setUser(data);
+           }
+         }, [data, isLoading, isError, error]);
+
+         console.log('user' , user)
 
   return (
     <div className="p-4 md:p-8 w-full mx-auto">
@@ -37,10 +50,10 @@ const StudentEditProfile = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <div className="cursor-pointer col-span-1 bg-white rounded-2xl shadow p-4 flex flex-col gap-2">
-          <h2 className="font-semibold text-lg text-gray-800">Md Ahosanul Islam Ovi</h2>
+          <h2 className="font-semibold text-lg text-gray-800">{user.FirstName} {user.LastName}</h2>
           <div className="text-sm text-gray-600">
-            <p>📧 ahosaneac@gmail.com</p>
-            <p>📞 +8801867303751</p>
+            <p>📧 {user.Email}</p>
+            <p>📞 {user.Phone}</p>
           </div>
         </div>
               {/* Share Button */}

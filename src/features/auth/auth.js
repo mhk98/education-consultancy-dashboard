@@ -49,6 +49,16 @@ export const authApi = createApi({
       pollingInterval: 1000,
     }),
 
+    getDataById: build.query({
+      query: (id) => ({
+        url: `/user/${id}`,
+      }),
+      providesTags: ["user"],
+
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 1000,
+    }),
+
   }),
 });
 
@@ -57,5 +67,6 @@ export const {
   useUserRegisterMutation,
   useUserLoginMutation,
   useGetAllUserQuery,
+  useGetDataByIdQuery
 
 } = authApi;

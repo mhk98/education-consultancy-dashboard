@@ -23,6 +23,8 @@ const ApplyProgram = ({id}) => {
       intake:info.intake,
       university:info.university,
       program:info.program,
+      priority:info.priority,
+      country:info.country,
       user_id:id
     }
 
@@ -43,7 +45,7 @@ const ApplyProgram = ({id}) => {
     <div className="bg-gray-50 p-4 rounded shadow-sm w-full">
       <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
         <h2 className="text-lg font-semibold text-blue-600">Quick Add Program</h2>
-        <div className="flex items-center border border-blue-600 rounded overflow-hidden">
+        {/* <div className="flex items-center border border-blue-600 rounded overflow-hidden">
           <input
             type="text"
             placeholder="Search Program"
@@ -52,7 +54,7 @@ const ApplyProgram = ({id}) => {
           <button className="px-4 py-2 text-blue-600 hover:bg-blue-50 transition">
             <FaSearch />
           </button>
-        </div>
+        </div> */}
 
       </div>
 
@@ -127,6 +129,39 @@ const ApplyProgram = ({id}) => {
                         <option>B.A. in Criminology and Criminal Justice (B.A. to M.A. Accelerated Program)</option>
                         </Select>
                 {errors.program && <p style={{ color: "red", marginTop: "5px" }}>{errors.program.message}</p>}
+                               
+        </div>
+
+        {/* Country */}
+            <div className="mt-4">
+             {/* <label className="block text-sm mb-1 text-gray-700">Gender</label> */}
+                        <Select
+                          name="country"
+                          {...register('country')}
+                          className="mt-1">
+                          <option>Select Country</option>
+                        <option>Finland</option>
+                        <option>Germany</option>
+                        <option>England</option>
+                       
+                        </Select>
+                {errors.country && <p style={{ color: "red", marginTop: "5px" }}>{errors.country.message}</p>}
+                               
+        </div>
+        {/* Priority */}
+            <div className="mt-4">
+             {/* <label className="block text-sm mb-1 text-gray-700">Gender</label> */}
+                        <Select
+                          name="priority"
+                          {...register('priority')}
+                          className="mt-1">
+                          <option>Select Priority</option>
+                        <option>1st Priority</option>
+                        <option>2nd Priority</option>
+                        <option>3rd Priority</option>
+                       
+                        </Select>
+                {errors.priority && <p style={{ color: "red", marginTop: "5px" }}>{errors.priority.message}</p>}
                                
         </div>
 
