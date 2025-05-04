@@ -1,265 +1,311 @@
 // import React, { useEffect, useState } from "react";
-// import { FaTrashAlt, FaCheckCircle, FaCloudUploadAlt } from "react-icons/fa";
+// import { FaCheckCircle, FaTrashAlt } from "react-icons/fa";
 // import { MdOutlineGrading } from "react-icons/md";
 // import { useGetDataByIdQuery, useUpdateDocumentMutation } from "../../features/document/document";
 // import toast from "react-hot-toast";
 // import { useForm } from "react-hook-form";
-// import { Modal, ModalHeader, ModalBody, Button, Input } from '@windmill/react-ui'
+// import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui';
+// import axios from "axios";
 
-// const StudentDocument = ({id}) => {
+// const BASE_URL = "https://education-consultancy-backend.onrender.com/";
 
-//     const documents = [
+// const StudentDocument = ({ id }) => {
+//   const { register, handleSubmit, reset } = useForm();
+//   const [updateDocument] = useUpdateDocumentMutation();
+//   const { data, isLoading, isError, error } = useGetDataByIdQuery(id);
+//   const [document, setDocument] = useState(null);
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const [file, setFile] = useState({});
+//   const [additionalDocs, setAdditionalDocs] = useState([]);
+//   const [newDoc, setNewDoc] = useState({ title: "", file: null });
+
+//   // Fetch mandatory document
+//   useEffect(() => {
+//     if (isError) {
+//       console.log(error?.data?.message || "An error occurred");
+//     } else if (!isLoading && data) {
+//       setDocument(data.data);
+//     }
+//   }, [data, isLoading, isError, error]);
+
+//   // Fetch additional documents once on mount
+//   useEffect(() => {
+//     fetchAdditionalDocuments();
+//   }, []);
+
+//   const fetchAdditionalDocuments = async () => {
+//     try {
+//       const res = await axios.get(`${BASE_URL}api/v1/additionalDocument/${id}`);
+//       const docs = res?.data?.data;
+
+//       if (Array.isArray(docs)) {
+//         setAdditionalDocs(docs);
+//       } else {
+//         setAdditionalDocs([]);
+//       }
+//     } catch (err) {
+//       console.error("Failed to fetch additional documents", err);
+//       setAdditionalDocs([]);
+//     }
+//   };
+
+//   const openPdf = (filePath) => {
+//     if (!filePath) return;
+//     const finalUrl = BASE_URL + filePath.replace(/\\/g, "/");
+//     window.open(finalUrl, "_blank");
+//   };
+
+//   const handleFileChange = (e, fieldName) => {
+//     setFile((prev) => ({ ...prev, [fieldName]: e.target.files[0] }));
+//   };
+
+//   const onEditSubmit = async () => {
+//     const formData = new FormData();
+//     Object.entries(file).forEach(([key, value]) => {
+//       formData.append(key, value);
+//     });
+
+//     try {
+//       const res = await updateDocument({ data: formData, id });
+//       if (res.data.data === true) {
+//         toast.success(res.data.message);
+//         setIsModalOpen(false);
+//       } else {
+//         toast.error(res?.error?.data?.message);
+//       }
+//     } catch {
+//       toast.error("Something went wrong");
+//     }
+//   };
+
+//   const handleAdditionalUpload = async (e) => {
+//     e.preventDefault();
+//     const formData = new FormData();
+//     formData.append("title", newDoc.title);
+//     formData.append("file", newDoc.file);
+//     formData.append("user_id", id);
+
+//     // Debug log
+//     for (let [key, value] of formData.entries()) {
+//       console.log(`${key}:`, value);
+//     }
+
+//     try {
+//       const res = await axios.post(
+//         `${BASE_URL}api/v1/additionalDocument/create`,
+//         formData,
 //         {
-//           title: "Std. 10th Marksheet",
-//           institution: "Wekerle Business School",
-//           uploadedOn: "17-03-2025 11:08 PM",
-//           uploadedBy: "Mr. Tasbirul Islam Shobuj (Partner)",
-//           files: [
-//             "Asosanul Islam Ovi SSC Transcript.pdf",
-//             "Ahosanul Islam Ovi SSC Certificate.pdf",
-//           ],
-//         },
-//         {
-//           title: "Std. 12th Marksheet",
-//           institution: "Wekerle Business School",
-//           uploadedOn: "17-03-2025 11:10 PM",
-//           uploadedBy: "Mr. Tasbirul Islam Shobuj (Partner)",
-//           files: [
-//             "Ahosanul HSC Transcript.pdf",
-//             "Ahsanul HSC certificate.pdf",
-//           ],
-//         },
-//       ];
+//           headers: { "Content-Type": "multipart/form-data" },
+//         }
+//       );
+//       toast.success("Document uploaded");
+//       setNewDoc({ title: "", file: null });
+//       fetchAdditionalDocuments();
+//     } catch (err) {
+//       toast.error("Upload failed");
+//     }
+//   };
 
-
-      
-//      const [isModalOpen, setIsModalOpen] = useState(false)
-
-//      function closeModal() {
-//          setIsModalOpen(false)
-//        }
-     
- 
-//      const {
-//          register,
-//          formState: { errors },
-//          handleSubmit,
-//          reset,
-//        } = useForm()
-
-
-//         const [file, setFile] = useState(null);
-       
-//         const handleFileChange = (e) => {
-//             setFile(e.target.files[0]);
-//         };
-//         const [file1, setFile1] = useState(null);
-       
-//         const handleFileChange1 = (e) => {
-//             setFile1(e.target.files[0]);
-//         };
-
-//         const [file2, setFile2] = useState(null);
-       
-//         const handleFileChange2 = (e) => {
-//             setFile2(e.target.files[0]);
-//         };
-//         const [file3, setFile3] = useState(null);
-       
-//         const handleFileChange3 = (e) => {
-//             setFile3(e.target.files[0]);
-//         };
-//         const [file4, setFile4] = useState(null);
-       
-//         const handleFileChange4 = (e) => {
-//             setFile4(e.target.files[0]);
-//         };
-//         const [file5, setFile5] = useState(null);
-       
-//         const handleFileChange5 = (e) => {
-//             setFile5(e.target.files[0]);
-//         };
-//         const [file6, setFile6] = useState(null);
-       
-//         const handleFileChange6 = (e) => {
-//             setFile6(e.target.files[0]);
-//         };
- 
-     
-//        const [updateDocument] = useUpdateDocumentMutation()
-
-//        const onEditSubmit = async() => {
-//         const formData = new FormData();
-// 		formData.append("tenthMarksheet", file);
-// 		formData.append("tenthCertificate", file1);
-// 		formData.append("twelveMarksheet", file2);
-// 		formData.append("twelveCertificate", file3);
-// 		formData.append("passport", file4);
-// 		formData.append("essay", file5);
-// 		formData.append("instructionLetter", file6);
-		
-//          try {
-//          const res = await updateDocument({data:formData, id})
-//          console.log("res", res)
-//            if(res.data.data === true) {
-//              toast.success(res.data.message)
-//            } else {
-//              toast.error(res?.error?.data?.message)
-//            }
-//          } catch (error) {
-//            toast.error("Something went wrong")
-//          }
-//        }
-       
-     
-//        const { data, isLoading, isError, error } = useGetDataByIdQuery(id);
-//        const [document, setDocument] = useState(null);
-       
-//        useEffect(() => {
-//          if (isError) {
-//            console.log(error?.data?.message || "An error occurred");
-//          } else if (!isLoading && data) {
-//              setDocument(data.data);
-//          }
-//        }, [data, isLoading, isError, error]);
-       
-     
-//      console.log("academic", document)
+//   const handleDeleteDoc = async (docId) => {
+//     try {
+//       await axios.delete(`${BASE_URL}api/v1/additionalDocument/${docId}`);
+//       toast.success("Document deleted");
+//       fetchAdditionalDocuments();
+//     } catch {
+//       toast.error("Failed to delete");
+//     }
+//   };
 
 //   return (
 //     <div className="border rounded-2xl p-4 mb-6 shadow-sm bg-white">
-//        <div className="flex items-center justify-between mb-4">
-//                           <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
-//                             <MdOutlineGrading  className="w-5 h-5"/>
-//                             IELTS
-//                           </div>
-//                           <button
-//                             onClick={() => {
-//                               reset({
-//                               //   dob: profile?.dob || "",
-//                               //   gender: profile?.gender || "",
-//                               //   maritalStatus: profile?.maritalStatus || "",
-//                               });
-//                               setIsModalOpen(true)
-//                             }}
-//                             className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm"
-//                           >
-//                             Request Edit
-//                           </button>
-//                         </div>
-//       {
-//         documents.map((document) => (
-//             <div>
-//       <div className="flex items-center mb-4">
-//         <FaCheckCircle className="text-green-500 mr-2" size={20} />
-//         <h2 className="text-lg font-semibold">{document.title} <span className="text-red-500">*</span></h2>
+//       {/* === Mandatory Documents === */}
+//       <div className="flex items-center justify-between mb-4">
+//         <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+//           <MdOutlineGrading className="w-5 h-5" />
+//           Mandatory Documents
+//         </div>
+//         <button
+//           onClick={() => {
+//             reset();
+//             setIsModalOpen(true);
+//           }}
+//           className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm"
+//         >
+//           Request Edit
+//         </button>
 //       </div>
-//       <div className="text-sm text-gray-600 mb-2">
-//         <p><span className="font-medium">Institution(s) Required For:</span> {document.institution}</p>
-//         <p><span className="font-medium">Uploaded On:</span> {document.uploadedOn}</p>
-//         <p><span className="font-medium">Uploaded By:</span> {document.uploadedBy}</p>
-//       </div>
-//       <div className="flex flex-wrap gap-4 my-4">
-//         {document.files.map((file, index) => (
-//           <div key={index} className="flex items-center border rounded-lg px-3 py-2 bg-gray-100">
-//             <span className="text-sm">{file}</span>
-//             <button className="ml-2 text-red-500 hover:text-red-700">
-//               <FaTrashAlt size={16} />
-//             </button>
-//           </div>
-//         ))}
-//       </div>
-//       </div>
-//         ))
-//       }
 
-          
-//                          <Modal isOpen={isModalOpen} onClose={closeModal}>
-//         <ModalHeader>Mandadory Document</ModalHeader>
+//       {document && (
+//         <>
+//           <DocumentSection
+//             title="Std. 10th Marksheet & Certificate"
+//             institution="Wekerle Business School"
+//             files={[
+//               { name: "10th Marksheet", path: document.tenthMarksheet },
+//               { name: "10th Certificate", path: document.tenthCertificate },
+//             ]}
+//             openPdf={openPdf}
+//           />
+//           <DocumentSection
+//             title="Std. 12th Marksheet & Certificate"
+//             institution="Wekerle Business School"
+//             files={[
+//               { name: "12th Marksheet", path: document.twelveMarksheet },
+//               { name: "12th Certificate", path: document.twelveCertificate },
+//             ]}
+//             openPdf={openPdf}
+//           />
+//           <DocumentSection
+//             title="Passport, Essay & Instruction Letter"
+//             institution="Wekerle Business School"
+//             files={[
+//               { name: "Passport", path: document.passport },
+//               { name: "Essay", path: document.essay },
+//               { name: "Instruction Letter", path: document.instructionLetter },
+//             ]}
+//             openPdf={openPdf}
+//           />
+//         </>
+//       )}
+
+//       {/* === Modal for Mandatory Documents Edit === */}
+//       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+//         <ModalHeader>Mandatory Document Upload</ModalHeader>
 //         <ModalBody className="max-h-[70vh] overflow-y-auto">
 //           <form onSubmit={handleSubmit(onEditSubmit)}>
 //             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-//               <div className="mb-4">
-//                 <label className="block text-sm mb-1 text-gray-700">Std. 10th Marksheet</label>
-//                  <input type="file" accept="application/pdf" onChange={handleFileChange} />
-//               </div>
-
-//               <div className="mb-4">
-//                 <label className="block text-sm mb-1 text-gray-700">Std. 10th Certificate</label>
-//                  <input type="file" accept="application/pdf" onChange={handleFileChange1} />
-//               </div>
-
-//               <div className="mb-4">
-//                 <label className="block text-sm mb-1 text-gray-700">Std. 12th Marksheet</label>
-//                  <input type="file" accept="application/pdf" onChange={handleFileChange2} />
-//               </div>
-
-//               <div className="mb-4">
-//                 <label className="block text-sm mb-1 text-gray-700">Std. 12th Certificate</label>
-//                  <input type="file" accept="application/pdf" onChange={handleFileChange3} />
-//               </div>
-
-//               <div className="mb-4">
-//                 <label className="block text-sm mb-1 text-gray-700">Passport</label>
-//                  <input type="file" accept="application/pdf" onChange={handleFileChange4} />
-//               </div>
-
-//               <div className="mb-4">
-//                 <label className="block text-sm mb-1 text-gray-700">Essay</label>
-//                  <input type="file" accept="application/pdf" onChange={handleFileChange5} />
-//               </div>
-
-//               <div className="mb-4">
-//                 <label className="block text-sm mb-1 text-gray-700">InstructionLetter</label>
-//                  <input type="file" accept="application/pdf" onChange={handleFileChange6} />
-//               </div>
-      
-             
+//               {[
+//                 { label: "Std. 10th Marksheet", name: "tenthMarksheet" },
+//                 { label: "Std. 10th Certificate", name: "tenthCertificate" },
+//                 { label: "Std. 12th Marksheet", name: "twelveMarksheet" },
+//                 { label: "Std. 12th Certificate", name: "twelveCertificate" },
+//                 { label: "Passport", name: "passport" },
+//                 { label: "Essay", name: "essay" },
+//                 { label: "Instruction Letter", name: "instructionLetter" },
+//               ].map((input, idx) => (
+//                 <div key={idx}>
+//                   <label className="block text-sm mb-1 text-gray-700">{input.label}</label>
+//                   <input
+//                     type="file"
+//                     accept="application/pdf"
+//                     onChange={(e) => handleFileChange(e, input.name)}
+//                   />
+//                 </div>
+//               ))}
 //             </div>
-      
-//             <div className="flex justify-end gap-2 mt-4">
-//               <Button type="submit" className="btn btn-primary">
-//                 Save
-//               </Button>
+//             <div className="flex justify-end mt-4">
+//               <Button type="submit" className="btn btn-primary">Save</Button>
 //             </div>
 //           </form>
 //         </ModalBody>
 //       </Modal>
+
+//       {/* === Additional Documents Section === */}
+//       <div className="mt-10">
+//         <h2 className="text-lg font-semibold mb-2 text-gray-800">Additional Documents</h2>
+//         <form onSubmit={handleAdditionalUpload} className="flex flex-col md:flex-row items-center gap-4 mb-6">
+//           <input
+//             type="text"
+//             placeholder="Document Title"
+//             value={newDoc.title}
+//             onChange={(e) => setNewDoc({ ...newDoc, title: e.target.value })}
+//             className="input input-bordered w-full md:w-1/3"
+//             required
+//           />
+//           <input
+//             type="file"
+//             accept="application/pdf"
+//             onChange={(e) => setNewDoc({ ...newDoc, file: e.target.files[0] })}
+//             required
+//           />
+//           <Button type="submit" className="btn btn-primary">Upload</Button>
+//         </form>
+
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//           {additionalDocs.map((doc) => (
+//             <div
+//               key={doc.id}
+//               className="flex justify-between items-center border px-4 py-2 rounded bg-gray-50"
+//             >
+//               <span
+//                 className="text-sm text-blue-600 cursor-pointer hover:underline"
+//                 onClick={() => openPdf(doc.file)}
+//               >
+//                 {doc.title}
+//               </span>
+//               <FaTrashAlt
+//                 onClick={() => handleDeleteDoc(doc.id)}
+//                 className="text-red-500 cursor-pointer"
+//               />
+//             </div>
+//           ))}
+//         </div>
+//       </div>
 //     </div>
 //   );
 // };
 
+// const DocumentSection = ({ title, institution, files, openPdf }) => (
+//   <div className="mb-8">
+//     <div className="flex items-center mb-4">
+//       <FaCheckCircle className="text-green-500 mr-2" size={20} />
+//       <h2 className="text-lg font-semibold">{title} <span className="text-red-500">*</span></h2>
+//     </div>
+//     <div className="flex flex-wrap gap-4 my-4">
+//       {files.map((file, index) => (
+//         file.path && (
+//           <div
+//             key={index}
+//             onClick={() => openPdf(file.path)}
+//             className="flex items-center border rounded-lg px-3 py-2 bg-gray-100 cursor-pointer hover:bg-gray-200"
+//           >
+//             <span className="text-sm">{file.name}</span>
+//           </div>
+//         )
+//       ))}
+//     </div>
+//   </div>
+// );
 
 // export default StudentDocument;
 
 
+
 import React, { useEffect, useState } from "react";
-import { FaTrashAlt, FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaTrashAlt } from "react-icons/fa";
 import { MdOutlineGrading } from "react-icons/md";
-import { useGetDataByIdQuery, useUpdateDocumentMutation } from "../../features/document/document";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui'
+import { Modal, ModalHeader, ModalBody, Button } from "@windmill/react-ui";
+import {
+  useGetDataByIdQuery,
+  useUpdateDocumentMutation
+} from "../../features/document/document";
 
-const BASE_URL = "http://localhost:4000/"; // your backend base
+import {
+  useCreateAdditionalDocumentMutation,
+  useDeleteAdditionalDocumentMutation,
+  useGetAllAdditionalDocumentQuery
+} from "../../features/additionalDocument/additionalDocument";
+
+const BASE_URL = "https://education-consultancy-backend.onrender.com/";
 
 const StudentDocument = ({ id }) => {
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm();
-
-  const [updateDocument] = useUpdateDocumentMutation();
-  const { data, isLoading, isError, error } = useGetDataByIdQuery(id);
-  const [document, setDocument] = useState(null);
+  const { register, handleSubmit, reset } = useForm();
+  const [file, setFile] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [document, setDocument] = useState(null);
+
+  const { data, isLoading, isError, error } = useGetDataByIdQuery(id);
+  const [updateDocument] = useUpdateDocumentMutation();
+
+  const { data: additionalDocsData, refetch } = useGetAllAdditionalDocumentQuery(id);
+  const [createAdditionalDocument] = useCreateAdditionalDocumentMutation();
+  const [deleteAdditionalDocument] = useDeleteAdditionalDocumentMutation();
 
   useEffect(() => {
     if (isError) {
-      console.log(error?.data?.message || "An error occurred");
+      toast.error(error?.data?.message || "Failed to load document");
     } else if (!isLoading && data) {
       setDocument(data.data);
     }
@@ -267,50 +313,87 @@ const StudentDocument = ({ id }) => {
 
   const openPdf = (filePath) => {
     if (!filePath) return;
-    const finalUrl = BASE_URL + filePath.replace(/\\/g, "/"); // replace \ with /
+    const finalUrl = BASE_URL + filePath.replace(/\\/g, "/");
     window.open(finalUrl, "_blank");
   };
 
-  const [file, setFile] = useState({});
   const handleFileChange = (e, fieldName) => {
-    setFile(prev => ({
+    setFile((prev) => ({
       ...prev,
-      [fieldName]: e.target.files[0]
+      [fieldName]: e.target.files[0],
     }));
   };
 
   const onEditSubmit = async () => {
     const formData = new FormData();
     Object.entries(file).forEach(([key, value]) => {
-      formData.append(key, value);
+      if (value) {
+        formData.append(key, value);
+      }
     });
 
     try {
       const res = await updateDocument({ data: formData, id });
-      if (res.data.data === true) {
-        toast.success(res.data.message);
+      if (res.data?.data === true) {
+        toast.success("Mandatory documents updated");
+        setIsModalOpen(false);
+        reset();
       } else {
-        toast.error(res?.error?.data?.message);
+        toast.error(res?.error?.data?.message || "Update failed");
       }
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong");
     }
   };
 
-  function closeModal() {
-    setIsModalOpen(false);
-  }
+  const handleAdditionalDocSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData();
+    formData.append("title", form.title.value);
+    formData.append("file", form.file.files[0]);
+    formData.append("user_id", id); // adjust to "user_id" if backend expects snake_case
+
+    try {
+      const res = await createAdditionalDocument(formData);
+      if (res?.data?.success) {
+        toast.success("Additional document uploaded");
+        form.reset();
+        refetch();
+      } else {
+        toast.error(res?.error?.data?.message || "Upload failed");
+      }
+    } catch {
+      toast.error("Failed to upload document");
+    }
+  };
+
+  const handleDeleteAdditionalDoc = async (docId) => {
+    try {
+      const res = await deleteAdditionalDocument(docId);
+      if (res?.data?.success) {
+        toast.success("Document deleted");
+        refetch();
+      } else {
+        toast.error("Failed to delete document");
+      }
+    } catch {
+      toast.error("Something went wrong");
+    }
+  };
 
   return (
     <div className="border rounded-2xl p-4 mb-6 shadow-sm bg-white">
+      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
           <MdOutlineGrading className="w-5 h-5" />
-          IELTS
+          Mandatory Documents
         </div>
         <button
           onClick={() => {
             reset();
+            setFile({});
             setIsModalOpen(true);
           }}
           className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm"
@@ -319,12 +402,11 @@ const StudentDocument = ({ id }) => {
         </button>
       </div>
 
-      {/* ==== Documents Showing from API === */}
+      {/* Mandatory Documents */}
       {document && (
         <>
           <DocumentSection
-            title="Std. 10th Marksheet"
-            institution="Wekerle Business School"
+            title="Std. 10th Marksheet & Certificate"
             files={[
               { name: "10th Marksheet", path: document.tenthMarksheet },
               { name: "10th Certificate", path: document.tenthCertificate },
@@ -332,8 +414,7 @@ const StudentDocument = ({ id }) => {
             openPdf={openPdf}
           />
           <DocumentSection
-            title="Std. 12th Marksheet"
-            institution="Wekerle Business School"
+            title="Std. 12th Marksheet & Certificate"
             files={[
               { name: "12th Marksheet", path: document.twelveMarksheet },
               { name: "12th Certificate", path: document.twelveCertificate },
@@ -342,7 +423,6 @@ const StudentDocument = ({ id }) => {
           />
           <DocumentSection
             title="Passport, Essay & Instruction Letter"
-            institution="Wekerle Business School"
             files={[
               { name: "Passport", path: document.passport },
               { name: "Essay", path: document.essay },
@@ -353,8 +433,59 @@ const StudentDocument = ({ id }) => {
         </>
       )}
 
-      {/* ==== Modal for Updating Documents ==== */}
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      {/* Additional Documents */}
+      <div className="mt-8">
+        <h3 className="text-lg font-semibold mb-2">Additional Documents</h3>
+        <form onSubmit={handleAdditionalDocSubmit} className="flex flex-col md:flex-row gap-4 items-start mb-6">
+          <input
+            type="text"
+            name="title"
+            placeholder="Document Title"
+            required
+            className="input border px-3 py-2 rounded w-full md:w-1/2"
+          />
+          <input
+            type="file"
+            name="file"
+            accept="application/pdf"
+            required
+            className="input"
+          />
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Upload
+          </button>
+        </form>
+
+        {additionalDocsData?.data?.length > 0 ? (
+          <div className="space-y-3">
+            {additionalDocsData.data.map((doc) => (
+              <div
+                key={doc.id}
+                className="flex items-center justify-between p-3 border rounded bg-gray-50 hover:bg-gray-100"
+              >
+                <span
+                  onClick={() => openPdf(doc.file || doc.path)}
+                  className="text-sm cursor-pointer text-blue-700"
+                >
+                  {doc.title}
+                </span>
+                <FaTrashAlt
+                  className="text-red-500 cursor-pointer"
+                  onClick={() => handleDeleteAdditionalDoc(doc.id)}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500">No additional documents uploaded yet.</p>
+        )}
+      </div>
+
+      {/* Modal for editing mandatory documents */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalHeader>Mandatory Document Upload</ModalHeader>
         <ModalBody className="max-h-[70vh] overflow-y-auto">
           <form onSubmit={handleSubmit(onEditSubmit)}>
@@ -378,10 +509,8 @@ const StudentDocument = ({ id }) => {
                 </div>
               ))}
             </div>
-            <div className="flex justify-end gap-2 mt-4">
-              <Button type="submit" className="btn btn-primary">
-                Save
-              </Button>
+            <div className="flex justify-end mt-4">
+              <Button type="submit" className="btn btn-primary">Save</Button>
             </div>
           </form>
         </ModalBody>
@@ -390,18 +519,15 @@ const StudentDocument = ({ id }) => {
   );
 };
 
-const DocumentSection = ({ title, institution, files, openPdf }) => {
-  return (
-    <div className="mb-8">
-      <div className="flex items-center mb-4">
-        <FaCheckCircle className="text-green-500 mr-2" size={20} />
-        <h2 className="text-lg font-semibold">{title} <span className="text-red-500">*</span></h2>
-      </div>
-      <div className="text-sm text-gray-600 mb-2">
-        <p><span className="font-medium">Institution(s) Required For:</span> {institution}</p>
-      </div>
-      <div className="flex flex-wrap gap-4 my-4">
-        {files.map((file, index) => (
+const DocumentSection = ({ title, files, openPdf }) => (
+  <div className="mb-8">
+    <div className="flex items-center mb-4">
+      <FaCheckCircle className="text-green-500 mr-2" size={20} />
+      <h2 className="text-lg font-semibold">{title} <span className="text-red-500">*</span></h2>
+    </div>
+    <div className="flex flex-wrap gap-4 my-4">
+      {files.map(
+        (file, index) =>
           file.path && (
             <div
               key={index}
@@ -411,10 +537,9 @@ const DocumentSection = ({ title, institution, files, openPdf }) => {
               <span className="text-sm">{file.name}</span>
             </div>
           )
-        ))}
-      </div>
+      )}
     </div>
-  );
-};
+  </div>
+);
 
 export default StudentDocument;

@@ -89,9 +89,9 @@ const ApplyProgram = ({id}) => {
                           className="mt-1">
                   
                         <option>Select Intake</option>
-                        <option>Spring</option>
-                        <option>Summer</option>
-                        <option>Fall</option>
+                        <option>Jan/Feb</option>
+                        <option>June/July</option>
+                        <option>Sep/Oct</option>
                         
                         </Select>
                 {errors.intake && <p style={{ color: "red", marginTop: "5px" }}>{errors.intake.message}</p>}

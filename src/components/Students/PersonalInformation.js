@@ -684,11 +684,16 @@ console.log("profile", profile)
     <div className="text-md">
       <div className="mb-4">
         <label className="block text-sm text-gray-700 mb-1">Nationality<span className="text-red-500">*</span></label>
-        <input
-          type="text"
+
+      <select
           {...register("nationality")}
           className="input input-bordered w-full shadow-md p-3"
-        />
+        >
+          <option value="">Select nationality</option>
+          <option value="Yes">Bangladeshi</option>
+          <option value="No">Indian</option>
+          <option value="No">Pakistani</option>
+        </select>
         {errors.nationality && (
           <p className="text-red-500 text-sm mt-1">{errors.nationality.message}</p>
         )}
@@ -714,11 +719,15 @@ console.log("profile", profile)
     <div className="text-md">
       <div className="mb-4">
         <label className="block text-sm text-gray-700 mb-1">Citizenship<span className="text-red-500">*</span></label>
-        <input
-          type="text"
+    <select
           {...register("citizenship")}
           className="input input-bordered w-full shadow-md p-3"
-        />
+        >
+          <option value="">Select Citizenship</option>
+          <option value="Yes">Bangladeshi</option>
+          <option value="No">Indian</option>
+          <option value="No">Pakistani</option>
+        </select>
         {errors.citizenship && (
           <p className="text-red-500 text-sm mt-1">{errors.citizenship.message}</p>
         )}

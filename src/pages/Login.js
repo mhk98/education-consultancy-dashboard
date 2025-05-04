@@ -23,7 +23,8 @@ function Login() {
 
       if (res?.data?.success) {
         const { accessToken, user } = res.data.data
-        localStorage.setItem("token", accessToken)
+        localStorage.setItem("FirstName", user.FirstName)
+        localStorage.setItem("LastName", user.LastName)
         localStorage.setItem("role", user.Role)
         localStorage.setItem("userId", user.id)
         localStorage.setItem("image", user.image)

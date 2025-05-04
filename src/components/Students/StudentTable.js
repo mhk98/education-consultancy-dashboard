@@ -73,8 +73,10 @@ const formatDate = (dateString) => {
   });
 };
 
-
 console.log("students", students)
+
+const FirstName = localStorage.getItem("FirstName")
+const LastName = localStorage.getItem("LastName")
   return (
     <div className="overflow-x-auto p-4">
       <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden bg-white shadow-md p-6">
@@ -97,7 +99,7 @@ console.log("students", students)
               className={`text-sm border-t border-gray-200 ${idx % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
             >
               <td className="p-3 whitespace-nowrap">{formatDate(student.createdAt)}</td>
-              <td className="p-3 whitespace-nowrap">X</td>
+              <td className="p-3 whitespace-nowrap">{FirstName} {LastName}</td>
               <td className="p-3 whitespace-nowrap">{student.FirstName} {student.LastName}</td>
               <td className="p-3 whitespace-nowrap">{student.Email}</td>
               <td className="p-3 whitespace-nowrap">{student.Phone}</td>
