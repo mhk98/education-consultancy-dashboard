@@ -103,7 +103,6 @@ const LastName = localStorage.getItem("LastName")
               <td className="p-3 whitespace-nowrap">{student.FirstName} {student.LastName}</td>
               <td className="p-3 whitespace-nowrap">{student.Email}</td>
               <td className="p-3 whitespace-nowrap">{student.Phone}</td>
-
               <td className="p-3 whitespace-nowrap">
                
                     {/* {student.assignedTo} */}X

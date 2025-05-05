@@ -43,7 +43,7 @@
 //   const fetchComments = async () => {
 //     try {
 //       const res = await axios.get(
-//         `https://education-consultancy-backend.onrender.com/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
+//         `http://localhost:4000/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
 //       );
 //       setComments(res.data.data);
 //     } catch (err) {
@@ -68,7 +68,7 @@
 //   const handleCommentSubmit = async () => {
 //     if (!newComment.trim()) return;
 //     try {
-//       await axios.post("https://education-consultancy-backend.onrender.com/api/v1/studentComment/create", {
+//       await axios.post("http://localhost:4000/api/v1/studentComment/create", {
 //         user_id,
 //         application_id: selectedProgram.id,
 //         text: newComment,
@@ -86,7 +86,7 @@
 //     const replyText = replyContent[commentId];
 //     if (!replyText?.trim()) return;
 //     try {
-//       await axios.post("https://education-consultancy-backend.onrender.com/api/v1/studentReply/create", {
+//       await axios.post("http://localhost:4000/api/v1/studentReply/create", {
 //         user_id,
 //         studentComment_id: commentId,
 //         text: replyText,
@@ -151,7 +151,7 @@
 //   const fetchKCComments = async () => {
 //     try {
 //       const res = await axios.get(
-//         `https://education-consultancy-backend.onrender.com/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
+//         `http://localhost:4000/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
 //       );
 //       setKCComments(res.data.data);
 //     } catch (err) {
@@ -162,7 +162,7 @@
 //   const handleKCCommentSubmit = async () => {
 //     if (!newKCComment.trim()) return;
 //     try {
-//       await axios.post("https://education-consultancy-backend.onrender.com/api/v1/kcComment/create", {
+//       await axios.post("http://localhost:4000/api/v1/kcComment/create", {
 //         user_id,
 //         application_id: selectedProgram.id,
 //         text: newKCComment,
@@ -181,7 +181,7 @@
 //     const replyText = replyKCContent[commentId];
 //     if (!replyText?.trim()) return;
 //     try {
-//       await axios.post("https://education-consultancy-backend.onrender.com/api/v1/kcReply/create", {
+//       await axios.post("http://localhost:4000/api/v1/kcReply/create", {
 //         user_id,
 //         kcComment_id: commentId,
 //         text: replyText,
@@ -418,7 +418,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://education-consultancy-backend.onrender.com/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
+        `http://localhost:4000/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -444,7 +444,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!newComment.trim()) return;
     try {
       await axios.post(
-        "https://education-consultancy-backend.onrender.com/api/v1/studentComment/create",
+        "http://localhost:4000/api/v1/studentComment/create",
         {
           user_id,
           application_id: selectedProgram.id,
@@ -466,7 +466,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!replyText?.trim()) return;
     try {
       await axios.post(
-        "https://education-consultancy-backend.onrender.com/api/v1/studentReply/create",
+        "http://localhost:4000/api/v1/studentReply/create",
         {
           user_id,
           studentComment_id: commentId,
@@ -484,7 +484,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchKCComments = async () => {
     try {
       const res = await axios.get(
-        `https://education-consultancy-backend.onrender.com/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
+        `http://localhost:4000/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
       );
       setKCComments(res.data.data);
     } catch (err) {
@@ -496,7 +496,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!newKCComment.trim()) return;
     try {
       await axios.post(
-        "https://education-consultancy-backend.onrender.com/api/v1/kcComment/create",
+        "http://localhost:4000/api/v1/kcComment/create",
         {
           user_id,
           application_id: selectedProgram.id,
@@ -518,7 +518,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!replyText?.trim()) return;
     try {
       await axios.post(
-        "https://education-consultancy-backend.onrender.com/api/v1/kcReply/create",
+        "http://localhost:4000/api/v1/kcReply/create",
         {
           user_id,
           kcComment_id: commentId,
