@@ -599,7 +599,7 @@ const AppliedProgram = ({ user_id }) => {
             }`}
           >
             <div className="bg-green-100 text-green-800 text-sm font-medium px-4 py-2 rounded-t-md">
-              Application submitted to the Institution
+              {item.status}
             </div>
             <div className="p-4">
               <div className="text-sm mb-2">
@@ -630,7 +630,7 @@ const AppliedProgram = ({ user_id }) => {
                 {formatDateTime(selectedProgram.createdAt)}
               </span>
               <span className="text-green-800 text-sm font-medium">
-                Application Submitted To The Institution
+              {selectedProgram.status}
               </span>
             </div>
 

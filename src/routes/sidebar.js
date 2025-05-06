@@ -28,6 +28,11 @@ const routes = [
     name: 'Applications',
   },
   {
+    path: '/app/programs',
+    icon: 'FormsIcon',
+    name: 'Add Programs',
+  },
+  {
     path: '/app/wallet',
     icon: 'FormsIcon',
     name: 'Wallet',
