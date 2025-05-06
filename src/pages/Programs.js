@@ -8,6 +8,12 @@ import { useUserRegisterMutation } from '../features/auth/auth'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom'
 import toast from 'react-hot-toast'
 
+import { useCreateProgramCountryMutation } from '../features/programCountry/programCountry'
+import { useCreateprogramIntakeMutation } from '../features/programIntake/programIntake'
+import { useCreateprogramUniversityMutation } from '../features/programUniversity/programUniversity'
+import { useCreateprogramNameMutation } from '../features/programName/programName'
+import { useCreateprogramYearMutation } from '../features/programYears/programYears'
+
 function Programs() {
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
@@ -43,40 +49,83 @@ function Programs() {
       reset,
     } = useForm()
 
-    const [userRegister] = useUserRegisterMutation()
-      const history = useHistory();
+    const [createprogramYear] = useCreateprogramYearMutation()
 
-    const [image, setImage] = useState(null);
+    const onFormSubmit = async (data) => {
 
-
-    const handleImageChange = (e) => {
-        setImage(e.target.files[0]);
+        try {
+            const res = await createprogramYear(data);
+            if (res.data?.success) {
+                toast.success(res.data.message);         
+            } else {
+                toast.error(res.error?.data?.message || "Failed please try again.");
+            }
+        } catch (error) {
+            toast.error("An unexpected error occurred.");
+        }
     };
 
 
-    const onFormSubmit = async (data) => {
-      console.log("formData", data)
-        const formData = new FormData();
-        formData.append("FirstName", data.FirstName);
-        formData.append("LastName", data.LastName);
-        formData.append("Email", data.Email);
-        formData.append("Password", data.Password);
-        formData.append("Phone", data.Phone); 
-        formData.append("Role", data.Role); 
-        if (image) {
-            formData.append("image", image);
-        }
+    const [createProgramCountry] = useCreateProgramCountryMutation()
 
-    console.log("formData", formData)
-
+    const onFormSubmit1 = async (data) => {
 
         try {
-            const res = await userRegister(formData);
+            const res = await createProgramCountry(data);
             if (res.data?.success) {
-                toast.success(res.data.message);
-                history.push('/login');
+                toast.success(res.data.message);         
             } else {
-                toast.error(res.error?.data?.message || "Registration failed. Please try again.");
+                toast.error(res.error?.data?.message || "Failed please try again.");
+            }
+        } catch (error) {
+            toast.error("An unexpected error occurred.");
+        }
+    };
+
+
+    const [createprogramIntake] = useCreateprogramIntakeMutation()
+
+    const onFormSubmit2 = async (data) => {
+
+        try {
+            const res = await createprogramIntake(data);
+            if (res.data?.success) {
+                toast.success(res.data.message);         
+            } else {
+                toast.error(res.error?.data?.message || "Failed please try again.");
+            }
+        } catch (error) {
+            toast.error("An unexpected error occurred.");
+        }
+    };
+
+    const [createprogramUniversity] = useCreateprogramUniversityMutation()
+
+    const onFormSubmit3 = async (data) => {
+
+        try {
+            const res = await createprogramUniversity(data);
+            if (res.data?.success) {
+                toast.success(res.data.message);         
+            } else {
+                toast.error(res.error?.data?.message || "Failed please try again.");
+            }
+        } catch (error) {
+            toast.error("An unexpected error occurred.");
+        }
+    };
+
+
+    const [createprogramName] = useCreateprogramNameMutation()
+
+    const onFormSubmit4 = async (data) => {
+
+        try {
+            const res = await createprogramName(data);
+            if (res.data?.success) {
+                toast.success(res.data.message);         
+            } else {
+                toast.error(res.error?.data?.message || "Failed please try again.");
             }
         } catch (error) {
             toast.error("An unexpected error occurred.");
@@ -88,7 +137,7 @@ function Programs() {
     <>
       {/* <PageTitle>Dashboard</PageTitle> */}
       <div className="w-full px-4 py-6 bg-gray-50">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div className="max-w-7xl mx-auto flex flex-col lg:justify-between gap-4">
         {/* Left: Title and Subtitle */}
         <div>
           <h4 className="text-2xl md:text-md font-semibold text-gray-900">Programs</h4>
@@ -96,28 +145,107 @@ function Programs() {
         </div>
 
        <div className='mt-8'>
-       <form onSubmit={handleSubmit(onFormSubmit)} className="flex flex-col md:flex-row gap-4 items-start mb-6">
+        
+       <form onSubmit={handleSubmit(onFormSubmit)} className="flex flex-col md:flex-row gap-4 items-start mb-6">  
           <input
             type="text"
-            name="title"
-            placeholder="Document Title"
+            {...register("year")}
+            name="year"
+            placeholder="Year"
             required
             className="input border px-3 py-2 rounded w-full md:w-1/2"
           />
-          <input
-            type="file"
-            name="file"
-            accept="application/pdf"
-            required
-            className="input"
-          />
+           {errors.year && (
+                    <p className="text-red-500 text-sm mt-1">{errors.year.message}</p>
+                  )}
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
-            Upload
+            Submit
           </button>
         </form>
+
+       <form onSubmit={handleSubmit(onFormSubmit1)} className="flex flex-col md:flex-row gap-4 items-start mb-6">  
+          <input
+            type="text"
+            {...register("country")}
+            name="country"
+            placeholder="Country"
+            required
+            className="input border px-3 py-2 rounded w-full md:w-1/2"
+          />
+           {errors.country && (
+                    <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>
+                  )}
+          <button
+            type="submit"
+            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Submit
+          </button>
+        </form>
+
+       <form onSubmit={handleSubmit(onFormSubmit2)} className="flex flex-col md:flex-row gap-4 items-start mb-6">  
+          <input
+            type="text"
+            {...register("intake")}
+            name="intake"
+            placeholder="Intake"
+            required
+            className="input border px-3 py-2 rounded w-full md:w-1/2"
+          />
+           {errors.intake && (
+                    <p className="text-red-500 text-sm mt-1">{errors.intake.message}</p>
+                  )}
+          <button
+            type="submit"
+            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Submit
+          </button>
+        </form>
+
+       <form onSubmit={handleSubmit(onFormSubmit3)} className="flex flex-col md:flex-row gap-4 items-start mb-6">  
+          <input
+            type="text"
+            {...register("university")}
+            name="university"
+            placeholder="University"
+            required
+            className="input border px-3 py-2 rounded w-full md:w-1/2"
+          />
+           {errors.university && (
+                    <p className="text-red-500 text-sm mt-1">{errors.university.message}</p>
+                  )}
+          <button
+            type="submit"
+            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Submit
+          </button>
+        </form>
+
+       <form onSubmit={handleSubmit(onFormSubmit4)} className="flex flex-col md:flex-row gap-4 items-start mb-6">  
+          <input
+            type="text"
+            {...register("program")}
+            name="program"
+            placeholder="Program"
+            required
+            className="input border px-3 py-2 rounded w-full md:w-1/2"
+          />
+           {errors.program && (
+                    <p className="text-red-500 text-sm mt-1">{errors.program.message}</p>
+                  )}
+          <button
+            type="submit"
+            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Submit
+          </button>
+        </form>
+
        </div>
       </div>
     </div>
