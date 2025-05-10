@@ -5,7 +5,7 @@ import StudentFilter from '../components/Students/StudentFilter'
 import { useForm } from 'react-hook-form'
 import { Modal, ModalHeader, ModalBody, Input, Button } from '@windmill/react-ui'
 import { useUserRegisterMutation } from '../features/auth/auth'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom'
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom'
 import toast from 'react-hot-toast'
 
 function Students() {
@@ -53,12 +53,16 @@ function Students() {
 		setImage(e.target.files[0]);
 	};
 
+  const First_Name = localStorage.getItem("FirstName")
+  const Last_Name = localStorage.getItem("LastName")
 
     const onFormSubmit = async (data) => {
       console.log("formData", data)
 		const formData = new FormData();
 		formData.append("FirstName", data.FirstName);
 		formData.append("LastName", data.LastName);
+		formData.append("First_Name", First_Name);
+		formData.append("Last_Name", Last_Name);
 		formData.append("Email", data.Email);
 		formData.append("Password", data.Password);
 		formData.append("Phone", data.Phone); 
@@ -88,7 +92,7 @@ function Students() {
     <>
       {/* <PageTitle>Dashboard</PageTitle> */}
       <div className="w-full px-4 py-6 bg-gray-50">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div >
         {/* Left: Title and Subtitle */}
         <div>
           <h4 className="text-2xl md:text-md font-semibold text-gray-900">Students</h4>
@@ -99,7 +103,7 @@ function Students() {
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Request Program Options */}
           <button className="px-4 py-2 bg-white text-blue-600 border-2 border-blue-600 rounded-md text-sm md:text-base transition">
-            Archived Students
+            <Link to="/app/archive-student">Archived Students</Link>
           </button>
 
           {/* Register New Student */}

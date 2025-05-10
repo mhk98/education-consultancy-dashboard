@@ -4,7 +4,7 @@ import { LiaEditSolid } from "react-icons/lia";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { useGetAllUserQuery } from "../../features/auth/auth";
 
-export default function StudentTable() {
+export default function ArchiveStudentTable() {
   const { data, isLoading, isError, error } = useGetAllUserQuery();
   const [students, setStudents] = useState([]);
 
@@ -13,7 +13,7 @@ export default function StudentTable() {
       console.log("Error fetching", error);
     } else if (!isLoading && data) {
       const filteredStudents = data.data.filter(
-        (user) => user.Profile === "active" && user.Role === "student"
+        (user) => user.Profile === "archive" && user.Role === "student"
       );
       setStudents(filteredStudents);
     }
@@ -29,7 +29,14 @@ export default function StudentTable() {
   };
 
   return (
-    <div className="overflow-x-auto p-4">
+
+   <div className="w-full px-4 py-6 bg-gray-50">
+       <div >
+          <h4 className="text-2xl md:text-md font-semibold text-gray-900">Students</h4>
+          <p className="text-sm md:text-sm text-gray-500 mt-1">Manage your Students and their Profiles</p>
+        </div>
+        
+        <div className="overflow-x-auto p-4">
       <table className="min-w-full w-full border border-gray-200 bg-white shadow-md rounded-lg">
         <thead className="bg-gray-100 text-sm text-gray-700">
           <tr className="text-left">
@@ -52,7 +59,7 @@ export default function StudentTable() {
                   idx % 2 === 0 ? "bg-gray-50" : "bg-white"
                 }`}
               >
-                <td className="p-3 whitespace-nowrap">{student.CreatedOn}</td>
+                <td className="p-3 whitespace-nowrap">{student.CreatedBy || "—"}</td>
                 <td className="p-3 whitespace-nowrap">{formatDate(student.createdAt)}</td>
                 <td className="p-3 whitespace-nowrap">
                   {student.FirstName} {student.LastName}
@@ -62,7 +69,7 @@ export default function StudentTable() {
                 <td className="p-3 whitespace-nowrap">{student.Assigned}</td>
                 <td className="p-3 whitespace-nowrap">{student.Status}</td>
                 <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
-                  <Link to={`/app/editprofile/${student.id}`}>
+                  <Link>
                     <LiaEditSolid className="cursor-pointer" />
                   </Link>
                   <FaTrash className="cursor-pointer text-red-500" />
@@ -79,5 +86,8 @@ export default function StudentTable() {
         </tbody>
       </table>
     </div>
+
+   </div>
+    
   );
 }

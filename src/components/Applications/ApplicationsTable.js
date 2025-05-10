@@ -220,7 +220,7 @@ const LastName = localStorage.getItem("LastName")
               key={idx}
               className={`text-sm border-t border-gray-200 ${idx % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
             >
-              <td className="p-3 whitespace-nowrap">8343/25-26</td>
+              <td className="p-3 whitespace-nowrap">{program.acknowledge}</td>
               <td className="p-3 whitespace-nowrap">{formatDate(program.createdAt)}</td>
               <td className="p-3 whitespace-nowrap">{program.FirstName} {program.LastName}</td>
               <td className="p-3 whitespace-nowrap">{program.university}</td>

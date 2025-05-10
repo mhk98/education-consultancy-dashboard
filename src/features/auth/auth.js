@@ -39,6 +39,23 @@ export const authApi = createApi({
       invalidatesTags: ["auth"], 
     }),
 
+    deleteUser: build.mutation({
+      query: (id) => ({
+        url: `/user/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["auth"],
+    }),
+
+    updateUser: build.mutation({
+      query: ({ id, data }) => ({
+        url: `/user/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+
     getAllUser: build.query({
       query: () => ({
         url: "/user",
@@ -67,5 +84,7 @@ export const {
   useUserLoginMutation,
   useGetAllUserQuery,
   useGetUserDataByIdQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
 
 } = authApi;

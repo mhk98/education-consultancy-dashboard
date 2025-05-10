@@ -18,6 +18,12 @@ const routes = [
   //   name: 'Forms',
   // },
   {
+    path: '/app/user-management',
+    icon: 'FormsIcon',
+    name: 'User Management',
+  },
+
+  {
     path: '/app/students',
     icon: 'FormsIcon',
     name: 'Students',

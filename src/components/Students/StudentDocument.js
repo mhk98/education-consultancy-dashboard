@@ -406,18 +406,27 @@ const StudentDocument = ({ id }) => {
       {document && (
         <>
           <DocumentSection
-            title="Std. 10th Marksheet & Certificate"
+            title="Std. 10th Certificate & Transcript"
             files={[
-              { name: "10th Marksheet", path: document.tenthMarksheet },
               { name: "10th Certificate", path: document.tenthCertificate },
+              { name: "10th Marksheet", path: document.tenthMarksheet },
             ]}
             openPdf={openPdf}
           />
           <DocumentSection
-            title="Std. 12th Marksheet & Certificate"
+            title="Std. 12th Certificate & Transcript"
             files={[
               { name: "12th Marksheet", path: document.twelveMarksheet },
               { name: "12th Certificate", path: document.twelveCertificate },
+            ]}
+            openPdf={openPdf}
+          />
+
+          <DocumentSection
+            title="Std. Bachelor Certificate & Transcript"
+            files={[
+              { name: "Bachelor Certificate", path: document.bachelorCertificate },
+              { name: "Bachelor Transcript", path: document.bachelorTranscript },
             ]}
             openPdf={openPdf}
           />
@@ -451,6 +460,7 @@ const StudentDocument = ({ id }) => {
             required
             className="input"
           />
+          <p>Limit 5MB</p>
           <button
             type="submit"
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
@@ -486,18 +496,22 @@ const StudentDocument = ({ id }) => {
 
       {/* Modal for editing mandatory documents */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <ModalHeader>Mandatory Document Upload</ModalHeader>
+        <ModalHeader>Mandatory Document Upload  (Filesize Limit 5MB)</ModalHeader>
         <ModalBody className="max-h-[70vh] overflow-y-auto">
           <form onSubmit={handleSubmit(onEditSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
-                { label: "Std. 10th Marksheet", name: "tenthMarksheet" },
                 { label: "Std. 10th Certificate", name: "tenthCertificate" },
-                { label: "Std. 12th Marksheet", name: "twelveMarksheet" },
+                { label: "Std. 10th Transcript", name: "tenthMarksheet" },
                 { label: "Std. 12th Certificate", name: "twelveCertificate" },
+                { label: "Std. 12th Transcript", name: "twelveMarksheet" },
+                { label: "Bachelor Certificate (if applicable) ", name: "bachelorCertificate" },
+                { label: "Bachelor Transcript (if applicable) ", name: "bachelorTranscript" },
                 { label: "Passport", name: "passport" },
                 { label: "Essay", name: "essay" },
                 { label: "Instruction Letter", name: "instructionLetter" },
+                { label: "Instruction Letter", name: "instructionLetter" },
+                
               ].map((input, idx) => (
                 <div key={idx} className="mb-4">
                   <label className="block text-sm mb-1 text-gray-700">{input.label}</label>

@@ -15,6 +15,8 @@ import { programIntakeApi } from "../features/programIntake/programIntake";
 import { programUniversityApi } from "../features/programUniversity/programUniversity";
 import { programNameApi } from "../features/programName/programName";
 import { programYearsApi } from "../features/programYears/programYears";
+import { PendingPaymentApi } from "../features/pendingPayment/pendingPayment";
+import { RequestPaymentApi } from "../features/requestPayment/requestPayment";
 
 
 
@@ -34,6 +36,8 @@ const store = configureStore({
     [programIntakeApi.reducerPath]: programIntakeApi.reducer,
     [programUniversityApi.reducerPath]: programUniversityApi.reducer,
     [programNameApi.reducerPath]: programNameApi.reducer,
+    [RequestPaymentApi.reducerPath]: RequestPaymentApi.reducer,
+    [PendingPaymentApi.reducerPath]: PendingPaymentApi.reducer,
   
   },
 
@@ -54,6 +58,8 @@ const store = configureStore({
         programUniversityApi.middleware,
         programNameApi.middleware,
         programYearsApi.middleware,
+        RequestPaymentApi.middleware,
+        PendingPaymentApi.middleware,
       
     ),
 });

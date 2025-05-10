@@ -6,6 +6,8 @@ import CommissionPayment from '../pages/CommissionPayment'
 import Enquiries from '../pages/Enquiries'
 import StudentEditProfile from '../components/Students/StudentEditProfile'
 import Programs from '../pages/Programs'
+import UserManagement from '../pages/UserManagement'
+import ArchiveStudentTable from '../components/Students/ArchiveStudentTable'
 
 // use lazy for better code splitting, a.k.a. load faster
 const Dashboard = lazy(() => import('../pages/Dashboard'))
@@ -36,6 +38,14 @@ const routes = [
   {
     path: '/students',
     component: Students,
+  },
+  {
+    path: '/archive-student',
+    component: ArchiveStudentTable,
+  },
+  {
+    path: '/user-management',
+    component: UserManagement,
   },
   {
     path: '/editprofile/:id',

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const programYearsApi = createApi({
   reducerPath: "programYearsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4000/api/v1/",
+    baseUrl: "http://localhost:4000/api/v1",
   }),
 
   tagTypes: ["programYear"], // Define the tag type
