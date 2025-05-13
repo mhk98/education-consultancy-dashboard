@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Input, Button } from '@windmill/react-ui'
 import toast from 'react-hot-toast'
-import { useCreateRequestPaymentMutation, useDeleteRequestPaymentMutation, useGetDataByIdQuery, useUpdateRequestPaymentMutation } from '../../features/requestPayment/requestPayment'
 import { LiaEditSolid } from 'react-icons/lia'
 import { FaTrash } from 'react-icons/fa'
 import { Modal, ModalHeader, ModalBody } from '@windmill/react-ui'
+import { useDeleteCashInMutation, useGetAllCashInQuery, useUpdateCashInMutation } from '../../features/cashIn/cashIn'
+import { useGetAllPendingPaymentQuery } from '../../features/pendingPayment/pendingPayment'
 
-function RequestPayment({id}) {
+function Amount() {
 
 
 
@@ -19,34 +20,8 @@ function RequestPayment({id}) {
       reset,
     } = useForm()
 
-    const [createRequestPayment] = useCreateRequestPaymentMutation()
-
-
-    const onFormSubmit = async (data) => {
-
-      const info = {
-        amount: data.amount,
-        paymentReason: data.paymentReason,
-        refundCondition: data.refundCondition,
-        user_id: id
-      }
-   
-        try {
-            const res = await createRequestPayment(info);
-            if (res.data?.success) {
-                toast.success(res.data.message);
-            } else {
-                toast.error(res.error?.data?.message || "Failed. Please try again.");
-            }
-        } catch (error) {
-            toast.error("An unexpected error occurred.");
-        }
-    };
-
-
-
     
-        const { data, isLoading, isError, error } = useGetDataByIdQuery(id);
+        const { data, isLoading, isError, error } = useGetAllPendingPaymentQuery();
           const [payments, setPayments] = useState([]);
         
           useEffect(() => {
@@ -79,7 +54,7 @@ function RequestPayment({id}) {
        
       
        
-           const [updateRequestPayment] = useUpdateRequestPaymentMutation()
+           const [updateCashIn] = useUpdateCashInMutation()
        
            const onFormEdit = async (data) => {
 
@@ -87,7 +62,7 @@ function RequestPayment({id}) {
              console.log("paymentId", paymentId)
 
            try {
-             const res = await updateRequestPayment({id:paymentId, data});
+             const res = await updateCashIn({id:paymentId, data});
              if (res.data?.success) {
                toast.success(res.data.message);
              } else {
@@ -98,11 +73,11 @@ function RequestPayment({id}) {
            }
          };
        
-           const [deleteRequestPayment] = useDeleteRequestPaymentMutation()
+           const [deleteCashIn] = useDeleteCashInMutation()
        
            const handleDeleteUser = async (id) => {
            try {
-             const res = await deleteRequestPayment(id);
+             const res = await deleteCashIn(id);
              if (res.data?.success) {
                toast.success(res.data.message);
              } else {
@@ -116,75 +91,17 @@ function RequestPayment({id}) {
 
   return (
     <>
-      {/* <PageTitle>Dashboard</PageTitle> */}
-      <div className="w-full px-4 py-6 bg-gray-50">
-  <div className="w-full  mx-auto flex md:flex-row lg:flex-row lg:items-center lg:justify-between gap-4">
-    
-    {/* Form Section */}
-    <div className="w-full flex justify-between">
-      <form onSubmit={handleSubmit(onFormSubmit)} className="w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {/* Amount */}
-          <div className="mb-4">
-            <label className="block text-sm mb-1 text-gray-700">Amount</label>
-            <Input
-              type="number"
-              {...register("amount")}
-              className="w-full p-3 shadow-md border rounded-md"
-            />
-            {errors.amount && (
-              <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>
-            )}
-          </div>
-
-          {/* Reason For Payment */}
-          <div className="mb-4">
-            <label className="block text-sm mb-1 text-gray-700">Reason For Payment</label>
-            <Input
-              type="text"
-              {...register("paymentReason")}
-              className="w-full p-3 shadow-md border rounded-md"
-            />
-            {errors.paymentReason && (
-              <p className="text-red-500 text-sm mt-1">{errors.paymentReason.message}</p>
-            )}
-          </div>
-
-          {/* Refund Condition */}
-          <div className="mb-4">
-            <label className="block text-sm mb-1 text-gray-700">Refund Condition</label>
-            <Input
-              type="text"
-              {...register("refundCondition")}
-              className="w-full p-3 shadow-md border rounded-md"
-            />
-            {errors.refundCondition && (
-              <p className="text-red-500 text-sm mt-1">{errors.refundCondition.message}</p>
-            )}
-          </div>
-        </div>
-
-        {/* Submit Button */}
-        <div className="flex justify-end mt-6">
-          <Button type="submit" className="btn btn-primary">
-           Submit Request
-          </Button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
+   
  <div className="w-full overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-700 bg-white shadow-md rounded-lg">
           <thead className="bg-gray-100 border-b border-gray-200">
             <tr>
-              <th className="p-3 min-w-[180px]">Request Date</th>
-              <th className="p-3 min-w-[180px]">Payment Reason</th>
-              <th className="p-3 min-w-[120px]">Amount</th>
-              <th className="p-3 min-w-[160px]">Refund Condition</th>
+              <th className="p-3 min-w-[180px]">Date</th>
+              <th className="p-3 min-w-[180px]">Amount</th>
+              <th className="p-3 min-w-[120px]">Purpose</th>
               <th className="p-3 min-w-[160px]">Status</th>
-              <th className="p-3 min-w-[160px]">Action</th>
+              
+              {/* <th className="p-3 min-w-[160px]">Action</th> */}
               
             </tr>
           </thead>
@@ -197,10 +114,11 @@ function RequestPayment({id}) {
                 }`}
               >
                 <td className="p-3 whitespace-nowrap">{formatDate(payment.createdAt)}</td>
-                <td className="p-3 whitespace-nowrap">{payment.paymentReason}</td>
                 <td className="p-3 whitespace-nowrap">{payment.amount}</td>
-                <td className="p-3 whitespace-nowrap">{payment.refundCondition}</td>
-                <td className="p-3 whitespace-nowrap">{payment?.status}</td>
+                <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
+                <td className="p-3 whitespace-nowrap">{payment.paymentStatus}</td>
+                {/* <td className="p-3 whitespace-nowrap">{payment.comment}</td> */}
+                
                 <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
                                
               
@@ -214,22 +132,59 @@ function RequestPayment({id}) {
                                 </td>
 
                                   <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                                                      <ModalHeader className="mb-8">Edit User Information</ModalHeader>
+                                                                      <ModalHeader className="mb-8">Edit Statement Information</ModalHeader>
                                                                       <ModalBody>
                                                                       <form onSubmit={handleSubmit(onFormEdit)}>
                                                           <div className="grid grid-cols-1 gap-4">
                                                             {/* Left Side */}
-                                                      
+
+                                <div className="mb-4">
+                                                    <label className="block text-sm mb-1 text-gray-700">Amount</label>
+                                                    <Input
+                                                      type="number"
+                                                      {...register("amount")}
+                                                      className="w-full p-3 shadow-md border rounded-md"
+                                                    />
+                                                    {errors.amount && (
+                                                      <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>
+                                                    )}
+                                                  </div>
+                                        
+                                                  {/* Reason For Payment */}
+                                                  <div className="mb-4">
+                                                    <label className="block text-sm mb-1 text-gray-700">Purpose for Cash-In</label>
+                                                    <Input
+                                                      type="text"
+                                                      {...register("purpose")}
+                                                      className="w-full p-3 shadow-md border rounded-md"
+                                                    />
+                                                    {errors.purpose && (
+                                                      <p className="text-red-500 text-sm mt-1">{errors.purpose.message}</p>
+                                                    )}
+                                                  </div>
+                                        
+                                                  {/* Refund Condition */}
+                                                  <div className="mb-4">
+                                                    <label className="block text-sm mb-1 text-gray-700">Comment</label>
+                                                    <Input
+                                                      type="text"
+                                                      {...register("comment")}
+                                                      className="w-full p-3 shadow-md border rounded-md"
+                                                    />
+                                                    {errors.comment && (
+                                                      <p className="text-red-500 text-sm mt-1">{errors.comment.message}</p>
+                                                    )}
+                                                  </div>                            
                                                               
                                                               <div className="mb-4">
-                                                                <label className="block text-sm mb-1 text-gray-700 mb-4">Profile Status</label>
+                                                                <label className="block text-sm mb-1 text-gray-700 mb-4">Payment Status</label>
                                                                 <select
                                                                     {...register("status")}
                                                                     className="input input-bordered w-full shadow-md p-3"
                                                                   >
                                                                     <option value="">Select Status</option>
-                                                                    <option value="PENDING">PENDING</option>
-                                                                    <option value="PAID">PAID</option>        
+                                                                    <option value="Cash-In">Cash-In</option>
+                                                                    <option value="Cash-Out">Cash-Out</option>        
                                                                   </select>
                                                                   {errors.status && (
                                                                     <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
@@ -247,6 +202,8 @@ function RequestPayment({id}) {
                                                         
                                                                       </ModalBody>
                                                                     </Modal>
+
+                                                                    
               </tr>
             ))}
           </tbody>
@@ -256,4 +213,4 @@ function RequestPayment({id}) {
   )
 }
 
-export default RequestPayment;
+export default Amount;

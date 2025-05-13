@@ -1,29 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import response from '../utils/demo/tableData'
-import FilterPanel from '../components/FilterPanel'
-import StudentTable from '../components/Students/StudentTable'
+import React, { useState } from 'react'
+
 import { TbCurrencyTaka } from 'react-icons/tb'
 import WalletFilter from '../components/Wallet/WalletFilter'
-import WalletTable from '../components/Wallet/WalletTable'
+import Amount from '../components/Wallet/Amount';
+import CashIn from '../components/Wallet/CashIn';
+import CashOut from '../components/Wallet/CashOut';
+
 
 function Wallet() {
-  const [page, setPage] = useState(1)
-  const [data, setData] = useState([])
-
-  // pagination setup
-  const resultsPerPage = 10
-  const totalResults = response.length
-
-  // pagination change control
-  function onPageChange(p) {
-    setPage(p)
-  }
-
-  // on page change, load new sliced data
-  // here you would make another server request for new data
-  useEffect(() => {
-    setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage))
-  }, [page])
+ 
+const id = localStorage.getItem("userId")
+   const [activeTab, setActiveTab] = useState("amount");
+    
+      const isamount = activeTab === "amount";
+      const iscashIn = activeTab === "cashIn";
+      const iscashOut = activeTab === "cashOut";
 
   return (
     <>
@@ -53,7 +44,58 @@ function Wallet() {
       {/* <CTA /> */}
 
     <WalletFilter/>
-      <WalletTable/>
+      {/* <WalletTable/> */}
+      <div className="p-4 md:p-8 w-full mx-auto">
+        {/* Navigation Steps */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 items-center">
+          <div onClick={() => setActiveTab("amount")} className={`flex flex-col items-center cursor-pointer ${isamount ? "bg-purple-600 text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
+            <h1  className="mt-1 text-xl">Amount</h1>
+          </div>
+          <div  onClick={() => setActiveTab("cashIn")}
+          className={`flex flex-col items-center cursor-pointer ${iscashIn ? "bg-purple-600 text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
+            {/* className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium ${
+      isFinance ? "bg-blue-600 text-white" : "bg-gray-200"
+    }`} */}
+            <h1 className="mt-1 text-xl">Cash In</h1>
+
+          </div>
+
+          {/* <div 
+              onClick={() => setActiveTab("work")}  className="flex flex-col items-center cursor-pointer">
+            <span className="mt-1 text-sm text-gray-700">Work Experience</span>
+          </div> */}
+          <div 
+              onClick={() => setActiveTab("cashOut")}  className={`flex flex-col items-center cursor-pointer ${iscashOut ? "bg-purple-600 text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
+            <h1 className="mt-1 text-xl">Cash Out</h1>
+
+          </div>
+        </div>
+
+
+
+         {/* Separated Content Section Below */}
+              <div className="mt-4 p-4 bg-white rounded-md">
+              {isamount ? (
+                <div>
+
+                <Amount id = {id}/>
+
+                </div>
+              ): iscashIn ?  (
+                <div>
+
+                 <CashIn id={id}/>
+
+                </div>
+              )  : (
+
+                <CashOut id={id}/>
+
+              )
+            
+            }
+            </div>
+    </div>
     </>
   )
 }

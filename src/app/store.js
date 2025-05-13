@@ -17,6 +17,9 @@ import { programNameApi } from "../features/programName/programName";
 import { programYearsApi } from "../features/programYears/programYears";
 import { PendingPaymentApi } from "../features/pendingPayment/pendingPayment";
 import { RequestPaymentApi } from "../features/requestPayment/requestPayment";
+import { CashInApi } from "../features/cashIn/cashIn";
+import { CommissionApi } from "../features/commission/commission";
+
 
 
 
@@ -38,6 +41,8 @@ const store = configureStore({
     [programNameApi.reducerPath]: programNameApi.reducer,
     [RequestPaymentApi.reducerPath]: RequestPaymentApi.reducer,
     [PendingPaymentApi.reducerPath]: PendingPaymentApi.reducer,
+    [CashInApi.reducerPath]: CashInApi.reducer,
+    [CommissionApi.reducerPath]: CommissionApi.reducer,
   
   },
 
@@ -60,6 +65,8 @@ const store = configureStore({
         programYearsApi.middleware,
         RequestPaymentApi.middleware,
         PendingPaymentApi.middleware,
+        CashInApi.middleware,
+        CommissionApi.middleware,
       
     ),
 });

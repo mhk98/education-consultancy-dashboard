@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { Input, Button } from '@windmill/react-ui'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom'
 import toast from 'react-hot-toast'
-import { useCreatePendingPaymentMutation } from '../../features/pendingPayment/pendingPayment'
+import { useCreatePendingPaymentMutation, useInitPendingPaymentMutation } from '../../features/pendingPayment/pendingPayment'
 
 function PendingPayment({id}) {
 
@@ -24,34 +24,32 @@ function PendingPayment({id}) {
       reset,
     } = useForm()
 
-    const [createPendingPayment] = useCreatePendingPaymentMutation()
+    const [initPendingPayment] = useInitPendingPaymentMutation()
 
     const onFormSubmit = async (data) => {
-        let paymentStatus = "Online"
+        let status = "Online"
         // const formData = new FormData();
         // formData.append("amount", data.amount);
         // formData.append("paymentReason", data.paymentReason);
         // formData.append("refundCondition", data.refundCondition);
-        // formData.append("paymentStatus", online); 
+        // formData.append("status", online); 
         // if (file) {
         //     formData.append("file", file);
         // }
 
         const info = {
           amount:data.amount,
-          paymentReason:data.paymentReason,
-          refundCondition:data.refundCondition,
-          paymentStatus:paymentStatus,
+          paymentStatus:status,
           user_id:id,
-
         }
    
 
         try {
-            const res = await createPendingPayment(info);
+            const res = await initPendingPayment(info);
             if (res.data?.success) {
-                toast.success(res.data.message);
-            
+                // toast.success(res.data.message);
+                console.log("paymentInit", res.data.data)
+              window.open(res.data.data);     
             } else {
                 toast.error(res.error?.data?.message || "Failed. Please try again.");
             }
@@ -61,12 +59,11 @@ function PendingPayment({id}) {
     };
 
     const onFormSubmit1 = async (data) => {
-        let paymentStatus = "Offline"
+        let status = "Offline"
         const formData = new FormData();
         formData.append("amount", data.amount);
-        formData.append("paymentReason", data.paymentReason);
-        formData.append("refundCondition", data.refundCondition);
-        formData.append("paymentStatus", paymentStatus); 
+        formData.append("paymentStatus", status); 
+        formData.append("employee", data.employee); 
         formData.append("user_id", id); 
         if (file) {
             formData.append("file", file);
@@ -76,7 +73,7 @@ function PendingPayment({id}) {
 
 
         try {
-            const res = await createPendingPayment(formData);
+            const res = await initPendingPayment(formData);
             if (res.data?.success) {
                 toast.success(res.data.message);
             
@@ -146,38 +143,13 @@ function PendingPayment({id}) {
                         <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>
                       )}
                     </div>
-          
-                    {/* Reason For Payment */}
-                    <div className="mb-4">
-                      <label className="block text-sm mb-1 text-gray-700">Reason For Payment</label>
-                      <Input
-                        type="text"
-                        {...register("paymentReason")}
-                        className="w-full p-3 shadow-md border rounded-md"
-                      />
-                      {errors.paymentReason && (
-                        <p className="text-red-500 text-sm mt-1">{errors.paymentReason.message}</p>
-                      )}
-                    </div>
-          
-                    {/* Refund Condition */}
-                    <div className="mb-4">
-                      <label className="block text-sm mb-1 text-gray-700">Refund Condition</label>
-                      <Input
-                        type="text"
-                        {...register("refundCondition")}
-                        className="w-full p-3 shadow-md border rounded-md"
-                      />
-                      {errors.refundCondition && (
-                        <p className="text-red-500 text-sm mt-1">{errors.refundCondition.message}</p>
-                      )}
-                    </div>
+      
                   </div>
           
                   {/* Submit Button */}
                   <div className="flex justify-end mt-6">
                     <Button type="submit" className="btn btn-primary">
-                      Submit Request
+                      Pay Online 
                     </Button>
                   </div>
                 </form>
@@ -205,35 +177,25 @@ function PendingPayment({id}) {
                         <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>
                       )}
                     </div>
-          
-                    {/* Reason For Payment */}
+
                     <div className="mb-4">
-                      <label className="block text-sm mb-1 text-gray-700">Reason For Payment</label>
-                      <Input
-                        type="text"
-                        {...register("paymentReason")}
-                        className="w-full p-3 shadow-md border rounded-md"
-                      />
-                      {errors.paymentReason && (
-                        <p className="text-red-500 text-sm mt-1">{errors.paymentReason.message}</p>
-                      )}
-                    </div>
-          
-                    {/* Refund Condition */}
-                    <div className="mb-4">
-                      <label className="block text-sm mb-1 text-gray-700">Refund Condition</label>
-                      <Input
-                        type="text"
-                        {...register("refundCondition")}
-                        className="w-full p-3 shadow-md border rounded-md"
-                      />
-                      {errors.refundCondition && (
-                        <p className="text-red-500 text-sm mt-1">{errors.refundCondition.message}</p>
-                      )}
-                    </div>
+                                                                                   
+                    <label className="block text-sm mb-1 text-gray-700 mb-4">Profile Status</label>
+                        <select
+                          {...register("employee")} className="input input-bordered w-full shadow-md p-3">
+                                    <option value="">Select Employee</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>        
+                                    <option value="C">C</option>        
+                                    <option value="D">D</option>        
+                                    <option value="E">E</option>        
+                        </select>
+                        {errors.employee && (
+                          <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>)}
+                        </div> 
 
                     <div>
-                        <label className="block text-sm mb-1 text-gray-700">Upload Payment Details</label>
+                        <label className="block text-sm mb-1 text-gray-700">Upload Payment Documents</label>
                         <input
                           type="file"
                           name="file"
@@ -249,7 +211,7 @@ function PendingPayment({id}) {
                   {/* Submit Button */}
                   <div className="flex justify-end mt-6">
                     <Button type="submit" className="btn btn-primary">
-                      Submit Request
+                      Pay Offline
                     </Button>
                   </div>
                 </form>

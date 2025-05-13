@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import PersonalInformation from "./PersonalInformation";
-import Academic from "./Academic";
-import Tests from "./Tests";
 import PendingPayment from "./PendingPayment";
 import PreviousPayment from "./PreviousPayment";
 import RequestPayment from "./RequestPayment";
@@ -10,7 +7,7 @@ const  Finance = ({id}) => {
 
 
 
-  const [activeTab, setActiveTab] = useState("personal");
+  const [activeTab, setActiveTab] = useState("requestPayment");
   
     const isRequestPayment = activeTab === "requestPayment";
     const isPendingPayment = activeTab === "pendingPayment";

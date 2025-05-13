@@ -1,0 +1,65 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const enquiriesApi = createApi({
+  reducerPath: "enquiriesApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:4000/api/v1/",
+  }),
+
+  tagTypes: ["enquiries"], // Define the tag type
+  endpoints: (build) => ({
+    createEnquiries: build.mutation({
+      query: (data) => ({
+        url: "/enquiries/create",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["enquiries"],
+    }),
+
+    deleteEnquiries: build.mutation({
+      query: (id) => ({
+        url: `/enquiries/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["enquiries"],
+    }),
+
+    updateEnquiries: build.mutation({
+      query: ({ id, data }) => ({
+        url: `/enquiries/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["enquiries"],
+    }),
+
+    getAllEnquiries: build.query({
+      query: () => ({
+        url: "/enquiries",
+      }),
+      providesTags: ["enquiries"],
+
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 1000,
+    }),
+
+    getDataById: build.query({
+      query: (id) => ({
+        url: `enquiries/${id}`,
+      }),
+      providesTags: ["enquiries"],
+
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 1000,
+    }),
+  }),
+});
+
+export const {
+useCreateEnquiriesMutation,
+ useDeleteEnquiriesMutation,
+ useUpdateEnquiriesMutation,
+ useGetAllEnquiriesQuery,
+ useGetDataByIdQuery,
+} = enquiriesApi;

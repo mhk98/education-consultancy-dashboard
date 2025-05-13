@@ -26,7 +26,7 @@ export const RequestPaymentApi = createApi({
     }),
 
     updateRequestPayment: build.mutation({
-      query: ({ data, id }) => ({
+      query: ({ id, data }) => ({
         url: `/requestPayment/${id}`,
         method: "PUT",
         body: data,

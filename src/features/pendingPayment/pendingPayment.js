@@ -8,6 +8,22 @@ export const PendingPaymentApi = createApi({
 
   tagTypes: ["pendingPayment"], // Define the tag type
   endpoints: (build) => ({
+    initPendingPayment: build.mutation({
+      query: (data) => ({
+        url: "/pendingPayment/init",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["pendingPayment"],
+    }),
+    validatePendingPayment: build.mutation({
+      query: (data) => ({
+        url: "/pendingPayment/webhook",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["pendingPayment"],
+    }),
     createPendingPayment: build.mutation({
       query: (data) => ({
         url: "/pendingPayment/create",
@@ -62,4 +78,6 @@ export const {
  useUpdatePendingPaymentMutation,
  useGetAllPendingPaymentQuery,
  useGetDataByIdQuery,
+ useInitPendingPaymentMutation,
+ useValidatePendingPaymentMutation,
 } = PendingPaymentApi;

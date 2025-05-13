@@ -28,6 +28,9 @@ const programList = [
 const EnquiriesRequestedPanel = () => {
   const [selected, setSelected] = useState(programList[0]);
 
+
+  
+
   return (
     <div className="flex flex-col lg:flex-row p-4 gap-4 max-w-full overflow-x-hidden">
       {/* Left Panel */}

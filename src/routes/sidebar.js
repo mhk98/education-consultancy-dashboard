@@ -28,6 +28,7 @@ const routes = [
     icon: 'FormsIcon',
     name: 'Students',
   },
+
   {
     path: '/app/applications',
     icon: 'FormsIcon',

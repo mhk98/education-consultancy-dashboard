@@ -5,6 +5,7 @@ import StudentEditProfile from './components/Students/StudentEditProfile'
 import { Toaster } from 'react-hot-toast'
 import { Provider } from 'react-redux'
 import store from './app/store'
+import PaymentStatus from './components/Students/PaymentStatus'
 
 const Layout = lazy(() => import('./containers/Layout'))
 const Login = lazy(() => import('./pages/Login'))
@@ -26,6 +27,7 @@ function App() {
           <Route path="/app" component={Layout} />
           <Route path="/editprofile" component={StudentEditProfile} />
           <Route path="/archive-student" component={StudentEditProfile} />
+          <Route path="/payments" component={PaymentStatus} />
           {/* If you have an index page, you can remothis Redirect */}
           <Redirect exact from="/" to="/login" />
         </Switch>
