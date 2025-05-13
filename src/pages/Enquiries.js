@@ -48,13 +48,19 @@ function Enquiries() {
   const handleFileChange = (e) => setFile(e.target.files[0]);
 
   const onFormSubmit = async (data) => {
-    const formData = {
-      studyArea: data.studyArea?.map((option) => option.value),
-      studyLevel: data.studyLevel?.map((option) => option.value),
-      firstName: data.firstName,
-      lastName: data.lastName,
-      file: file,
-    };
+
+    const formData = new FormData();
+		formData.append("studyArea", data.studyArea?.map((option) => option.value));
+		formData.append("LastName", data.studyLevel?.map((option) => option.value));
+		formData.append("firstName", data.firstName);
+		formData.append("lastName", data.lastName);
+		formData.append("Email", data.Email);
+		formData.append("Password", data.Password);
+		formData.append("Phone", data.Phone); 
+		formData.append("Role", data.Role); 
+		if (file) {
+			formData.append("file", file);
+		}
 
     try {
       const res = await createEnquiries(formData);
