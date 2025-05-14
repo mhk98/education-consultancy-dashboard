@@ -3,11 +3,8 @@ import { useGetAllEnquiriesQuery, useUpdateEnquiriesMutation } from "../../featu
 import toast from "react-hot-toast";
 import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui';
 import { useForm } from "react-hook-form";
-import { FiSend } from "react-icons/fi";
-import axios from "axios";
 
-const EnquiriesRequestedPanel = () => {
-  const user_id = localStorage.getItem("userId")
+const EnquiriesArchivedPanel = () => {
   const [selected, setSelected] = useState(null);
   const { data, isLoading, isError, error } = useGetAllEnquiriesQuery();
   const [programList, setProgramList] = useState([]);
@@ -26,7 +23,7 @@ const EnquiriesRequestedPanel = () => {
         console.log("Error fetching", error);
       } else if (!isLoading && data) {
         const filteredProgram = data.data.filter(
-          (item) => item.status === "active"
+          (item) => item.status === "archive"
         );
         setProgramList(filteredProgram);
       }
@@ -77,125 +74,6 @@ const EnquiriesRequestedPanel = () => {
                       }
                     };
 
-
-
-  const [kcComments, setKCComments] = useState([]);
-  const [newKCComment, setNewKCComment] = useState("");
-  const [replyKCContent, setReplyKCContent] = useState({});
-
-  useEffect(() => {
-    if (!selected?.id) return;
-    fetchKCComments();
-  }, [selected]);
-
-  const fetchKCComments = async () => {
-    try {
-      const res = await axios.get(
-        `https://education-consultancy-backend.onrender.com/api/v1/kcComment/${selected.id}?type=kc`
-      );
-      setKCComments(res.data.data);
-    } catch (err) {
-      console.error("Failed to fetch comments:", err);
-    }
-  };
-
-  const handleKCCommentSubmit = async () => {
-    if (!newKCComment.trim()) return;
-    try {
-      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/kcComment/create", {
-        user_id,
-        application_id: selected.id,
-        text: newKCComment,
-        type: "kc",
-        hidden: false,
-      });
-      setNewKCComment("");
-      fetchKCComments();
-      document.activeElement.blur();
-    } catch (err) {
-      console.error("Failed to post comment:", err);
-    }
-  };
-
-  const handleKCReplySubmit = async (commentId) => {
-    const replyText = replyKCContent[commentId];
-    if (!replyText?.trim()) return;
-    try {
-      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/kcReply/create", {
-        user_id,
-        kcComment_id: commentId,
-        text: replyText,
-      });
-      setReplyKCContent((prev) => ({ ...prev, [commentId]: "" }));
-      fetchKCComments();
-    } catch (err) {
-      console.error("Failed to post reply:", err);
-    }
-  };
-
-  const formatDateTime = (dateTimeStr) => {
-    const date = new Date(dateTimeStr);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    let ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12;
-    return `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
-  };
-
-  const renderCommentList = () => (
-    <div className="space-y-4">
-      {kcComments.length > 0 ? (
-        kcComments.map((comment) => (
-          <div key={comment.id} className="border p-3 rounded-md bg-gray-50">
-            <p className="text-sm mb-1 font-medium">
-              {comment.User?.FirstName} {comment.User?.LastName}:
-            </p>
-            <p className="text-sm mb-2">{comment.text}</p>
-            <div className="ml-4 space-y-2">
-              {comment.kcReplies?.map((reply) => (
-                <div
-                  key={reply.id}
-                  className="text-sm text-gray-700 bg-white p-2 rounded border"
-                >
-                  <span className="font-medium">
-                    {reply.User?.FirstName} {reply.User?.LastName}:
-                  </span>{" "}
-                  {reply.text}
-                </div>
-              ))}
-              <div className="flex gap-2 mt-2">
-                <input
-                  type="text"
-                  value={replyKCContent[comment.id] || ""}
-                  onChange={(e) =>
-                    setReplyKCContent((prev) => ({
-                      ...prev,
-                      [comment.id]: e.target.value,
-                    }))
-                  }
-                  placeholder="Write a reply..."
-                  className="flex-1 border px-2 py-1 rounded text-sm"
-                />
-                <button
-                  onClick={() => handleKCReplySubmit(comment.id)}
-                  className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-                >
-                  Reply
-                </button>
-              </div>
-            </div>
-          </div>
-        ))
-      ) : (        
-        <p className="text-sm text-gray-500">No comments yet.</p>
-
-      )}
-    </div>
-  );
-
   return (
     <div className="flex flex-col lg:flex-row p-4 gap-4 max-w-full overflow-x-hidden">
       {/* Left Panel */}
@@ -220,7 +98,7 @@ const EnquiriesRequestedPanel = () => {
               </p>
 
     <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                                                       <ModalHeader className="mb-8">Edit User Information</ModalHeader>
+                                                                       <ModalHeader className="mb-8">Edit Enquiries Information</ModalHeader>
                                                                        <ModalBody>
                                                                        <form onSubmit={handleSubmit(onFormEdit)}>
                                                            <div className="grid grid-cols-1 gap-4">
@@ -250,7 +128,8 @@ const EnquiriesRequestedPanel = () => {
                                                                    >
                                                                      <option value="">Select Status</option>
                                                                      <option value="active">Active</option>
-                                                                     <option value="archive">Archive</option>               
+                                                                     <option value="archive">Archive</option>        
+                                                                     <option value="C">C</option>        
                                                                    </select>
                                                                    {errors.status && (
                                                                      <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
@@ -355,28 +234,6 @@ const EnquiriesRequestedPanel = () => {
                 ))}
               </div>
             )}
-
-   {/* KC Team Comments Only */}
-   
-   <div className="flex items-center gap-2 mt-4">
-                <input
-                  type="text"
-                  value={newKCComment}
-                  onChange={(e) => setNewKCComment(e.target.value)}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" && handleKCCommentSubmit()
-                  }
-                  placeholder="Write comments..."
-                  className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
-                />
-                <button
-                  className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-                  onClick={handleKCCommentSubmit}
-                >
-                  <FiSend size={20} />
-                </button>
-              </div>
-              {renderCommentList()}
           </div>
         </div>
       )}
@@ -384,4 +241,4 @@ const EnquiriesRequestedPanel = () => {
   );
 };
 
-export default EnquiriesRequestedPanel;
+export default EnquiriesArchivedPanel;

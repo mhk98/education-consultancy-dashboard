@@ -7,7 +7,7 @@
 // import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui';
 // import axios from "axios";
 
-// const BASE_URL = "http://localhost:4000/";
+// const BASE_URL = "https://education-consultancy-backend.onrender.com/";
 
 // const StudentDocument = ({ id }) => {
 //   const { register, handleSubmit, reset } = useForm();
@@ -288,7 +288,7 @@ import {
   useGetAllAdditionalDocumentQuery
 } from "../../features/additionalDocument/additionalDocument";
 
-const BASE_URL = "http://localhost:4000/";
+const BASE_URL = "https://education-consultancy-backend.onrender.com/";
 
 const StudentDocument = ({ id }) => {
   const { register, handleSubmit, reset } = useForm();

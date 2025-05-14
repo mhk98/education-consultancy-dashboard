@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const enquiriesApi = createApi({
-  reducerPath: "enquiriesApi",
+export const EnquiriesApi = createApi({
+  reducerPath: "EnquiriesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4000/api/v1/",
+    baseUrl: "https://education-consultancy-backend.onrender.com/api/v1/",
   }),
 
   tagTypes: ["enquiries"], // Define the tag type
@@ -62,4 +62,4 @@ useCreateEnquiriesMutation,
  useUpdateEnquiriesMutation,
  useGetAllEnquiriesQuery,
  useGetDataByIdQuery,
-} = enquiriesApi;
+} = EnquiriesApi;

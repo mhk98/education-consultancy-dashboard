@@ -38,7 +38,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
+        `https://education-consultancy-backend.onrender.com/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -64,7 +64,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!newComment.trim()) return;
     try {
       await axios.post(
-        "http://localhost:4000/api/v1/studentComment/create",
+        "https://education-consultancy-backend.onrender.com/api/v1/studentComment/create",
         {
           user_id,
           application_id: selectedProgram.id,
@@ -86,7 +86,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!replyText?.trim()) return;
     try {
       await axios.post(
-        "http://localhost:4000/api/v1/studentReply/create",
+        "https://education-consultancy-backend.onrender.com/api/v1/studentReply/create",
         {
           user_id,
           studentComment_id: commentId,
@@ -104,7 +104,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchKCComments = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
+        `https://education-consultancy-backend.onrender.com/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
       );
       setKCComments(res.data.data);
     } catch (err) {
@@ -116,7 +116,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!newKCComment.trim()) return;
     try {
       await axios.post(
-        "http://localhost:4000/api/v1/kcComment/create",
+        "https://education-consultancy-backend.onrender.com/api/v1/kcComment/create",
         {
           user_id,
           application_id: selectedProgram.id,
@@ -138,7 +138,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!replyText?.trim()) return;
     try {
       await axios.post(
-        "http://localhost:4000/api/v1/kcReply/create",
+        "https://education-consultancy-backend.onrender.com/api/v1/kcReply/create",
         {
           user_id,
           kcComment_id: commentId,

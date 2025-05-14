@@ -19,6 +19,8 @@ import { PendingPaymentApi } from "../features/pendingPayment/pendingPayment";
 import { RequestPaymentApi } from "../features/requestPayment/requestPayment";
 import { CashInApi } from "../features/cashIn/cashIn";
 import { CommissionApi } from "../features/commission/commission";
+import { EnquiriesApi } from "../features/enquiries/enquiries";
+
 
 
 
@@ -43,6 +45,7 @@ const store = configureStore({
     [PendingPaymentApi.reducerPath]: PendingPaymentApi.reducer,
     [CashInApi.reducerPath]: CashInApi.reducer,
     [CommissionApi.reducerPath]: CommissionApi.reducer,
+    [EnquiriesApi.reducerPath]: EnquiriesApi.reducer,
   
   },
 
@@ -67,6 +70,7 @@ const store = configureStore({
         PendingPaymentApi.middleware,
         CashInApi.middleware,
         CommissionApi.middleware,
+        EnquiriesApi.middleware,
       
     ),
 });
