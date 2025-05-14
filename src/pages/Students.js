@@ -27,7 +27,6 @@ function Students() {
   //   setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage))
   // }, [page])
 
-
    const [isModalOpen, setIsModalOpen] = useState(false)
   
    function closeModal() {

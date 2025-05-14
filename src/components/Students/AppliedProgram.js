@@ -223,9 +223,11 @@ const AppliedProgram = ({ user_id }) => {
             </div>
             <div className="p-4">
               <div className="text-sm mb-2">
+              <span><strong>Ack. No:</strong> {item.acknowledge}</span>
                 <span className="ml-2 bg-red-400 text-white text-xs px-2 py-1 rounded">
                   {item.priority}
                 </span>
+                <span></span>
               </div>
               <div className="text-sm mb-1">
                 <strong>Date:</strong> {formatDateTime(item.createdAt)}

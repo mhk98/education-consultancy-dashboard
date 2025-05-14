@@ -79,55 +79,55 @@ const EnquiriesRequestedPanel = () => {
 
 
 
-  const [kcComments, setKCComments] = useState([]);
-  const [newKCComment, setNewKCComment] = useState("");
-  const [replyKCContent, setReplyKCContent] = useState({});
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [replyContent, setReplyContent] = useState({});
 
   useEffect(() => {
     if (!selected?.id) return;
-    fetchKCComments();
+    fetchComments();
   }, [selected]);
 
-  const fetchKCComments = async () => {
+  const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://education-consultancy-backend.onrender.com/api/v1/kcComment/${selected.id}?type=kc`
+        `https://education-consultancy-backend.onrender.com/api/v1/comment/${selected.id}?type=kc`
       );
-      setKCComments(res.data.data);
+      setComments(res.data.data);
     } catch (err) {
       console.error("Failed to fetch comments:", err);
     }
   };
 
-  const handleKCCommentSubmit = async () => {
-    if (!newKCComment.trim()) return;
+  const handleCommentSubmit = async () => {
+    if (!newComment.trim()) return;
     try {
-      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/kcComment/create", {
+      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/comment/create", {
         user_id,
-        application_id: selected.id,
-        text: newKCComment,
+        enquiry_id: selected.id,
+        text: newComment,
         type: "kc",
         hidden: false,
       });
-      setNewKCComment("");
-      fetchKCComments();
+      setNewComment("");
+      fetchComments();
       document.activeElement.blur();
     } catch (err) {
       console.error("Failed to post comment:", err);
     }
   };
 
-  const handleKCReplySubmit = async (commentId) => {
-    const replyText = replyKCContent[commentId];
+  const handleReplySubmit = async (commentId) => {
+    const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/kcReply/create", {
+      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/reply/create", {
         user_id,
-        kcComment_id: commentId,
+        comment_id: commentId,
         text: replyText,
       });
-      setReplyKCContent((prev) => ({ ...prev, [commentId]: "" }));
-      fetchKCComments();
+      setReplyContent((prev) => ({ ...prev, [commentId]: "" }));
+      fetchComments();
     } catch (err) {
       console.error("Failed to post reply:", err);
     }
@@ -147,15 +147,15 @@ const EnquiriesRequestedPanel = () => {
 
   const renderCommentList = () => (
     <div className="space-y-4">
-      {kcComments.length > 0 ? (
-        kcComments.map((comment) => (
+      {comments.length > 0 ? (
+        comments.map((comment) => (
           <div key={comment.id} className="border p-3 rounded-md bg-gray-50">
             <p className="text-sm mb-1 font-medium">
               {comment.User?.FirstName} {comment.User?.LastName}:
             </p>
             <p className="text-sm mb-2">{comment.text}</p>
             <div className="ml-4 space-y-2">
-              {comment.kcReplies?.map((reply) => (
+              {comment.replies?.map((reply) => (
                 <div
                   key={reply.id}
                   className="text-sm text-gray-700 bg-white p-2 rounded border"
@@ -169,9 +169,9 @@ const EnquiriesRequestedPanel = () => {
               <div className="flex gap-2 mt-2">
                 <input
                   type="text"
-                  value={replyKCContent[comment.id] || ""}
+                  value={replyContent[comment.id] || ""}
                   onChange={(e) =>
-                    setReplyKCContent((prev) => ({
+                    setReplyContent((prev) => ({
                       ...prev,
                       [comment.id]: e.target.value,
                     }))
@@ -180,7 +180,7 @@ const EnquiriesRequestedPanel = () => {
                   className="flex-1 border px-2 py-1 rounded text-sm"
                 />
                 <button
-                  onClick={() => handleKCReplySubmit(comment.id)}
+                  onClick={() => handleReplySubmit(comment.id)}
                   className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
                 >
                   Reply
@@ -361,17 +361,17 @@ const EnquiriesRequestedPanel = () => {
    <div className="flex items-center gap-2 mt-4">
                 <input
                   type="text"
-                  value={newKCComment}
-                  onChange={(e) => setNewKCComment(e.target.value)}
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
                   onKeyDown={(e) =>
-                    e.key === "Enter" && handleKCCommentSubmit()
+                    e.key === "Enter" && handleCommentSubmit()
                   }
                   placeholder="Write comments..."
                   className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
                 />
                 <button
                   className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-                  onClick={handleKCCommentSubmit}
+                  onClick={handleCommentSubmit}
                 >
                   <FiSend size={20} />
                 </button>

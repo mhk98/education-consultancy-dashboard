@@ -33,6 +33,7 @@ export default function StudentTable() {
       <table className="min-w-full w-full border border-gray-200 bg-white shadow-md rounded-lg">
         <thead className="bg-gray-100 text-sm text-gray-700">
           <tr className="text-left">
+            <th className="p-3">Student ID</th>
             <th className="p-3">Created By</th>
             <th className="p-3">Created On</th>
             <th className="p-3">Name</th>
@@ -52,6 +53,7 @@ export default function StudentTable() {
                   idx % 2 === 0 ? "bg-gray-50" : "bg-white"
                 }`}
               >
+                <td className="p-3 whitespace-nowrap">{student.id}</td>
                 <td className="p-3 whitespace-nowrap">{student.CreatedOn}</td>
                 <td className="p-3 whitespace-nowrap">{formatDate(student.createdAt)}</td>
                 <td className="p-3 whitespace-nowrap">
