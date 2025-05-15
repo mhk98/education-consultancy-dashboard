@@ -20,6 +20,7 @@ import { RequestPaymentApi } from "../features/requestPayment/requestPayment";
 import { CashInApi } from "../features/cashIn/cashIn";
 import { CommissionApi } from "../features/commission/commission";
 import { EnquiriesApi } from "../features/enquiries/enquiries";
+import { TaskApi } from "../features/task/task";
 
 
 
@@ -46,6 +47,7 @@ const store = configureStore({
     [CashInApi.reducerPath]: CashInApi.reducer,
     [CommissionApi.reducerPath]: CommissionApi.reducer,
     [EnquiriesApi.reducerPath]: EnquiriesApi.reducer,
+    [TaskApi.reducerPath]: TaskApi.reducer,
   
   },
 
@@ -71,6 +73,7 @@ const store = configureStore({
         CashInApi.middleware,
         CommissionApi.middleware,
         EnquiriesApi.middleware,
+        TaskApi.middleware,
       
     ),
 });

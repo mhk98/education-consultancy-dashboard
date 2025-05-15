@@ -12,20 +12,21 @@ const routes = [
     icon: 'HomeIcon', // the component being exported from icons/index.js
     name: 'Dashboard', // name that appear in Sidebar
   },
-  // {
-  //   path: '/app/forms',
-  //   icon: 'FormsIcon',
-  //   name: 'Forms',
-  // },
+
   {
     path: '/app/user-management',
-    icon: 'FormsIcon',
+    icon: 'PeopleIcon',
     name: 'User Management',
+  },
+  {
+    path: '/app/task',
+    icon: 'EditIcon',
+    name: 'Task',
   },
 
   {
     path: '/app/students',
-    icon: 'FormsIcon',
+    icon: 'OutlinePersonIcon',
     name: 'Students',
   },
 
@@ -36,76 +37,25 @@ const routes = [
   },
   {
     path: '/app/programs',
-    icon: 'FormsIcon',
+    icon: 'PagesIcon',
     name: 'Add Programs',
   },
   {
     path: '/app/wallet',
-    icon: 'FormsIcon',
+    icon: 'MoneyIcon',
     name: 'Wallet',
   },
   {
     path: '/app/commission-payments',
-    icon: 'FormsIcon',
+    icon: 'ChartsIcon',
     name: 'Commission Payments',
   },
   {
     path: '/app/manage-enquiries',
-    icon: 'FormsIcon',
+    icon: 'ChatIcon',
     name: 'Manage Enquiries',
   },
-  // {
-  //   path: '/app/cards',
-  //   icon: 'CardsIcon',
-  //   name: 'Cards',
-  // },
-  // {
-  //   path: '/app/charts',
-  //   icon: 'ChartsIcon',
-  //   name: 'Charts',
-  // },
-  // {
-  //   path: '/app/buttons',
-  //   icon: 'ButtonsIcon',
-  //   name: 'Buttons',
-  // },
-  // {
-  //   path: '/app/modals',
-  //   icon: 'ModalsIcon',
-  //   name: 'Modals',
-  // },
-  // {
-  //   path: '/app/tables',
-  //   icon: 'TablesIcon',
-  //   name: 'Tables',
-  // },
-  // {
-  //   icon: 'PagesIcon',
-  //   name: 'Pages',
-  //   routes: [
-  //     // submenu
-  //     {
-  //       path: '/login',
-  //       name: 'Login',
-  //     },
-  //     {
-  //       path: '/create-account',
-  //       name: 'Create account',
-  //     },
-  //     {
-  //       path: '/forgot-password',
-  //       name: 'Forgot password',
-  //     },
-  //     {
-  //       path: '/app/404',
-  //       name: '404',
-  //     },
-  //     {
-  //       path: '/app/blank',
-  //       name: 'Blank',
-  //     },
-  //   ],
-  // },
+ 
 ]
 
 export default routes

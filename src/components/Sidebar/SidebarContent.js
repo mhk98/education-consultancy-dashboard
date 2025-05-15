@@ -16,7 +16,7 @@ function SidebarContent() {
     <div className="py-4 text-gray-500 dark:text-gray-400">
       <a className="ml-6 flex flex-col justify-center text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
         {/* EduAnchor */}
-    <img src={logo} alt="Logo" style={{width:"120px", height:"80px"}}/>
+    <img src={logo} alt="Logo" style={{width:"130px", height:"40px"}}/>
 
 
       </a>
