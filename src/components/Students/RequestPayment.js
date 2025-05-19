@@ -166,7 +166,7 @@ function RequestPayment({id}) {
 
         {/* Submit Button */}
         <div className="flex justify-end mt-6">
-          <Button type="submit" className="btn btn-primary">
+          <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
            Submit Request
           </Button>
         </div>
@@ -201,7 +201,7 @@ function RequestPayment({id}) {
                 <td className="p-3 whitespace-nowrap">{payment.amount}</td>
                 <td className="p-3 whitespace-nowrap">{payment.refundCondition}</td>
                 <td className="p-3 whitespace-nowrap">{payment?.status}</td>
-                <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
+                <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                                
               
                   <LiaEditSolid fontSize={20} onClick={() => {
@@ -239,7 +239,7 @@ function RequestPayment({id}) {
                                                           </div>
                                                         
                                                           <div className="flex justify-end gap-2 mt-6">
-                                                            <Button type="submit" className="btn btn-primary">
+                                                            <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
                                                               Save
                                                             </Button>
                                                           </div>

@@ -11,13 +11,13 @@ const Document = ({id}) => {
           <button
             onClick={() => setActiveTab("apply")}
             className={`py-4 px-2 text-sm sm:text-base font-semibold transition-all ${
-              activeTab === "apply" ? "text-blue-600" : "text-gray-800"
+              activeTab === "apply" ? "text-brandRed" : "text-gray-800"
             }`}
           >
             Your Documents
           </button>
           {activeTab === "apply" && (
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600" />
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brandRed" />
           )}
         </div>
 
@@ -25,13 +25,13 @@ const Document = ({id}) => {
           <button
             onClick={() => setActiveTab("applied")}
             className={`py-4 px-2 text-sm sm:text-base font-semibold transition-all ${
-              activeTab === "applied" ? "text-blue-600" : "text-gray-800"
+              activeTab === "applied" ? "text-brandRed" : "text-gray-800"
             }`}
           >
-            KC Documents
+            EduAnchor Documents
           </button>
           {activeTab === "applied" && (
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600" />
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brandRed" />
           )}
         </div>
       </div>
@@ -43,7 +43,7 @@ const Document = ({id}) => {
           </div>
         ) : (
           <div>
-            <p>KC document is empty</p>
+            <p>EduAnchor document is empty</p>
           </div>
         )}
       </div>

@@ -24,7 +24,7 @@ const StudentEditProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`https://education-consultancy-backend.onrender.com/api/v1/user/${id}`);
+        const res = await axios.get(`http://localhost:5000/api/v1/user/${id}`);
         setData(res.data.data);
       } catch (err) {
         console.error("Failed to fetch user data:", err);
@@ -73,7 +73,7 @@ const StudentEditProfile = () => {
     <div className="bg-white rounded-2xl shadow p-4 flex items-center justify-center">
       <button
         onClick={handleCopy}
-        className="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+        className="flex-1 border border-brandRed text-brandRed hover:bg-brandRed-50 px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
       >
         <span>Student Platform</span>
         <FaRegCopy />
@@ -89,7 +89,7 @@ const StudentEditProfile = () => {
     >
       <div
         className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium ${
-          isProfile ? "bg-blue-600 text-white" : "bg-gray-200"
+          isProfile ? "bg-brandRed text-white" : "bg-gray-200"
         }`}
       >
         1
@@ -103,7 +103,7 @@ const StudentEditProfile = () => {
     >
       <div
         className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium ${
-          isApplications ? "bg-blue-600 text-white" : "bg-gray-200"
+          isApplications ? "bg-brandRed text-white" : "bg-gray-200"
         }`}
       >
         2
@@ -117,7 +117,7 @@ const StudentEditProfile = () => {
     >
       <div
         className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium ${
-          isDocuments ? "bg-blue-600 text-white" : "bg-gray-200"
+          isDocuments ? "bg-brandRed text-white" : "bg-gray-200"
         }`}
       >
         3
@@ -134,7 +134,7 @@ const StudentEditProfile = () => {
 >
   <div
     className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium ${
-      isFinance ? "bg-blue-600 text-white" : "bg-gray-200"
+      isFinance ? "bg-brandRed text-white" : "bg-gray-200"
     }`}
   >
     4

@@ -21,13 +21,16 @@ function Login() {
     try {
       const res = await userLogin(data)
 
+      console.log("userData", res)
       if (res?.data?.success) {
         const { accessToken, user } = res.data.data
         localStorage.setItem("FirstName", user.FirstName)
         localStorage.setItem("LastName", user.LastName)
         localStorage.setItem("role", user.Role)
+        localStorage.setItem("branch", user.Branch)
         localStorage.setItem("userId", user.id)
         localStorage.setItem("image", user.image)
+        localStorage.setItem("token", accessToken)
 
         toast.success(res.data.message)
         history.push("/app")
@@ -96,7 +99,7 @@ function Login() {
                     )}
                   </div>
 
-                  <Button type="submit" block className="mt-4">
+                  <Button type="submit" block className="mt-4" style={{backgroundColor:"#C71320"}}>
                     Login
                   </Button>
                 </div>

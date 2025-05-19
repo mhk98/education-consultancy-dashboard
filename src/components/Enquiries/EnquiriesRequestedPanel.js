@@ -41,7 +41,7 @@ const EnquiriesRequestedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'https://education-consultancy-backend.onrender.com/'; // Adjust to your server's URL
+  const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
 
  const {
       register,
@@ -91,7 +91,7 @@ const EnquiriesRequestedPanel = () => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://education-consultancy-backend.onrender.com/api/v1/comment/${selected.id}?type=kc`
+        `http://localhost:5000/api/v1/comment/${selected.id}?type=kc`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -102,7 +102,7 @@ const EnquiriesRequestedPanel = () => {
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
     try {
-      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/comment/create", {
+      await axios.post("http://localhost:5000/api/v1/comment/create", {
         user_id,
         enquiry_id: selected.id,
         text: newComment,
@@ -121,7 +121,7 @@ const EnquiriesRequestedPanel = () => {
     const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/reply/create", {
+      await axios.post("http://localhost:5000/api/v1/reply/create", {
         user_id,
         comment_id: commentId,
         text: replyText,
@@ -181,7 +181,7 @@ const EnquiriesRequestedPanel = () => {
                 />
                 <button
                   onClick={() => handleReplySubmit(comment.id)}
-                  className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                  className="text-sm bg-brandRed text-white px-3 py-1 rounded hover:bg-brandRed-700"
                 >
                   Reply
                 </button>
@@ -205,7 +205,7 @@ const EnquiriesRequestedPanel = () => {
             key={index}
             onClick={() => setSelected(item)}
             className={`border rounded-md p-4 mb-3 cursor-pointer ${
-              selected?.name === item.name ? "bg-green-50 border-blue-500" : "bg-white"
+              selected?.name === item.name ? "bg-green-50 border-brandRed" : "bg-white"
             }`}
           >
             <div className="flex justify-between items-center flex-wrap gap-2">
@@ -260,7 +260,7 @@ const EnquiriesRequestedPanel = () => {
                                                            </div>
                                                          
                                                            <div className="flex justify-end gap-2 mt-6">
-                                                             <Button type="submit" className="btn btn-primary">
+                                                             <Button type="submit" className="btn btn-brandRed">
                                                                Save
                                                              </Button>
                                                            </div>
@@ -303,7 +303,7 @@ const EnquiriesRequestedPanel = () => {
           <div className="flex flex-col gap-x-8 text-sm">
             <p>
               <span className="font-semibold">Assigned To:</span>{" "}
-              <span className="text-blue-600 font-medium">
+              <span className="text-brandRed font-medium">
                 {selected.assignedTo}
               </span>{" "}
               {/* — {selected.contact} */}
@@ -342,7 +342,7 @@ const EnquiriesRequestedPanel = () => {
                 {selected.files.map((file, index) => (
                   <button
                     key={index}
-                    className="text-blue-600 border border-blue-600 px-3 py-1 text-sm rounded"
+                    className="text-brandRed border border-brandRed px-3 py-1 text-sm rounded"
                   >
                     <a
                       href={`${fileBaseURL}${file.path.replace(/\\/g, '/')}`}
@@ -370,7 +370,7 @@ const EnquiriesRequestedPanel = () => {
                   className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
                 />
                 <button
-                  className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+                  className="bg-brandRed text-white p-2 rounded hover:bg-brandRed-700"
                   onClick={handleCommentSubmit}
                 >
                   <FiSend size={20} />

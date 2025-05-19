@@ -9,7 +9,7 @@ import {
 
 const features = [
   {
-    icon: <FaUserGraduate className="text-2xl text-blue-600" />,
+    icon: <FaUserGraduate className="text-2xl text-brandRed" />,
     title: "Students",
     links: [
       { label: "Manage Students", href: "#" },
@@ -17,25 +17,25 @@ const features = [
     ],
   },
   {
-    icon: <FaWallet className="text-2xl text-blue-600" />,
+    icon: <FaWallet className="text-2xl text-brandRed" />,
     title: "My Wallet",
     description:
       "Add money to your wallet for instant Application Fee payments.",
   },
   {
-    icon: <FaBookOpen className="text-2xl text-blue-600" />,
+    icon: <FaBookOpen className="text-2xl text-brandRed" />,
     title: "Learning Resources",
     description:
       "Complete Library of Product Knowledge– Country Guides, Presentation Decks, Outreach Materials.",
   },
   {
-    icon: <FaHome className="text-2xl text-blue-600" />,
+    icon: <FaHome className="text-2xl text-brandRed" />,
     title: "Accommodation",
     description:
       "Provide your students with better experience by enabling them to find an accommodation. Choose from a list of properties.",
   },
   {
-    icon: <FaClipboardList className="text-2xl text-blue-600" />,
+    icon: <FaClipboardList className="text-2xl text-brandRed" />,
     title: "White-Labelled Test Prep Solution",
     description:
       "Provide your students with a white-labelled test prep solution. Choose from flexible batch timings tailored by our experts for your success!",
@@ -52,7 +52,7 @@ const DashboardItems = () => {
             className="bg-white rounded-2xl shadow-md p-6 flex flex-col gap-4 hover:shadow-lg transition-all duration-300"
           >
             <div className="flex items-center gap-3">
-              <div className="bg-blue-100 p-3 rounded-full">
+              <div className="bg-brandRed-100 p-3 rounded-full">
                 {item.icon}
               </div>
               <h3 className="text-lg font-semibold text-gray-800">
@@ -70,7 +70,7 @@ const DashboardItems = () => {
                   <a
                     key={i}
                     href={link.href}
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-sm text-brandRed hover:underline"
                   >
                     {link.label}
                   </a>

@@ -39,7 +39,7 @@ const managers = [
                   className="w-20 h-20 rounded-full object-cover"
                 />
                 <div className="text-center sm:text-left">
-                  <h3 className="text-lg font-semibold text-blue-600">
+                  <h3 className="text-lg font-semibold text-black">
                     {manager.name}
                   </h3>
                   <p className="text-sm text-gray-600">{manager.title}</p>

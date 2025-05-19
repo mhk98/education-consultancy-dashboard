@@ -4,7 +4,7 @@ export default [
     name: 'Chandler Jacobi',
     job: 'Direct Security Executive',
     amount: 989.4,
-    status: 'primary',
+    status: 'brandRed',
     date: 'Mon Feb 03 2020 04:13:15 GMT-0300 (Brasilia Standard Time)',
   },
   {
@@ -60,7 +60,7 @@ export default [
     name: 'Ceasar Sauer',
     job: 'Direct Brand Specialist',
     amount: 488.0,
-    status: 'primary',
+    status: 'brandRed',
     date: 'Tue Jul 23 2019 00:24:44 GMT-0300 (Brasilia Standard Time)',
   },
   {

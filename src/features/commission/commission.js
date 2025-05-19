@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const CommissionApi = createApi({
   reducerPath: "CommissionApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://education-consultancy-backend.onrender.com/api/v1/",
+    baseUrl: "http://localhost:5000/api/v1/",
   }),
 
   tagTypes: ["commission"], // Define the tag type
@@ -57,9 +57,9 @@ export const CommissionApi = createApi({
 });
 
 export const {
- useCreateCommissionMutation,
- useGetAllCommissionQuery,
- useUpdateCommissionMutation,
- useDeleteCommissionMutation,
- useGetDataByIdQuery
+useCreateCommissionMutation,
+useGetAllCommissionQuery,
+useUpdateCommissionMutation,
+useDeleteCommissionMutation,
+useGetDataByIdQuery
 } = CommissionApi;

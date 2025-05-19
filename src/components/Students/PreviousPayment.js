@@ -48,7 +48,7 @@ export default function PreviousPayment({id}) {
                 <td className="p-3 whitespace-nowrap">{payment.transactionId}</td>
                 <td className="p-3 whitespace-nowrap">{payment.paymentStatus}</td>
                 <td className="p-3 whitespace-nowrap">{payment.status}</td>
-                <td className="p-3 whitespace-nowrap text-blue-600 cursor-pointer">
+                <td className="p-3 whitespace-nowrap text-brandRed cursor-pointer">
                   Invoice
                 </td>
               </tr>

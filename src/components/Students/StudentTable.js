@@ -3,21 +3,42 @@ import { FaTrash } from "react-icons/fa";
 import { LiaEditSolid } from "react-icons/lia";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { useGetAllUserQuery } from "../../features/auth/auth";
+import axios from "axios";
 
 export default function StudentTable() {
-  const { data, isLoading, isError, error } = useGetAllUserQuery();
   const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (isError) {
-      console.log("Error fetching", error);
-    } else if (!isLoading && data) {
-      const filteredStudents = data.data.filter(
-        (user) => user.Profile === "active" && user.Role === "student"
-      );
-      setStudents(filteredStudents);
-    }
-  }, [data, isLoading, isError, error]);
+    const fetchStudents = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get("http://localhost:5000/api/v1/user"); // Change to your actual API endpoint
+        const allUsers = Array.isArray(res.data?.data)
+          ? res.data.data
+          : res.data?.users || [];
+
+        const filtered = allUsers.filter(
+          (user) =>
+            user?.Profile?.toLowerCase() === "active" &&
+            user?.Role?.toLowerCase() === "student"
+        );
+
+        setStudents(filtered);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching users:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
+  console.log("students", students);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -63,7 +84,7 @@ export default function StudentTable() {
                 <td className="p-3 whitespace-nowrap">{student.Phone}</td>
                 <td className="p-3 whitespace-nowrap">{student.Assigned}</td>
                 <td className="p-3 whitespace-nowrap">{student.Status}</td>
-                <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
+                <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                   <Link to={`/app/editprofile/${student.id}`}>
                     <LiaEditSolid className="cursor-pointer" />
                   </Link>

@@ -5,6 +5,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from '@windmill/re
 import { Input, HelperText, Label, Select, Textarea } from '@windmill/react-ui'
 import { useGetDataByIdQuery, useUpdateProfileMutation } from "../../features/profile/profile";
 import toast from "react-hot-toast";
+import { backgroundColor } from "tailwindcss/defaultTheme";
 
 const PersonalInformation = ({id}) => {
   // const [data, setData] = useState(null);
@@ -87,7 +88,7 @@ console.log("profile", profile)
       {/* Personal Info */}
       <div className="card">
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+        <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
           <FaInfoCircle className="w-5 h-5" />
           Personal Information
         </div>
@@ -100,7 +101,7 @@ console.log("profile", profile)
             });
             setIsModalOpen(true)
           }}
-          className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm"
+          className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
         >
           Request Edit
         </button>
@@ -175,7 +176,7 @@ console.log("profile", profile)
               </button> */}
               <Button type="submit"
                 onClick={handleSubmit}
-                className="btn btn-primary"
+                className="btn" style={{backgroundColor:"#C71320"}}
               >
                 Save
               </Button>
@@ -188,7 +189,7 @@ console.log("profile", profile)
  
       <div className="card ">
       <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
               <FaInfoCircle className="w-5 h-5" />
               Mailing Address
             </div>
@@ -201,7 +202,7 @@ console.log("profile", profile)
               // });
               setIsModalOpen1(true)
             }}
-            className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm">Request Edit</button>
+            className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm">Request Edit</button>
           </div>
         <div className="card-body p-12 shadow-md bg-base-100 rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -321,7 +322,7 @@ console.log("profile", profile)
   </div>
 
   <div className="flex justify-end gap-2 mt-6">
-    <Button type="submit" className="btn btn-primary">
+    <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
       Save
     </Button>
   </div>
@@ -334,7 +335,7 @@ console.log("profile", profile)
 
       <div className="card ">
       <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
               <FaInfoCircle className="w-5 h-5" />
               Permanent Address
             </div>
@@ -345,7 +346,7 @@ console.log("profile", profile)
               //   maritalStatus: profile?.maritalStatus || "",
               // });
               setIsModalOpen2(true)
-            }} className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm">Request Edit</button>
+            }} className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm">Request Edit</button>
           </div>
         <div className="card-body p-12 shadow-md bg-base-100 rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -466,7 +467,7 @@ console.log("profile", profile)
   </div>
 
   <div className="flex justify-end gap-2 mt-6">
-    <Button type="submit" className="btn btn-primary">
+    <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
       Save
     </Button>
   </div>
@@ -479,7 +480,7 @@ console.log("profile", profile)
       {/* Passport Information */}
       <div className="card ">
       <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
               <FaInfoCircle className="w-5 h-5" />
               Passport Information
             </div>
@@ -490,7 +491,7 @@ console.log("profile", profile)
               //   maritalStatus: profile?.maritalStatus || "",
               // });
               setIsModalOpen3(true)
-            }} className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm">Request Edit</button>
+            }} className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm">Request Edit</button>
           </div>
         <div className="card-body p-12 shadow-md bg-base-100 rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -617,9 +618,9 @@ console.log("profile", profile)
 
   {/* Action Buttons */}
   <div className="flex justify-end gap-2 mt-6">
-    <button type="submit" className="btn btn-primary">
+  <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
       Save
-    </button>
+    </Button>
   </div>
 </form>
 
@@ -631,7 +632,7 @@ console.log("profile", profile)
       {/* Nationality */}
       <div className="card ">
       <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
               <FaInfoCircle className="w-5 h-5" />
               Nationality
             </div>
@@ -642,7 +643,7 @@ console.log("profile", profile)
               //   maritalStatus: profile?.maritalStatus || "",
               // });
               setIsModalOpen4(true)
-            }} className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm">Request Edit</button>
+            }} className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm">Request Edit</button>
           </div>
         <div className="card-body p-12 shadow-md bg-base-100 rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -753,9 +754,9 @@ console.log("profile", profile)
   {/* Submit Buttons */}
   <div className="flex justify-end gap-2 mt-6">
    
-    <button type="submit" className="btn btn-primary">
+  <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
       Save
-    </button>
+    </Button>
   </div>
 </form>
 
@@ -768,7 +769,7 @@ console.log("profile", profile)
       {/* Background Info */}
       <div className="card ">
       <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
               <FaInfoCircle className="w-5 h-5" />
               Background Info
             </div>
@@ -779,7 +780,7 @@ console.log("profile", profile)
               //   maritalStatus: profile?.maritalStatus || "",
               // });
               setIsModalOpen5(true)
-            }} className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm">Request Edit</button>
+            }} className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm">Request Edit</button>
           </div>
         <div className="card-body p-12 shadow-md bg-base-100 rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -895,9 +896,9 @@ console.log("profile", profile)
   {/* Buttons */}
   <div className="flex justify-end gap-2 mt-6">
 
-    <button type="submit" className="btn btn-primary">
+  <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
       Save
-    </button>
+    </Button>
   </div>
 </form>
 
@@ -910,7 +911,7 @@ console.log("profile", profile)
       {/* Important Contacts*/}
       <div className="card ">
       <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
               <FaInfoCircle className="w-5 h-5" />
               Important Contacts
             </div>
@@ -921,7 +922,7 @@ console.log("profile", profile)
               //   maritalStatus: profile?.maritalStatus || "",
               // });
               setIsModalOpen6(true)
-            }} className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm">Request Edit</button>
+            }} className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm">Request Edit</button>
           </div>
         <div className="card-body p-12 shadow-md bg-base-100 rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1019,9 +1020,9 @@ console.log("profile", profile)
   {/* Buttons */}
   <div className="flex justify-end gap-2 mt-6">
    
-    <button type="submit" className="btn btn-primary">
+  <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
       Save
-    </button>
+    </Button>
   </div>
 </form>
 
@@ -1033,7 +1034,7 @@ console.log("profile", profile)
       {/* Additional Information */}
       <div className="card ">
       <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
               <FaInfoCircle className="w-5 h-5" />
               Additional Information
             </div>
@@ -1044,7 +1045,7 @@ console.log("profile", profile)
               //   maritalStatus: profile?.maritalStatus || "",
               // });
               setIsModalOpen7(true)
-            }} className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm">Request Edit</button>
+            }} className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm">Request Edit</button>
           </div>
         <div className="card-body p-8 shadow-md bg-base-100 rounded-md">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1081,9 +1082,9 @@ console.log("profile", profile)
   {/* Buttons */}
   <div className="flex justify-end gap-2 mt-6">
 
-    <button type="submit" className="btn btn-primary">
+  <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
       Save
-    </button>
+    </Button>
   </div>
 </form>
 

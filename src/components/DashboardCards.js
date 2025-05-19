@@ -20,7 +20,7 @@ const DashboardCards = () => {
     {
       label: "Submitted",
       count: submittedOptions[selectedSubmitted],
-      border: "border-l-4 border-blue-500",
+      border: "border-l-4 border-brandRed",
       dropdown: {
         value: selectedSubmitted,
         onChange: (e) => setSelectedSubmitted(e.target.value),
@@ -30,7 +30,7 @@ const DashboardCards = () => {
     {
       label: "Offers",
       count: offersOptions[selectedOffers],
-      border: "border-l-4 border-blue-500",
+      border: "border-l-4 border-brandRed",
       dropdown: {
         value: selectedOffers,
         onChange: (e) => setSelectedOffers(e.target.value),

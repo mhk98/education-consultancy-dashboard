@@ -29,10 +29,10 @@
 
 //   return (
 //     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800">
-//       <div className="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+//       <div className="container flex items-center justify-between h-full px-6 mx-auto text-brandRed dark:text-brandRed">
 //         {/* <!-- Mobile hamburger --> */}
 //         <button
-//           className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
+//           className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-brandRed"
 //           onClick={toggleSidebar}
 //           aria-label="Menu"
 //         >
@@ -40,7 +40,7 @@
 //         </button>
 //         {/* <!-- Search input --> */}
 //         <div className="flex justify-center flex-1 lg:mr-32">
-//           <div className="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
+//           <div className="relative w-full max-w-xl mr-6 focus-within:text-brandRed">
 //             <div className="absolute inset-y-0 flex items-center pl-2">
 //               <SearchIcon className="w-4 h-4" aria-hidden="true" />
 //             </div>
@@ -55,7 +55,7 @@
 //           {/* <!-- Theme toggler --> */}
 //           <li className="flex">
 //             <button
-//               className="rounded-md focus:outline-none focus:shadow-outline-purple"
+//               className="rounded-md focus:outline-none focus:shadow-outline-brandRed"
 //               onClick={toggleMode}
 //               aria-label="Toggle color mode"
 //             >
@@ -69,7 +69,7 @@
 //           {/* <!-- Notifications menu --> */}
 //           <li className="relative">
 //             <button
-//               className="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+//               className="relative align-middle rounded-md focus:outline-none focus:shadow-outline-brandRed"
 //               onClick={handleNotificationsClick}
 //               aria-label="Notifications"
 //               aria-haspopup="true"
@@ -103,7 +103,7 @@
 //           {/* <!-- Profile menu --> */}
 //           <li className="relative">
 //             <button
-//               className="rounded-full focus:shadow-outline-purple focus:outline-none"
+//               className="rounded-full focus:shadow-outline-brandRed focus:outline-none"
 //               onClick={handleProfileClick}
 //               aria-label="Account"
 //               aria-haspopup="true"
@@ -174,7 +174,7 @@ export default function Header() {
       {/* <h1 className="text-lg font-bold text-gray-800 dark:text-gray-200">Windmill</h1> */}
      {/* <!-- Mobile hamburger --> */}
          <button
-           className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
+           className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-brandRed"
           onClick={toggleSidebar}
            aria-label="Menu"
          >
@@ -182,7 +182,7 @@ export default function Header() {
          </button>
       {/* Search Input */}
       <div className="flex justify-center flex-1 lg:mr-32">
-           <div className="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
+           <div className="relative w-full max-w-xl mr-6 focus-within:text-brandRed">
              <div className="absolute inset-y-0 flex items-center pl-2">
                <SearchIcon className="w-4 h-4" aria-hidden="true" />
              </div>
@@ -196,13 +196,13 @@ export default function Header() {
 
       {/* Icons and Avatar */}
       <div className="flex items-center space-x-4">
-        <button onClick={toggleMode} className="text-purple-600 focus:outline-none">
+        <button onClick={toggleMode} className="text-brandRed focus:outline-none">
           <MoonIcon className="w-5 h-5" />
         </button>
         
         {/* Notification Icon with Dropdown */}
         <div className="relative">
-          <button onClick={toggleNotification} className="text-purple-600 focus:outline-none">
+          <button onClick={toggleNotification} className="text-brandRed focus:outline-none">
             <BellIcon className="w-5 h-5" />
             <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-red-600 rounded-full" />
           </button>
@@ -219,7 +219,7 @@ export default function Header() {
 
         {/* Profile Icon with Dropdown */}
         <div className="relative">
-          <button onClick={toggleProfile} className="text-purple-600 focus:outline-none">
+          <button onClick={toggleProfile} className="text-brandRed focus:outline-none">
             <img
               className="w-8 h-8 rounded-full object-cover"
               src="https://i.pravatar.cc/300"

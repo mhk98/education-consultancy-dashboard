@@ -160,7 +160,7 @@ function Programs() {
                   )}
           <button
             type="submit"
-            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-brandRed text-white px-4 py-2 rounded hover:bg-brandRed-700"
           >
             Submit
           </button>
@@ -180,7 +180,7 @@ function Programs() {
                   )}
           <button
             type="submit"
-            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-brandRed text-white px-4 py-2 rounded hover:bg-brandRed-700"
           >
             Submit
           </button>
@@ -200,7 +200,7 @@ function Programs() {
                   )}
           <button
             type="submit"
-            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-brandRed text-white px-4 py-2 rounded hover:bg-brandRed-700"
           >
             Submit
           </button>
@@ -220,7 +220,7 @@ function Programs() {
                   )}
           <button
             type="submit"
-            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-brandRed text-white px-4 py-2 rounded hover:bg-brandRed-700"
           >
             Submit
           </button>
@@ -240,7 +240,7 @@ function Programs() {
                   )}
           <button
             type="submit"
-            className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-brandRed text-white px-4 py-2 rounded hover:bg-brandRed-700"
           >
             Submit
           </button>

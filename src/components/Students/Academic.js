@@ -59,7 +59,7 @@ const Academic = ({id}) => {
         <div className="p-4 space-y-6  mx-auto">
              <div className="card">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+                    <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
                       <FaInfoCircle className="w-5 h-5" />
                       Grade 12th or equivalent
                     </div>
@@ -72,7 +72,7 @@ const Academic = ({id}) => {
                         });
                         setIsModalOpen(true)
                       }}
-                      className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm"
+                      className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
                     >
                       Request Edit
                     </button>
@@ -82,8 +82,8 @@ const Academic = ({id}) => {
                         academic? (
                             <div className="card-body p-8 shadow-md bg-base-100 rounded-md">
                             <div className="grid grid-cols-1 gap-4">
-                              <h2 className="text-lg font-bold text-blue-700">{academic?.twelvethBoard}</h2>
-                                <h3 className="text-md font-semibold text-blue-600 mt-1">{academic?.twelvethInstitution}</h3>
+                              <h2 className="text-lg font-bold text-brandRed-700">{academic?.twelvethBoard}</h2>
+                                <h3 className="text-md font-semibold text-brandRed mt-1">{academic?.twelvethInstitution}</h3>
                                 <p className="text-gray-700">{academic?.twelvethLocation}</p>
                                 <p className="text-gray-500 mt-2">
                                     Attended From <span className="font-medium">{academic?.twelvethStartDate}</span> to <span className="font-medium">{academic?.twelvethEndDate}</span>
@@ -169,7 +169,7 @@ const Academic = ({id}) => {
                           </button> */}
                           <Button type="submit"
                             onClick={handleSubmit}
-                            className="btn btn-primary"
+                            className="btn" style={{backgroundColor:"#C71320"}}
                           >
                             Save
                           </Button>
@@ -181,7 +181,7 @@ const Academic = ({id}) => {
 
                  <div className="card">
                       <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+                        <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
                           <FaInfoCircle className="w-5 h-5" />
                           Grade 10th or equivalent
                         </div>
@@ -194,7 +194,7 @@ const Academic = ({id}) => {
                             });
                             setIsModalOpen1(true)
                           }}
-                          className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm"
+                          className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
                         >
                           Request Edit
                         </button>
@@ -205,8 +205,8 @@ const Academic = ({id}) => {
                                 <div className="card-body p-8 shadow-md bg-base-100 rounded-md">
                                 <div className="card-body p-8 ">
                           <div className="grid grid-cols-1 gap-4">
-                            <h2 className="text-lg font-bold text-blue-700">{academic?.tenthBoard}</h2>
-                              <h3 className="text-md font-semibold text-blue-600 mt-1">{academic?.tenthInstitution}</h3>
+                            <h2 className="text-lg font-bold text-brandRed-700">{academic?.tenthBoard}</h2>
+                              <h3 className="text-md font-semibold text-brandRed mt-1">{academic?.tenthInstitution}</h3>
                               <p className="text-gray-700">{academic?.tenthLocation}</p>
                               <p className="text-gray-500 mt-2">
                                   Attended From <span className="font-medium">{academic?.tenthStartDate}</span> to <span className="font-medium">{academic?.tenthEndDate}</span>
@@ -293,7 +293,7 @@ const Academic = ({id}) => {
                           </button> */}
                           <Button type="submit"
                             onClick={handleSubmit}
-                            className="btn btn-primary"
+                           className="btn" style={{backgroundColor:"#C71320"}}
                           >
                             Save
                           </Button>

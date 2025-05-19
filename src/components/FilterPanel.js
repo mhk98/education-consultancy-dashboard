@@ -96,7 +96,7 @@ const FilterPanel = () => {
 
         {/* Apply Button */}
         <div className="lg:col-span-5 text-left">
-          <button className="w-full md:w-auto border border-blue-500 text-blue-600 font-medium rounded-md px-4 py-2 hover:bg-blue-50 transition">
+          <button className="w-full md:w-auto border border-brandRed text-brandRed font-medium rounded-md px-4 py-2 hover:bg-brandRed-50 transition">
             Apply Filter
           </button>
         </div>

@@ -3,9 +3,9 @@ import React from "react"
 
 const quickLinks = [
   { name: "Commission Structure", href: "#" },
-  { name: "KC Represented Universities", href: "#" },
+  { name: "EduAnchor Represented Universities", href: "#" },
   { name: "Contact List", href: "#" },
-  { name: "Webinars by KC", href: "#" },
+  { name: "Webinars by EduAnchor", href: "#" },
   { name: "Webinars by Institutions", href: "#" },
   { name: "Flywire Payments", href: "#" },
   { name: "Profile", href: "#" },
@@ -24,7 +24,7 @@ export default function QuickLinks() {
           >
             <a
               href={link.href}
-              className="text-blue-600 hover:underline text-base sm:text-lg font-medium"
+              className="text-black hover:underline text-base sm:text-lg font-medium"
               target="_blank"
               rel="noopener noreferrer"
             >

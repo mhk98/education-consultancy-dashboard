@@ -98,7 +98,7 @@ const StudentPayment = () => {
 
         {/* Right: Buttons */}
         {/* <div className="">
-          <button className="flex items-center sm:flex-row gap-3 px-4 py-2 bg-white text-blue-600 border-2 border-blue-600 rounded-md text-sm md:text-base transition">
+          <button className="flex items-center sm:flex-row gap-3 px-4 py-2 bg-white text-brandRed border-2 border-brandRed rounded-md text-sm md:text-base transition">
             <span>Export Application Data </span>
             <TbDownload />
           </button>
@@ -132,7 +132,7 @@ const StudentPayment = () => {
                 <td className="p-3 whitespace-nowrap">{student.amount}</td>
                 <td className="p-3 whitespace-nowrap">{student.refundCondition}</td>
                 <td className="p-3 whitespace-nowrap">{student?.status}</td>
-                <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
+                <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                                   <Link to={`/app/editprofile/${student.id}`}>
                                     <LiaEditSolid className="cursor-pointer" />
                                   </Link>
@@ -181,7 +181,7 @@ const StudentPayment = () => {
                                                           </div>
                                                         
                                                           <div className="flex justify-end gap-2 mt-6">
-                                                            <Button type="submit" className="btn btn-primary">
+                                                            <Button type="submit" className="btn btn-brandRed">
                                                               Save
                                                             </Button>
                                                           </div>

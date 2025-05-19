@@ -1,17 +1,17 @@
 export const doughnutLegends = [
-  { title: 'Shirts', color: 'bg-blue-500' },
+  { title: 'Shirts', color: 'bg-brandRed' },
   { title: 'Shoes', color: 'bg-teal-600' },
-  { title: 'Bags', color: 'bg-purple-600' },
+  { title: 'Bags', color: 'bg-brandRed' },
 ]
 
 export const lineLegends = [
   { title: 'Organic', color: 'bg-teal-600' },
-  { title: 'Paid', color: 'bg-purple-600' },
+  { title: 'Paid', color: 'bg-brandRed' },
 ]
 
 export const barLegends = [
   { title: 'Shoes', color: 'bg-teal-600' },
-  { title: 'Bags', color: 'bg-purple-600' },
+  { title: 'Bags', color: 'bg-brandRed' },
 ]
 
 export const doughnutOptions = {
@@ -112,7 +112,7 @@ export const barOptions = {
       {
         label: 'Bags',
         backgroundColor: '#7e3af2',
-        // borderColor: window.chartColors.blue,
+        // borderColor: window.chartColors.brandRed,
         borderWidth: 1,
         data: [66, 33, 43, 12, 54, 62, 84],
       },

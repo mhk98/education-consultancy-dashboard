@@ -86,7 +86,7 @@ export default function WalletTable() {
                   {student.transStatus}
                 </span>
               </td>
-              <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
+              <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                 <FaLink className="cursor-pointer" />
                 <FaTrash className="cursor-pointer text-red-500" />
               </td>

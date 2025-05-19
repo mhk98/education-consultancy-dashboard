@@ -126,7 +126,7 @@ const ApplyProgram = ({ id }) => {
   return (
     <div className="bg-gray-50 p-4 rounded shadow-sm w-full">
       <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
-        <h2 className="text-lg font-semibold text-blue-600">Quick Add Program</h2>
+        <h2 className="text-lg font-semibold text-brandRed">Quick Add Program</h2>
       </div>
 
       <div className="bg-white p-4 rounded border border-gray-200 mb-4 text-sm text-gray-600">
@@ -214,7 +214,7 @@ const ApplyProgram = ({ id }) => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="bg-blue-500 mt-4 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center justify-center gap-2 text-sm"
+          className="bg-brandRed mt-4 hover:bg-brandRed text-white px-4 py-2 rounded flex items-center justify-center gap-2 text-sm"
         >
           <FaPlus /> Add
         </button>

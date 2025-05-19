@@ -57,7 +57,7 @@ const Tests = ({id}) => {
         <div className="p-4 space-y-6  mx-auto">
              <div className="card">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm">
+                    <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
                       <MdOutlineGrading  className="w-5 h-5"/>
                       IELTS
                     </div>
@@ -70,7 +70,7 @@ const Tests = ({id}) => {
                         });
                         setIsModalOpen(true)
                       }}
-                      className="btn btn-outline btn-sm text-blue-600 bg-blue-100 p-2 rounded-sm"
+                      className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
                     >
                       Request Edit
                     </button>
@@ -210,7 +210,7 @@ const Tests = ({id}) => {
       </div>
 
       <div className="flex justify-end gap-2 mt-4">
-        <Button type="submit" className="btn btn-primary">
+        <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
           Save
         </Button>
       </div>

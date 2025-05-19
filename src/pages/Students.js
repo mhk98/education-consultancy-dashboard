@@ -56,6 +56,7 @@ function Students() {
   const Last_Name = localStorage.getItem("LastName")
 
     const onFormSubmit = async (data) => {
+      const role = "student"
       console.log("formData", data)
 		const formData = new FormData();
 		formData.append("FirstName", data.FirstName);
@@ -65,7 +66,7 @@ function Students() {
 		formData.append("Email", data.Email);
 		formData.append("Password", data.Password);
 		formData.append("Phone", data.Phone); 
-		formData.append("Role", data.Role); 
+		formData.append("Role", role); 
 		if (image) {
 			formData.append("image", image);
 		}
@@ -100,14 +101,14 @@ function Students() {
         {/* Right: Buttons */}
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Request Program Options */}
-          <button className="px-4 py-2 bg-white text-blue-600 border-2 border-blue-600 rounded-md text-sm md:text-base transition">
+          <button className="px-4 py-2 bg-white text-brandRed border-2 border-brandRed rounded-md text-sm md:text-base transition">
             <Link to="/app/archive-student">Archived Students</Link>
           </button>
 
           {/* Register New Student */}
           <button  onClick={() => {
             setIsModalOpen(true)
-          }} className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm md:text-base hover:bg-blue-700 transition">
+          }} className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
             + Register New Student
           </button>
 
@@ -183,7 +184,7 @@ function Students() {
             </div>
           
             <div className="flex justify-end gap-2 mt-6">
-              <Button type="submit" className="btn btn-primary">
+              <Button type="submit" className="btn btn-brandRed">
                 Save
               </Button>
             </div>

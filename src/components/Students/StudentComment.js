@@ -125,14 +125,14 @@ export default Comment
     //                     <h2 class="text-center md:text-left">---Replies---</h2>
     //                     <div class="space-y-2">
     //                         {comment?.replies?.length >= 0 && comment?.replies?.map((r, index) => {
-    //                             return <p class="ml-4 bg-blue-600 px-2 text-white" key={r?._id}>{r?.reply}</p>
+    //                             return <p class="ml-4 bg-brandRed px-2 text-white" key={r?._id}>{r?.reply}</p>
     //                         })}
     //                     </div>
     //                 </div>
     //                 <div class="flex flex-col space-y-2 md:flex-row md:justify-end md:space-y-0">
     //                     <form onSubmit={submitHandler} class="flex space-x-2">
-    //                         <input type="text" value={reply} onChange={(e) => setReply(e.target.value)} placeholder="reply" class="flex-1 border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-    //                         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Reply</button>
+    //                         <input type="text" value={reply} onChange={(e) => setReply(e.target.value)} placeholder="reply" class="flex-1 border rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-brandRed" />
+    //                         <button type="submit" class="bg-brandRed text-white px-4 py-2 rounded-md hover:bg-brandRed-700 focus:outline-none focus:ring-2 focus:ring-brandRed">Reply</button>
     //                     </form>
     //                 </div>
     //             </div>

@@ -38,7 +38,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://education-consultancy-backend.onrender.com/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
+        `http://localhost:5000/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -64,7 +64,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!newComment.trim()) return;
     try {
       await axios.post(
-        "https://education-consultancy-backend.onrender.com/api/v1/studentComment/create",
+        "http://localhost:5000/api/v1/studentComment/create",
         {
           user_id,
           application_id: selectedProgram.id,
@@ -86,7 +86,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!replyText?.trim()) return;
     try {
       await axios.post(
-        "https://education-consultancy-backend.onrender.com/api/v1/studentReply/create",
+        "http://localhost:5000/api/v1/studentReply/create",
         {
           user_id,
           studentComment_id: commentId,
@@ -104,7 +104,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchKCComments = async () => {
     try {
       const res = await axios.get(
-        `https://education-consultancy-backend.onrender.com/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
+        `http://localhost:5000/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
       );
       setKCComments(res.data.data);
     } catch (err) {
@@ -116,7 +116,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!newKCComment.trim()) return;
     try {
       await axios.post(
-        "https://education-consultancy-backend.onrender.com/api/v1/kcComment/create",
+        "http://localhost:5000/api/v1/kcComment/create",
         {
           user_id,
           application_id: selectedProgram.id,
@@ -138,7 +138,7 @@ const AppliedProgram = ({ user_id }) => {
     if (!replyText?.trim()) return;
     try {
       await axios.post(
-        "https://education-consultancy-backend.onrender.com/api/v1/kcReply/create",
+        "http://localhost:5000/api/v1/kcReply/create",
         {
           user_id,
           kcComment_id: commentId,
@@ -192,7 +192,7 @@ const AppliedProgram = ({ user_id }) => {
                 />
                 <button
                   onClick={() => handleReplySubmitFunc(comment.id)}
-                  className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                  className="text-sm bg-[#C71320] text-white px-3 py-1 rounded"
                 >
                   Reply
                 </button>
@@ -214,7 +214,7 @@ const AppliedProgram = ({ user_id }) => {
             onClick={() => setSelectedProgram(item)}
             className={`border rounded-md cursor-pointer transition-all ${
               selectedProgram?.id === item.id
-                ? "border-blue-500 bg-blue-50"
+                ? "border-brandRed bg-brandRed-50"
                 : "border-gray-300"
             }`}
           >
@@ -266,17 +266,17 @@ const AppliedProgram = ({ user_id }) => {
                 <button
                   className={`px-4 py-2 text-sm font-medium ${
                     tab === "kc"
-                      ? "text-blue-600 border-b-2 border-blue-600"
+                      ? "text-brandRed border-b-2 border-brandRed"
                       : "text-gray-600"
                   }`}
                   onClick={() => setTab("kc")}
                 >
-                  KC Team
+                  EduAnchor Team
                 </button>
                 <button
                   className={`px-4 py-2 text-sm font-medium ${
                     tab === "student"
-                      ? "text-blue-600 border-b-2 border-blue-600"
+                      ? "text-brandRed border-b-2 border-brandRed"
                       : "text-gray-600"
                   }`}
                   onClick={() => setTab("student")}
@@ -304,7 +304,7 @@ const AppliedProgram = ({ user_id }) => {
                       className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
                     />
                     <button
-                      className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+                      className="bg-brandRed text-white p-2 rounded hover:bg-brandRed"
                       onClick={handleCommentSubmit}
                     >
                       <FiSend size={20} />
@@ -330,7 +330,7 @@ const AppliedProgram = ({ user_id }) => {
                       className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm"
                     />
                     <button
-                      className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+                      className="bg-brandRed text-white p-2 rounded hover:bg-brandRed"
                       onClick={handleKCCommentSubmit}
                     >
                       <FiSend size={20} />

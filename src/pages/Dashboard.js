@@ -62,28 +62,28 @@ function Dashboard() {
         {/* Left: Title and Subtitle */}
         <div>
           <h4 className="text-2xl md:text-md font-semibold text-gray-900">Dashboard</h4>
-          <p className="text-sm md:text-sm text-gray-500 mt-1">Welcome to coursefinder Portal</p>
+          <p className="text-sm md:text-sm text-gray-500 mt-1">Welcome to EduAnchor Portal</p>
         </div>
 
         {/* Right: Buttons */}
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Flywire Button */}
-          <button className="flex items-center justify-center gap-2 px-4 py-2 border border-blue-500 text-blue-600 rounded-md hover:bg-blue-50 transition">
+          <button className="flex items-center justify-center gap-2 px-4 py-2 border border-brandRed text-brandRed rounded-md hover:bg-brandRed-50 transition">
             <span className="text-sm md:text-base">Pay Fees via</span>
-            <img
-              src="https://cdn.flywire.com/assets/images/logos/flywire/flywire-logo-blue.svg"
+            {/* <img
+              src="https://cdn.flywire.com/assets/images/logos/flywire/flywire-logo-brandRed.svg"
               alt="Flywire"
               className="h-5"
-            />
+            /> */}
           </button>
 
           {/* Request Program Options */}
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm md:text-base hover:bg-blue-700 transition">
-            + Request Program Options from KC Team
+          <button className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
+            + Request Program Options from EduAnchor Team
           </button>
 
           {/* Register New Student */}
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm md:text-base hover:bg-blue-700 transition">
+          <button className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
             + Register New Student
           </button>
         </div>
@@ -115,8 +115,8 @@ function Dashboard() {
         <InfoCard title="New sales" value="376">
           <RoundIcon
             icon={CartIcon}
-            iconColorClass="text-blue-500 dark:text-blue-100"
-            bgColorClass="bg-blue-100 dark:bg-blue-500"
+            iconColorClass="text-brandRed dark:text-brandRed-100"
+            bgColorClass="bg-brandRed-100 dark:bg-brandRed"
             className="mr-4"
           />
         </InfoCard>

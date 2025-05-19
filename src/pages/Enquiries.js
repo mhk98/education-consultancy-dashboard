@@ -9,6 +9,7 @@ import Select from 'react-select'; // Correct select import
 import { Label } from '@windmill/react-ui';
 import { useCreateEnquiriesMutation } from '../features/enquiries/enquiries';
 import EnquiriesArchivedPanel from '../components/Enquiries/EnquiriesArchivedPanel';
+import { backgroundColor } from 'tailwindcss/defaultTheme';
 
 const studyAreaOptions = [
   { value: 'engineering', label: 'Engineering' },
@@ -150,7 +151,7 @@ const id = localStorage.getItem("userId")
                         onChange={() => setEnquiryType('not-in')}
                         className="accent-blue-600"
                       />
-                      Student not in coursefinder.ai
+                      Student not in EduAnchor.ai
                     </label>
                     <label className="flex items-center gap-2">
                       <input
@@ -161,7 +162,7 @@ const id = localStorage.getItem("userId")
                         onChange={() => setEnquiryType('in')}
                         className="accent-blue-600"
                       />
-                      Student in coursefinder.ai
+                      Student in EduAnchor.ai
                     </label>
                   </div>
                 </div>
@@ -422,7 +423,7 @@ const id = localStorage.getItem("userId")
                   </div>
 
                     <div className="text-center">
-                      <Button type="submit">Request Course Options</Button>
+                      <Button style={{backgroundColor:"#C71320"}} type="submit">Request Course Options</Button>
                     </div>
                   </div>
                 )}
@@ -434,9 +435,9 @@ const id = localStorage.getItem("userId")
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="px-4 py-2 bg-brandRed text-white rounded-md"
           >
-            + Request Program Options from KC Team
+            + Request Program Options from EduAnchor Team
           </button>
         </div>
       </div>
@@ -445,20 +446,20 @@ const id = localStorage.getItem("userId")
         <div className="flex gap-4 text-sm font-medium mb-1">
           <span
             onClick={() => setActiveTab('requested')}
-            className={`cursor-pointer pb-1 ${isRequested ? 'text-blue-600' : 'text-gray-800'}`}
+            className={`cursor-pointer pb-1 ${isRequested ? 'text-brandRed' : 'text-gray-800'}`}
           >
             Requested
           </span>
           <span
             onClick={() => setActiveTab('paid')}
-            className={`cursor-pointer pb-1 ${!isRequested ? 'text-blue-600' : 'text-gray-800'}`}
+            className={`cursor-pointer pb-1 ${!isRequested ? 'text-brandRed' : 'text-gray-800'}`}
           >
             Archived
           </span>
         </div>
         <div className="h-1 bg-blue-100 rounded-full">
           <div
-            className="h-1 bg-blue-500 rounded-full transition-all duration-300"
+            className="h-1 bg-brandRed rounded-full transition-all duration-300"
             style={{ width: isRequested ? '10%' : '20%' }}
           ></div>
         </div>

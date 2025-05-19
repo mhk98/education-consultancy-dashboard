@@ -34,14 +34,14 @@ const StudentQRCard = () => {
         <div className="flex flex-col sm:flex-row gap-4">
           <button
             onClick={handleCopy}
-            className="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+            className="flex-1 border border-brandRed text-brandRed hover:bg-brandRed-50 px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
           >
             <span>Copy Link</span>
             <FaRegCopy />
           </button>
           <button
             onClick={handlePrint}
-            className="flex-1 bg-blue-600 text-white hover:bg-blue-700 px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+            className="flex-1 bg-brandRed text-white hover:bg-brandRed-700 px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
           >
             <span>Print QR</span>
             <FaPrint />

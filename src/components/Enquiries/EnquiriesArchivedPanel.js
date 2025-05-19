@@ -38,7 +38,7 @@ const EnquiriesArchivedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'https://education-consultancy-backend.onrender.com/'; // Adjust to your server's URL
+  const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
 
  const {
       register,
@@ -83,7 +83,7 @@ const EnquiriesArchivedPanel = () => {
             key={index}
             onClick={() => setSelected(item)}
             className={`border rounded-md p-4 mb-3 cursor-pointer ${
-              selected?.name === item.name ? "bg-green-50 border-blue-500" : "bg-white"
+              selected?.name === item.name ? "bg-green-50 border-brandRed" : "bg-white"
             }`}
           >
             <div className="flex justify-between items-center flex-wrap gap-2">
@@ -139,7 +139,7 @@ const EnquiriesArchivedPanel = () => {
                                                            </div>
                                                          
                                                            <div className="flex justify-end gap-2 mt-6">
-                                                             <Button type="submit" className="btn btn-primary">
+                                                             <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
                                                                Save
                                                              </Button>
                                                            </div>
@@ -182,7 +182,7 @@ const EnquiriesArchivedPanel = () => {
           <div className="flex flex-col gap-x-8 text-sm">
             <p>
               <span className="font-semibold">Assigned To:</span>{" "}
-              <span className="text-blue-600 font-medium">
+              <span className="text-brandRed font-medium">
                 {selected.assignedTo}
               </span>{" "}
               {/* — {selected.contact} */}
@@ -221,7 +221,7 @@ const EnquiriesArchivedPanel = () => {
                 {selected.files.map((file, index) => (
                   <button
                     key={index}
-                    className="text-blue-600 border border-blue-600 px-3 py-1 text-sm rounded"
+                    className="text-brandRed border border-brandRed px-3 py-1 text-sm rounded"
                   >
                     <a
                       href={`${fileBaseURL}${file.path.replace(/\\/g, '/')}`}

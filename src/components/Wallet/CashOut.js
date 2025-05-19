@@ -1,9 +1,7 @@
 import React from "react"
 import { useForm } from "react-hook-form";
-import { useCreateRequestPaymentMutation } from "../../features/requestPayment/requestPayment";
 import toast from "react-hot-toast";
 import { Input, Button } from '@windmill/react-ui'
-import { useCreateCashInMutation } from "../../features/cashIn/cashIn";
 import { useInitPendingPaymentMutation } from "../../features/pendingPayment/pendingPayment";
 
 
@@ -54,7 +52,7 @@ const CashIn = () => {
                    <div className="mb-4">
                                       <label className="block text-sm mb-1 text-gray-700">Transaction Id</label>
                                       <Input
-                                        type="number"
+                                        type="text"
                                         {...register("transactionId")}
                                         className="w-full p-3 shadow-md border rounded-md"
                                       />
@@ -121,7 +119,7 @@ const CashIn = () => {
         
                 {/* Submit Button */}
                 <div className="flex justify-end mt-6">
-                  <Button type="submit" className="btn btn-primary">
+                  <Button type="submit" className="btn btn-brandRed">
                    Submit Request
                   </Button>
                 </div>

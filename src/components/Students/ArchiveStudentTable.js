@@ -68,7 +68,7 @@ export default function ArchiveStudentTable() {
                 <td className="p-3 whitespace-nowrap">{student.Phone}</td>
                 <td className="p-3 whitespace-nowrap">{student.Assigned}</td>
                 <td className="p-3 whitespace-nowrap">{student.Status}</td>
-                <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
+                <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                   <Link>
                     <LiaEditSolid className="cursor-pointer" />
                   </Link>

@@ -114,7 +114,7 @@ console.log("users", users)
               <td className="p-3 whitespace-nowrap">{user.Phone}</td>
               <td className="p-3 whitespace-nowrap">{user.Role}</td>
               <td className="p-3 whitespace-nowrap">{user.Profile}</td>
-              <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
+              <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                 {/* <FaLink className="cursor-pointer" /> */}
                 <Link>
                 <BiSolidTrashAlt onClick={ () => handleDeleteUser(user.id)} fontSize={20} className="cursor-pointer text-red-500" />
@@ -167,7 +167,7 @@ console.log("users", users)
                           </div>
                         
                           <div className="flex justify-end gap-2 mt-6">
-                            <Button type="submit" className="btn btn-primary">
+                            <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
                               Save
                             </Button>
                           </div>

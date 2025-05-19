@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const TaskApi = createApi({
   reducerPath: "TaskApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://education-consultancy-backend.onrender.com/api/v1/",
+    baseUrl: "http://localhost:5000/api/v1/",
   }),
 
   tagTypes: ["task"], // Define the tag type
@@ -35,8 +35,10 @@ export const TaskApi = createApi({
     }),
 
     getAllTask: build.query({
-      query: () => ({
+      query: ({branch, user_id}) => ({
         url: "/task",
+        params: { branch, user_id }
+
       }),
       providesTags: ["task"],
 
@@ -45,8 +47,8 @@ export const TaskApi = createApi({
     }),
 
     getDataById: build.query({
-      query: (id) => ({
-        url: `task/${id}`,
+      query: (user_id) => ({
+        url: `task/${user_id}`,
       }),
       providesTags: ["task"],
 

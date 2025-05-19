@@ -30,14 +30,14 @@ const id = localStorage.getItem("userId")
         {/* Right: Buttons */}
         <div className="flex items-center sm:flex-row gap-3">
           <p>Balance:</p>
-          <button className="px-4 py-2 flex items-center bg-white text-blue-600 border-2 border-blue-600 rounded-md text-sm md:text-base transition">
+          <button className="px-4 py-2 flex items-center bg-white text-brandRed border-2 border-brandRed rounded-md text-sm md:text-base transition">
           <TbCurrencyTaka /> 0
           </button>
 
           {/* Register New Student */}
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm md:text-base hover:bg-blue-700 transition">
+          {/* <button className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
             ADD MONEY
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
@@ -48,13 +48,13 @@ const id = localStorage.getItem("userId")
       <div className="p-4 md:p-8 w-full mx-auto">
         {/* Navigation Steps */}
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 items-center">
-          <div onClick={() => setActiveTab("amount")} className={`flex flex-col items-center cursor-pointer ${isamount ? "bg-purple-600 text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
+          <div onClick={() => setActiveTab("amount")} className={`flex flex-col items-center cursor-pointer ${isamount ? "bg-brandRed text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
             <h1  className="mt-1 text-xl">Amount</h1>
           </div>
           <div  onClick={() => setActiveTab("cashIn")}
-          className={`flex flex-col items-center cursor-pointer ${iscashIn ? "bg-purple-600 text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
+          className={`flex flex-col items-center cursor-pointer ${iscashIn ? "bg-brandRed text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
             {/* className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-medium ${
-      isFinance ? "bg-blue-600 text-white" : "bg-gray-200"
+      isFinance ? "bg-brandRed text-white" : "bg-gray-200"
     }`} */}
             <h1 className="mt-1 text-xl">Cash In</h1>
 
@@ -65,7 +65,7 @@ const id = localStorage.getItem("userId")
             <span className="mt-1 text-sm text-gray-700">Work Experience</span>
           </div> */}
           <div 
-              onClick={() => setActiveTab("cashOut")}  className={`flex flex-col items-center cursor-pointer ${iscashOut ? "bg-purple-600 text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
+              onClick={() => setActiveTab("cashOut")}  className={`flex flex-col items-center cursor-pointer ${iscashOut ? "bg-brandRed text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
             <h1 className="mt-1 text-xl">Cash Out</h1>
 
           </div>

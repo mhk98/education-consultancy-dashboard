@@ -14,7 +14,7 @@
 //     phone: "+8801743701127",
 //     assignedTo: "Mr. Tasbirul Islam",
 //     status: "App. Incomplete",
-//     statusColor: "bg-blue-100 text-blue-700",
+//     statusColor: "bg-brandRed-100 text-brandRed-700",
 //   },
 //   {
 //     ackNo: "EAC-002",
@@ -28,7 +28,7 @@
 //     phone: "+8801711071400",
 //     assignedTo: "Faria Siddique",
 //     status: "App. Incomplete",
-//     statusColor: "bg-blue-100 text-blue-700",
+//     statusColor: "bg-brandRed-100 text-brandRed-700",
 //   },
 //   {
 //     ackNo: "EAC-003",
@@ -42,7 +42,7 @@
 //     phone: "+32472976019",
 //     assignedTo: "Mr. Tasbirul Islam",
 //     status: "App. Incomplete",
-//     statusColor: "bg-blue-100 text-blue-700",
+//     statusColor: "bg-brandRed-100 text-brandRed-700",
 //   },
 //   {
 //     ackNo: "EAC-004",
@@ -101,7 +101,7 @@
 //                   <option>{application.assignedTo}</option>
 //                 </select>
 //               </td>
-//               <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
+//               <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
 //                 <FaLink className="cursor-pointer" />
 //                 <FaTrash className="cursor-pointer text-red-500" />
 //               </td>
@@ -229,7 +229,7 @@ const LastName = localStorage.getItem("LastName")
               <td className="p-3 whitespace-nowrap">{FirstName} {LastName}</td>
               <td className="p-3 whitespace-nowrap">{program.status}</td>
               <td className="p-3 whitespace-nowrap">{program.assignee}</td>
-              <td className="p-3 whitespace-nowrap flex gap-3 text-blue-600">
+              <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                 {/* <FaLink className="cursor-pointer" /> */}
                 <Link to={`/app/editprofile/${program.id}`}>
                 <BiShow fontSize={20} className="cursor-pointer" />
@@ -264,7 +264,7 @@ const LastName = localStorage.getItem("LastName")
                                   )}
                               </div>
                               <div className="mb-4">
-                                <label className="block text-sm mb-1 text-gray-700">KC Assignee</label>
+                                <label className="block text-sm mb-1 text-gray-700">EduAnchor Assignee</label>
                                 <select
                                     {...register("assignee")}
                                     className="input input-bordered w-full shadow-md p-3"
@@ -281,7 +281,7 @@ const LastName = localStorage.getItem("LastName")
                           </div>
                         
                           <div className="flex justify-end gap-2 mt-6">
-                            <Button type="submit" className="btn btn-primary">
+                            <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
                               Save
                             </Button>
                           </div>

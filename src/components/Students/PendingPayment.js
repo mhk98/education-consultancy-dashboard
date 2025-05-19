@@ -97,13 +97,13 @@ function PendingPayment({id}) {
           <p
             onClick={() => setActiveTab("online")}
             className={`cursor-pointer py-4 px-2 text-sm sm:text-base font-semibold transition-all ${
-              activeTab === "online" ? "text-purple-600" : "text-gray-800"
+              activeTab === "online" ? "text-brandRed" : "text-gray-800"
             }`}
           >
             Online Payment
           </p>
           {activeTab === "online" && (
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600" />
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brandRed" />
           )}
         </div>
 
@@ -111,13 +111,13 @@ function PendingPayment({id}) {
           <p
             onClick={() => setActiveTab("offline")}
             className={`cursor-pointer py-4 px-2 text-sm sm:text-base font-semibold transition-all ${
-              activeTab === "offline" ? "text-purple-600" : "text-gray-800"
+              activeTab === "offline" ? "text-brandRed" : "text-gray-800"
             }`}
           >
             Offline Payment
           </p>
           {activeTab === "offline" && (
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600" />
+            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-brandRed" />
           )}
         </div>
       </div>
@@ -148,7 +148,7 @@ function PendingPayment({id}) {
           
                   {/* Submit Button */}
                   <div className="flex justify-end mt-6">
-                    <Button type="submit" className="btn btn-primary">
+                    <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
                       Pay Online 
                     </Button>
                   </div>
@@ -210,7 +210,7 @@ function PendingPayment({id}) {
           
                   {/* Submit Button */}
                   <div className="flex justify-end mt-6">
-                    <Button type="submit" className="btn btn-primary">
+                    <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
                       Pay Offline
                     </Button>
                   </div>
