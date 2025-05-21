@@ -21,6 +21,7 @@ import { CashInApi } from "../features/cashIn/cashIn";
 import { EnquiriesApi } from "../features/enquiries/enquiries";
 import { CommissionApi } from "../features/commission/commission";
 import { TaskApi } from "../features/task/task";
+import { ContractApi } from "../features/contract/contract";
 
 
 
@@ -49,6 +50,7 @@ const store = configureStore({
     [CommissionApi.reducerPath]: CommissionApi.reducer,
     [EnquiriesApi.reducerPath]: EnquiriesApi.reducer,
     [TaskApi.reducerPath]: TaskApi.reducer,
+    [ContractApi.reducerPath]: ContractApi.reducer,
   
   },
 
@@ -75,6 +77,7 @@ const store = configureStore({
         CommissionApi.middleware,
         EnquiriesApi.middleware,
         TaskApi.middleware,
+        ContractApi.middleware,
       
     ),
 });

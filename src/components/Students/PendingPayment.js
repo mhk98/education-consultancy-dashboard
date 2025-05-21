@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Input, Button } from '@windmill/react-ui'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom'
 import toast from 'react-hot-toast'
-import { useCreatePendingPaymentMutation, useInitPendingPaymentMutation } from '../../features/pendingPayment/pendingPayment'
+import {  useInitPendingPaymentMutation } from '../../features/pendingPayment/pendingPayment'
 
 function PendingPayment({id}) {
 
+  const branch = localStorage.getItem("branch")
   const [activeTab, setActiveTab] = useState("online");
  const [file, setFile] = useState(null);
 
@@ -41,6 +41,7 @@ function PendingPayment({id}) {
           amount:data.amount,
           paymentStatus:status,
           user_id:id,
+          branch:branch
         }
    
 
@@ -64,6 +65,7 @@ function PendingPayment({id}) {
         formData.append("amount", data.amount);
         formData.append("paymentStatus", status); 
         formData.append("employee", data.employee); 
+        formData.append("branch", branch); 
         formData.append("user_id", id); 
         if (file) {
             formData.append("file", file);

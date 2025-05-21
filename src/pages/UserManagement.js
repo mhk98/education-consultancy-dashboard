@@ -68,6 +68,8 @@ function UserManagement() {
         form.elements[index + 1]?.focus();
       }
     };
+
+
  
   return (
     <>
@@ -76,12 +78,12 @@ function UserManagement() {
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                {/* Header Section */}
                <div>
-                 <h4 className="text-2xl md:text-md font-semibold text-gray-900">Task Management</h4>
+                 <h4 className="text-2xl md:text-md font-semibold text-gray-900">User Management</h4>
      
          
                  {/* Modal */}
                  <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                         <ModalHeader>Task Management</ModalHeader>
+                                         <ModalHeader>User Management</ModalHeader>
                                          <ModalBody>
              <form onSubmit={handleSubmit(onFormSubmit)}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

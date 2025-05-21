@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import PendingPayment from "./PendingPayment";
 import PreviousPayment from "./PreviousPayment";
 import RequestPayment from "./RequestPayment";
+import Contract from "./Contract";
 
 const  Finance = ({id}) => {
 
 
 
-  const [activeTab, setActiveTab] = useState("requestPayment");
+  const [activeTab, setActiveTab] = useState("contract");
   
+    const isContract = activeTab === "contract";
     const isRequestPayment = activeTab === "requestPayment";
     const isPendingPayment = activeTab === "pendingPayment";
     const isPreviousPayment = activeTab === "previousPayment";
@@ -18,7 +20,10 @@ const  Finance = ({id}) => {
   return (
     <div className="p-4 md:p-8 w-full mx-auto">
         {/* Navigation Steps */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 items-center">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 items-center">
+          <div onClick={() => setActiveTab("contract")} className={`flex flex-col items-center cursor-pointer ${isContract ? "bg-brandRed text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
+            <h1  className="mt-1 text-xl">Contract</h1>
+          </div>
           <div onClick={() => setActiveTab("requestPayment")} className={`flex flex-col items-center cursor-pointer ${isRequestPayment ? "bg-brandRed text-white rounded-md py-1" : "bg-gray-200 text-gray-700 rounded-md py-1"}`}>
             <h1  className="mt-1 text-xl">Request Payment</h1>
           </div>
@@ -46,23 +51,28 @@ const  Finance = ({id}) => {
 
          {/* Separated Content Section Below */}
               <div className="mt-4 p-4 bg-white rounded-md">
-              {isRequestPayment ? (
+              {
+              isContract ? (
+                <Contract id={id}/>
+                
+              ): isRequestPayment ?  (
                 <div>
 
                 <RequestPayment id = {id}/>
 
                 </div>
-              ): isPendingPayment ?  (
+              ): isPendingPayment ? (
                 <div>
 
-                 <PendingPayment id={id}/>
+                <PendingPayment id = {id}/>
 
                 </div>
-              )  : (
+              ): (
 
-                <PreviousPayment id={id}/>
-
-              )
+                  <PreviousPayment id={id}/>
+  
+                )
+              
             
             }
             </div>

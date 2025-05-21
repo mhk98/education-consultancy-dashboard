@@ -8,6 +8,8 @@ import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui';
 
 
 const ComissionPaymentInProgress = () => {
+  const role = localStorage.getItem("role")
+  const branch = localStorage.getItem("branch")
 
 const [isModalOpen, setIsModalOpen] = useState(false)
    
@@ -36,6 +38,24 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                    }, [data, isLoading, isError, error]);
          
                console.log("payments", payments) 
+
+
+
+               const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllCommissionQuery();
+               const [superAdminPayments, setSuperAdminPayments] = useState([]);
+             
+               useEffect(() => {
+                 if (isError1) {
+                   console.log("Error fetching", error1);
+                 } else if (!isLoading1 && data1) {
+                   const allPayments = data1.data;
+       
+             // Filter out students
+             const filtered = allPayments.filter(payments => payments.branch === branch);
+     
+                   setSuperAdminPayments(filtered);
+                 }
+               }, [data1, isLoading1, isError1, error1, branch]);
     
           
                 const formatDate = (dateString) => {
@@ -102,40 +122,77 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                                   <th className="p-3 min-w-[180px]">Date</th>
                                   <th className="p-3 min-w-[180px]">Amount</th>
                                   <th className="p-3 min-w-[120px]">Purpose</th>
+                                  <th className="p-3 min-w-[120px]">Branch</th>
                                   <th className="p-3 min-w-[160px]">Status</th>                      
                                   <th className="p-3 min-w-[160px]">Action</th>
                                   
                                 </tr>
                               </thead>
+                          {
+                            role === "superAdmin" ? (
                               <tbody>
-          {payments.map((payment, idx) => (
-            <tr
-              key={idx}
-              className={`border-b border-gray-200 ${idx % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
-            >
-              <td className="p-3 whitespace-nowrap">{formatDate(payment.createdAt)}</td>
-              <td className="p-3 whitespace-nowrap">{payment.amount}</td>
-              <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
-              <td className="p-3 whitespace-nowrap">{payment.status}</td>
-              <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
-                <LiaEditSolid
-                  fontSize={20}
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setPaymentId(payment.id);
-                 
-                  }}
-                  className="cursor-pointer"
-                />
-                <FaTrash
-                  onClick={() => handleDeleteUser(payment.id)}
-                  fontSize={20}
-                  className="cursor-pointer text-red-500"
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
+                              {payments.map((payment, idx) => (
+                                <tr
+                                  key={idx}
+                                  className={`border-b border-gray-200 ${idx % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
+                                >
+                                  <td className="p-3 whitespace-nowrap">{formatDate(payment.createdAt)}</td>
+                                  <td className="p-3 whitespace-nowrap">{payment.amount}</td>
+                                  <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
+                                  <td className="p-3 whitespace-nowrap">{payment.branch}</td>
+                                  <td className="p-3 whitespace-nowrap">{payment.status}</td>
+                                  <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
+                                    <LiaEditSolid
+                                      fontSize={20}
+                                      onClick={() => {
+                                        setIsModalOpen(true);
+                                        setPaymentId(payment.id);
+                                     
+                                      }}
+                                      className="cursor-pointer"
+                                    />
+                                    <FaTrash
+                                      onClick={() => handleDeleteUser(payment.id)}
+                                      fontSize={20}
+                                      className="cursor-pointer text-red-500"
+                                    />
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                            ): (
+                              <tbody>
+                              {superAdminPayments.map((payment, idx) => (
+                                <tr
+                                  key={idx}
+                                  className={`border-b border-gray-200 ${idx % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
+                                >
+                                  <td className="p-3 whitespace-nowrap">{formatDate(payment.createdAt)}</td>
+                                  <td className="p-3 whitespace-nowrap">{payment.amount}</td>
+                                  <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
+                                  <td className="p-3 whitespace-nowrap">{payment.branch}</td>
+                                  <td className="p-3 whitespace-nowrap">{payment.status}</td>
+                                  <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
+                                    <LiaEditSolid
+                                      fontSize={20}
+                                      onClick={() => {
+                                        setIsModalOpen(true);
+                                        setPaymentId(payment.id);
+                                     
+                                      }}
+                                      className="cursor-pointer"
+                                    />
+                                    <FaTrash
+                                      onClick={() => handleDeleteUser(payment.id)}
+                                      fontSize={20}
+                                      className="cursor-pointer text-red-500"
+                                    />
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                            )
+                          }
         
         {/* ✅ Move this modal outside the map */}
         <Modal isOpen={isModalOpen} onClose={closeModal}>

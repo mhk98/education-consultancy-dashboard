@@ -28,6 +28,7 @@ const CashIn = ({id}) => {
             transactionId: data.transactionId,
             employee: data.employee,
             paymentStatus:status,
+            branch:data.branch
           }
        
             try {
@@ -84,7 +85,7 @@ const CashIn = ({id}) => {
                     )}
                   </div>
         
-         <div className="mb-4">
+                    <div className="mb-4">
                                                                                    
                     <label className="block text-sm mb-1 text-gray-700 mb-4">Employee Name</label>
                         <select
@@ -99,18 +100,25 @@ const CashIn = ({id}) => {
                         {errors.employee && (
                           <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>)}
                         </div> 
-                  {/* Refund Condition */}
-                  {/* <div className="mb-4">
-                    <label className="block text-sm mb-1 text-gray-700">Comment</label>
-                    <Input
-                      type="text"
-                      {...register("comment")}
-                      className="w-full p-3 shadow-md border rounded-md"
-                    />
-                    {errors.comment && (
-                      <p className="text-red-500 text-sm mt-1">{errors.comment.message}</p>
+                 
+                        <div className="mb-4">
+                    <label className="block text-sm text-gray-700 mb-2">
+                      Branch
+                    </label>
+                    <select
+                      {...register("branch")}
+                      className="input input-bordered w-full shadow-md p-3"
+                    >
+                      <option value="">Select Branch</option>
+                      <option value="Dhaka">Dhaka</option>
+                      <option value="Chittagong">Chittagong</option>
+                      <option value="Khulna">Khulna</option>
+                    </select>
+                    {errors.branch && (
+                      <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>
                     )}
-                  </div> */}
+                  </div>
+
                 </div>
         
                 {/* Submit Button */}

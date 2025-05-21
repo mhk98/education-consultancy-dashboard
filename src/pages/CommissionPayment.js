@@ -140,8 +140,8 @@ function CommissionPayment() {
                                 <Select name="branch" {...register('branch')} className="mt-1">
                                   <option>Select Branch</option>
                                   {admins.map((admin) => (
-                                    <option key={admin.id} value={admin.id}>
-                                      {admin.FirstName} {admin.LastName}
+                                    <option key={admin.id} value={admin.branch}>
+                                      {admin.branch}
                                     </option>
                                   ))}
                                 </Select>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {  useGetDataByIdQuery } from "../../features/pendingPayment/pendingPayment";
 
 export default function PreviousPayment({id}) {
+  
   const { data, isLoading, isError, error } = useGetDataByIdQuery(id);
   const [payments, setPayments] = useState([]);
 
