@@ -1,111 +1,77 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useMemo } from "react";
 import { FaTrash } from "react-icons/fa";
 import { LiaEditSolid } from "react-icons/lia";
 import { Link } from "react-router-dom/cjs/react-router-dom";
-import axios from "axios";
+import {
+  Input,
+  Label,
+  Button,
+} from "@windmill/react-ui";
+import {
+  useGetAllUserQuery,
+  useGetUserDataByIdQuery,
+} from "../../features/auth/auth";
 
 export default function StudentTable() {
-  const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [error, setError] = useState(null);
-  const role = localStorage.getItem("role")
-  const branch = localStorage.getItem("branch")
-  const id = localStorage.getItem("userId")
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [Country, setCountry] = useState("");
+  const [University, setUniversity] = useState("");
+  const [Intake, setIntake] = useState("");
+  const [StudentId, setStudentId] = useState("");
 
-  useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/v1/user"); // Change to your actual API endpoint
-        const allUsers = Array.isArray(res.data?.data)
-          ? res.data.data
-          : res.data?.users || [];
+  const role = localStorage.getItem("role");
+  const branch = localStorage.getItem("branch");
+  const id = localStorage.getItem("userId");
 
-        const filtered = allUsers.filter(
-          (user) =>
-            user?.Profile?.toLowerCase() === "active" &&
-            user?.Role?.toLowerCase() === "student"
-        );
-        setStudents(filtered);
-      } catch (err) {
-        console.error("Error fetching users:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const queryArgs =
+    role === "superAdmin"
+      ? { FirstName, LastName, id: StudentId }
+      : role === "admin"
+      ? { Branch: branch, FirstName, LastName, id: StudentId }
+      : null;
 
-    fetchStudents();
-  }, []);
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useGetAllUserQuery(queryArgs, { skip: !queryArgs });
 
-  console.log("students", students);
+  const {
+    data: data2,
+    isLoading: isLoading2,
+    isError: isError2,
+    error: error2,
+  } = useGetUserDataByIdQuery(id);
 
+  const students = useMemo(() => {
+    if (role === "student") {
+      return data2?.data ? [data2.data] : [];
+    } else {
+      return data?.data || [];
+    }
+  }, [role, data, data2]);
 
+  const filteredStudents = useMemo(() => {
+    return students.filter((student) => {
+      const first = FirstName.toLowerCase();
+      const last = LastName.toLowerCase();
+      const country = Country.toLowerCase();
+      const university = University.toLowerCase();
+      const intake = Intake.toLowerCase();
+      const studentId = StudentId.toLowerCase();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setIsLoading(true);
-      setIsError(false);
-      try {
-        const response = await axios.get('http://localhost:5000/api/v1/user', {
-          params: {
-            branch,
-          },
-        });
-        const allUsers = Array.isArray(response.data?.data)
-        ? response.data.data
-        : response.data?.users || [];
-        const filtered = allUsers.filter(
-          (user) =>
-            user?.Profile?.toLowerCase() === "active" &&
-            user?.Role?.toLowerCase() === "student"
-        );
-        setUsers(filtered); // Adjust based on your actual API response shape
-      } catch (err) {
-        setIsError(true);
-        setError(err);
-        console.error("Error fetching user data", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, [branch]);
-
-  const [student, setStudent] = useState(null);
- 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/api/v1/user/${id}`);
-        const user = response.data?.data;
-  
-        // Check if user is active and has role student
-        if (
-          user?.Profile?.toLowerCase() === "active" &&
-          user?.Role?.toLowerCase() === "student"
-        ) {
-          setStudent(user); // store as single object
-        } else {
-          setStudent(null); // no valid student
-        }
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-        setStudent(null);
-      }
-    };
-  
-    if (id) fetchUser();
-  }, [id]);
-  
-
-  console.log("student", student)
-
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error loading users: {error.message}</p>;
+      return (
+        (!FirstName || student.FirstName?.toLowerCase().includes(first)) &&
+        (!LastName || student.LastName?.toLowerCase().includes(last)) &&
+        (!Country || student.Country?.toLowerCase().includes(country)) &&
+        (!University || student.University?.toLowerCase().includes(university)) &&
+        (!Intake || student.Intake?.toLowerCase().includes(intake)) &&
+        (!StudentId || student.id?.toLowerCase().includes(studentId))
+      );
+    });
+  }, [students, FirstName, LastName, Country, University, Intake, StudentId]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -116,8 +82,112 @@ export default function StudentTable() {
     });
   };
 
+  const renderTableRows = (dataToRender) => {
+    return dataToRender.map((student, idx) => (
+      <tr
+        key={idx}
+        className={`text-sm border-t border-gray-200 ${
+          idx % 2 === 0 ? "bg-gray-50" : "bg-white"
+        }`}
+      >
+        <td className="p-3 whitespace-nowrap">{student.id}</td>
+        <td className="p-3 whitespace-nowrap">{student.CreatedOn}</td>
+        <td className="p-3 whitespace-nowrap">
+          {formatDate(student.createdAt)}
+        </td>
+        <td className="p-3 whitespace-nowrap">
+          {student.FirstName} {student.LastName}
+        </td>
+        <td className="p-3 whitespace-nowrap">{student.Email}</td>
+        <td className="p-3 whitespace-nowrap">{student.Phone}</td>
+        <td className="p-3 whitespace-nowrap">{student.Branch}</td>
+        <td className="p-3 whitespace-nowrap">{student.Assigned}</td>
+        <td className="p-3 whitespace-nowrap">{student.Status}</td>
+        <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
+          <Link to={`/app/editprofile/${student.id}`}>
+            <LiaEditSolid className="cursor-pointer" />
+          </Link>
+          <FaTrash className="cursor-pointer text-red-500" />
+        </td>
+      </tr>
+    ));
+  };
+
   return (
     <div className="overflow-x-auto p-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        <Label>
+          <span>First Name</span>
+          <Input
+            value={FirstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="mt-1"
+            placeholder="First Name"
+          />
+        </Label>
+        <Label>
+          <span>Last Name</span>
+          <Input
+            value={LastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className="mt-1"
+            placeholder="Last Name"
+          />
+        </Label>
+        <Label>
+          <span>Country</span>
+          <Input
+            value={Country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="mt-1"
+            placeholder="Country"
+          />
+        </Label>
+        <Label>
+          <span>University</span>
+          <Input
+            value={University}
+            onChange={(e) => setUniversity(e.target.value)}
+            className="mt-1"
+            placeholder="University"
+          />
+        </Label>
+        <Label>
+          <span>Intake</span>
+          <Input
+            value={Intake}
+            onChange={(e) => setIntake(e.target.value)}
+            className="mt-1"
+            placeholder="Intake"
+          />
+        </Label>
+        <Label>
+          <span>Student Id</span>
+          <Input
+            value={StudentId}
+            onChange={(e) => setStudentId(e.target.value)}
+            className="mt-1"
+            placeholder="Student Id"
+          />
+        </Label>
+        <div className="flex items-end gap-2">
+          {/* <Button className="w-full bg-brandRed text-white">Search</Button> */}
+          <Button
+            className="w-full bg-brandRed text-white"
+            onClick={() => {
+              setFirstName("");
+              setLastName("");
+              setCountry("");
+              setUniversity("");
+              setIntake("");
+              setStudentId("");
+            }}
+          >
+            Clear
+          </Button>
+        </div>
+      </div>
+
       <table className="min-w-full w-full border border-gray-200 bg-white shadow-md rounded-lg">
         <thead className="bg-gray-100 text-sm text-gray-700">
           <tr className="text-left">
@@ -133,120 +203,17 @@ export default function StudentTable() {
             <th className="p-3">Actions</th>
           </tr>
         </thead>
-        {
-          role === "superAdmin" ? (
-            <tbody>
-          {students.length > 0 ? (
-            students.map((student, idx) => (
-              <tr
-                key={idx}
-                className={`text-sm border-t border-gray-200 ${
-                  idx % 2 === 0 ? "bg-gray-50" : "bg-white"
-                }`}
-              >
-                <td className="p-3 whitespace-nowrap">{student.id}</td>
-                <td className="p-3 whitespace-nowrap">{student.CreatedOn}</td>
-                <td className="p-3 whitespace-nowrap">{formatDate(student.createdAt)}</td>
-                <td className="p-3 whitespace-nowrap">
-                  {student.FirstName} {student.LastName}
-                </td>
-                <td className="p-3 whitespace-nowrap">{student.Email}</td>
-                <td className="p-3 whitespace-nowrap">{student.Phone}</td>
-                <td className="p-3 whitespace-nowrap">{student.Branch}</td>
-                <td className="p-3 whitespace-nowrap">{student.Assigned}</td>
-                <td className="p-3 whitespace-nowrap">{student.Status}</td>
-                <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
-                  <Link to={`/app/editprofile/${student.id}`}>
-                    <LiaEditSolid className="cursor-pointer" />
-                  </Link>
-                  <FaTrash className="cursor-pointer text-red-500" />
-                </td>
-              </tr>
-            ))
+        <tbody>
+          {filteredStudents.length > 0 ? (
+            renderTableRows(filteredStudents)
           ) : (
             <tr>
-              <td colSpan="8" className="p-4 text-center text-gray-500">
+              <td colSpan="10" className="p-4 text-center text-gray-500">
                 No student profiles found.
               </td>
             </tr>
           )}
         </tbody>
-          ) :  role === "admin" ? (
-            <tbody>
-            {users.length > 0 ? (
-              users.map((student, idx) => (
-                <tr
-                  key={idx}
-                  className={`text-sm border-t border-gray-200 ${
-                    idx % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  }`}
-                >
-                  <td className="p-3 whitespace-nowrap">{student.id}</td>
-                  <td className="p-3 whitespace-nowrap">{student.CreatedOn}</td>
-                  <td className="p-3 whitespace-nowrap">{formatDate(student.createdAt)}</td>
-                  <td className="p-3 whitespace-nowrap">
-                    {student.FirstName} {student.LastName}
-                  </td>
-                  <td className="p-3 whitespace-nowrap">{student.Email}</td>
-                  <td className="p-3 whitespace-nowrap">{student.Phone}</td>
-                  <td className="p-3 whitespace-nowrap">{student.Branch}</td>
-                  <td className="p-3 whitespace-nowrap">{student.Assigned}</td>
-                  <td className="p-3 whitespace-nowrap">{student.Status}</td>
-                  <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
-                    <Link to={`/app/editprofile/${student.id}`}>
-                      <LiaEditSolid className="cursor-pointer" />
-                    </Link>
-                    <FaTrash className="cursor-pointer text-red-500" />
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="8" className="p-4 text-center text-gray-500">
-                  No student profiles found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-          ) :(
-            <tbody>
-            {student ? (
-             
-                <tr
-              
-                  className={`text-sm border-t border-gray-200 ${
-                    student.id % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  }`}
-                >
-                  <td className="p-3 whitespace-nowrap">{student.id}</td>
-                  <td className="p-3 whitespace-nowrap">{student.CreatedOn}</td>
-                  <td className="p-3 whitespace-nowrap">{formatDate(student.createdAt)}</td>
-                  <td className="p-3 whitespace-nowrap">
-                    {student.FirstName} {student.LastName}
-                  </td>
-                  <td className="p-3 whitespace-nowrap">{student.Email}</td>
-                  <td className="p-3 whitespace-nowrap">{student.Phone}</td>
-                  <td className="p-3 whitespace-nowrap">{student.Branch}</td>
-                  <td className="p-3 whitespace-nowrap">{student.Assigned}</td>
-                  <td className="p-3 whitespace-nowrap">{student.Status}</td>
-                  <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
-                    <Link to={`/app/editprofile/${student.id}`}>
-                      <LiaEditSolid className="cursor-pointer" />
-                    </Link>
-                    <FaTrash className="cursor-pointer text-red-500" />
-                  </td>
-                </tr>
-           
-            ) : (
-              <tr>
-                <td colSpan="8" className="p-4 text-center text-gray-500">
-                  No student profiles found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-          )
-        }
       </table>
     </div>
   );

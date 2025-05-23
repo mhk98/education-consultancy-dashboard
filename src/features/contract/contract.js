@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const ContractApi = createApi({
   reducerPath: "ContractApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://education-consultancy-backend.onrender.com/api/v1/",
   }),
 
   tagTypes: ["contract"], // Define the tag type

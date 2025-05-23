@@ -33,7 +33,7 @@ export default function PreviousPayment({id}) {
               <th className="p-3 min-w-[180px]">Transaction ID</th>
               <th className="p-3 min-w-[160px]">Mode of Payment</th>
               <th className="p-3 min-w-[160px]">Payment Status</th>
-              <th className="p-3 min-w-[160px]">Download Invoice</th>
+              {/* <th className="p-3 min-w-[160px]">Download Invoice</th> */}
               
             </tr>
           </thead>
@@ -49,9 +49,9 @@ export default function PreviousPayment({id}) {
                 <td className="p-3 whitespace-nowrap">{payment.transactionId}</td>
                 <td className="p-3 whitespace-nowrap">{payment.paymentStatus}</td>
                 <td className="p-3 whitespace-nowrap">{payment.status}</td>
-                <td className="p-3 whitespace-nowrap text-brandRed cursor-pointer">
+                {/* <td className="p-3 whitespace-nowrap text-brandRed cursor-pointer">
                   Invoice
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

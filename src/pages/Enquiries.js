@@ -9,7 +9,7 @@ import Select from 'react-select'; // Correct select import
 import { Label } from '@windmill/react-ui';
 import { useCreateEnquiriesMutation } from '../features/enquiries/enquiries';
 import EnquiriesArchivedPanel from '../components/Enquiries/EnquiriesArchivedPanel';
-import { backgroundColor } from 'tailwindcss/defaultTheme';
+
 
 const studyAreaOptions = [
   { value: 'engineering', label: 'Engineering' },
@@ -38,7 +38,6 @@ function Enquiries() {
     handleSubmit,
     reset,
     control,
-    setValue,
     clearErrors,
     formState: { errors },
   } = useForm();
@@ -105,6 +104,7 @@ const id = localStorage.getItem("userId")
     formData.append("educationCountry", data.educationCountry);
     formData.append("educationLevel", data.educationLevel);
     formData.append("additionalInfo", data.additionalInfo);
+    formData.append("branch", data.branch);
     formData.append("user_id", id);
     files.forEach((file) => {
       formData.append("files", file); // "files" matches multer's field name
@@ -184,6 +184,21 @@ const id = localStorage.getItem("userId")
                       <Input {...register('lastName', { required: true })} placeholder="Enter Last Name" />
                       {errors.lastName && <p className="text-red-500 text-sm">Last name is required.</p>}
                     </div>
+
+                    <div>
+          <label className="block mb-1 font-medium">Select Branch<span className="text-red-500">*</span></label>
+                      <select {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
+                        <option >Select Branch</option>
+                        <option value="">Select Branch</option>
+                      <option value="Dhaka">Dhaka</option>
+                      <option value="Chittagong">Chittagong</option>
+                      <option value="Khulna">Khulna</option>
+                      </select>
+                      {errors.branch && (
+                      <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>
+                    )}
+                  </div>
+                  
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
@@ -298,7 +313,7 @@ const id = localStorage.getItem("userId")
                 </div>
                 ) : (
                   <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                       <div>
                         <label className="block mb-1 font-medium">
                           First Name<span className="text-red-500">*</span>
@@ -313,6 +328,19 @@ const id = localStorage.getItem("userId")
                         <Input {...register('lastName', { required: true })} placeholder="Enter Last Name" />
                         {errors.lastName && <p className="text-red-500 text-sm">Last name is required.</p>}
                       </div>
+                      <div>
+          <label className="block mb-1 font-medium">Select Branch<span className="text-red-500">*</span></label>
+                      <select {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
+                        <option >Select Branch</option>
+                        <option value="">Select Branch</option>
+                      <option value="Dhaka">Dhaka</option>
+                      <option value="Chittagong">Chittagong</option>
+                      <option value="Khulna">Khulna</option>
+                      </select>
+                      {errors.branch && (
+                      <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>
+                    )}
+                  </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>

@@ -70,7 +70,7 @@ function Task() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/user"); // Replace with your API endpoint
+        const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user"); // Replace with your API endpoint
         const allUsers = response.data.data;
   
         // Filter out students
@@ -456,7 +456,7 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
             <td className="p-3 whitespace-nowrap">{task.description}</td>
             <td className="p-3 whitespace-nowrap">
               <a
-                href={`http://localhost:5000/${task.file}`}
+                href={`https://education-consultancy-backend.onrender.com/${task.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-brandRed"

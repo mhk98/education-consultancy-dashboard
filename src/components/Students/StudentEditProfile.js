@@ -12,7 +12,7 @@ const StudentEditProfile = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState("applications");
 
   const qrLink = "https://demo.eaconsultancy.info/login";
 
@@ -24,7 +24,7 @@ const StudentEditProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/v1/user/${id}`);
+        const res = await axios.get(`https://education-consultancy-backend.onrender.com/api/v1/user/${id}`);
         setData(res.data.data);
       } catch (err) {
         console.error("Failed to fetch user data:", err);
@@ -147,10 +147,10 @@ const StudentEditProfile = () => {
 
       {/* Tab Content */}
       <div className="mt-4 p-4 bg-white">
-        {isProfile ? (
-          <Profile id={id} />
-        ) : isApplications ? (
+        {isApplications ? (
           <Applications id={id} />
+        ) : isProfile ? (
+          <Profile id={id} />
         ) : isDocuments ? (
           <Document id={id} />
         ): (

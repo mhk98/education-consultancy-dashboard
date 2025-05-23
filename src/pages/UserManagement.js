@@ -30,13 +30,17 @@ function UserManagement() {
 
 
     const [userRegister] = useUserRegisterMutation();
-   
+
+    const First_Name = localStorage.getItem("FirstName")
+  const Last_Name = localStorage.getItem("LastName")
+  
      const onFormSubmit = async (data) => {
       console.log("formData", data)
       const formData = new FormData();
       formData.append("FirstName", data.FirstName);
       formData.append("LastName", data.LastName);
       formData.append("Email", data.Email);
+      formData.append("CreatedOn", `${First_Name} ${Last_Name}`);
       formData.append("Password", data.Password);
       formData.append("Phone", data.Phone); 
       formData.append("Role", data.Role); 

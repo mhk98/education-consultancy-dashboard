@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useGetAllEnquiriesQuery, useUpdateEnquiriesMutation } from "../../features/enquiries/enquiries";
+import { useGetAllEnquiriesQuery, useGetDataByIdQuery, useUpdateEnquiriesMutation } from "../../features/enquiries/enquiries";
 import toast from "react-hot-toast";
 import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui';
 import { useForm } from "react-hook-form";
@@ -7,18 +7,20 @@ import { FiSend } from "react-icons/fi";
 import axios from "axios";
 
 const EnquiriesRequestedPanel = () => {
-  const user_id = localStorage.getItem("userId")
+  const id = localStorage.getItem("userId")
+  const role = localStorage.getItem("role")
+  const branch = localStorage.getItem("branch")
   const [selected, setSelected] = useState(null);
   const { data, isLoading, isError, error } = useGetAllEnquiriesQuery();
   const [programList, setProgramList] = useState([]);
 
-  useEffect(() => {
-    if (isError) {
-      console.log("Error fetching", error);
-    } else if (!isLoading && data) {
-      setProgramList(data.data);
-    }
-  }, [data, isLoading, isError, error]);
+  // useEffect(() => {
+  //   if (isError) {
+  //     console.log("Error fetching", error);
+  //   } else if (!isLoading && data) {
+  //     setProgramList(data.data);
+  //   }
+  // }, [data, isLoading, isError, error]);
 
 
   useEffect(() => {
@@ -32,6 +34,45 @@ const EnquiriesRequestedPanel = () => {
       }
     }, [data, isLoading, isError, error]);
 
+
+    
+   const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllEnquiriesQuery();
+   const [adminPrograms, setAdminPrograms] = useState([]);
+ 
+   useEffect(() => {
+     if (isError1) {
+       console.log("Error fetching", error1);
+     } else if (!isLoading1 && data1) {
+       const allAdminPrograms = data1.data;
+
+ // Filter out students
+ const filtered = allAdminPrograms.filter(program => program.branch === branch);
+
+ setAdminPrograms(filtered);
+     }
+   }, [data1, isLoading1, isError1, error1, branch]);
+
+   console.log("adminPrograms", adminPrograms)
+
+
+
+   
+   const { data:data2, isLoading:isLoading2, isError:isError2, error:error2 } = useGetDataByIdQuery(id);
+            const [programs, setPrograms] = useState([]);
+          
+            useEffect(() => {
+              if (isError2) {
+                console.log("Error fetching", error2);
+              } else if (!isLoading2 && data2) {
+                setPrograms(data2.data);
+          
+              }
+            }, [data2, isLoading2, isError2, error2, branch]);
+      
+            console.log("adminPrograms", adminPrograms)
+
+
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-GB", {
@@ -41,7 +82,7 @@ const EnquiriesRequestedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
+  const fileBaseURL = 'https://education-consultancy-backend.onrender.com/'; // Adjust to your server's URL
 
  const {
       register,
@@ -91,7 +132,7 @@ const EnquiriesRequestedPanel = () => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/v1/comment/${selected.id}?type=kc`
+        `https://education-consultancy-backend.onrender.com/api/v1/comment/${selected.id}?type=kc`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -102,8 +143,8 @@ const EnquiriesRequestedPanel = () => {
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
     try {
-      await axios.post("http://localhost:5000/api/v1/comment/create", {
-        user_id,
+      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/comment/create", {
+        user_id:id,
         enquiry_id: selected.id,
         text: newComment,
         type: "kc",
@@ -121,8 +162,8 @@ const EnquiriesRequestedPanel = () => {
     const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("http://localhost:5000/api/v1/reply/create", {
-        user_id,
+      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/reply/create", {
+        user_id:id,
         comment_id: commentId,
         text: replyText,
       });
@@ -199,7 +240,10 @@ const EnquiriesRequestedPanel = () => {
   return (
     <div className="flex flex-col lg:flex-row p-4 gap-4 max-w-full overflow-x-hidden">
       {/* Left Panel */}
-      <div className="lg:w-1/2 w-full">
+      
+      {
+        role === "superAdmin" ? (
+          <div className="lg:w-1/2 w-full">
         {programList.map((item, index) => (
           <div
             key={index}
@@ -282,6 +326,177 @@ const EnquiriesRequestedPanel = () => {
           </div>
         ))}
       </div>
+        ) : role === "admin" ? (
+<div className="lg:w-1/2 w-full">
+        {adminPrograms.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => setSelected(item)}
+            className={`border rounded-md p-4 mb-3 cursor-pointer ${
+              selected?.name === item.name ? "bg-green-50 border-brandRed" : "bg-white"
+            }`}
+          >
+            <div className="flex justify-between items-center flex-wrap gap-2">
+              <p className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold">
+                Program Options Sent
+              </p>
+              <p onClick={() => {
+                              setIsModalOpen(true);
+                              setEnquiryId(item.id);
+                            }} className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold cursor-pointer">
+                Edit
+              </p>
+
+    <Modal isOpen={isModalOpen} onClose={closeModal}>
+                                                                       <ModalHeader className="mb-8">Edit User Information</ModalHeader>
+                                                                       <ModalBody>
+                                                                       <form onSubmit={handleSubmit(onFormEdit)}>
+                                                           <div className="grid grid-cols-1 gap-4">
+                                                             {/* Left Side */}
+                                                       
+                                                               
+                                                               <div className="mb-4">
+                                                                 <label className="block text-sm mb-1 text-gray-700 mb-4">Assign To</label>
+                                                                 <select
+                                                                     {...register("assignedTo")}
+                                                                     className="input input-bordered w-full shadow-md p-3"
+                                                                   >
+                                                                     <option value="">Select Assignee</option>
+                                                                     <option value="A">A</option>
+                                                                     <option value="B">B</option>        
+                                                                     <option value="C">C</option>        
+                                                                   </select>
+                                                                   {errors.assignedTo && (
+                                                                     <p className="text-red-500 text-sm mt-1">{errors.assignedTo.message}</p>
+                                                                   )}
+                                                               </div>
+                                                               <div className="mb-4">
+                                                                 <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
+                                                                 <select
+                                                                     {...register("status")}
+                                                                     className="input input-bordered w-full shadow-md p-3"
+                                                                   >
+                                                                     <option value="">Select Status</option>
+                                                                     <option value="active">Active</option>
+                                                                     <option value="archive">Archive</option>               
+                                                                   </select>
+                                                                   {errors.status && (
+                                                                     <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+                                                                   )}
+                                                               </div>
+                                                              
+                                                           </div>
+                                                         
+                                                           <div className="flex justify-end gap-2 mt-6">
+                                                             <Button type="submit" className="btn btn-brandRed">
+                                                               Save
+                                                             </Button>
+                                                           </div>
+                                                         </form>
+                                                         
+                                                                       </ModalBody>
+                                                                     </Modal>             
+            </div>
+            <h3 className="text-sm font-bold mt-2">{item.firstName} {item.lastName}</h3>
+            <p className="text-sm mt-1 text-gray-700">
+              Preferred Destination:{" "}
+              <span className="inline-flex items-center gap-1">
+                {item.destination}
+              </span>
+            </p>
+            <p className="text-sm mt-1">
+              <span className="font-semibold">Created On:</span> {formatDate(item.createdAt)}
+            </p>
+          </div>
+        ))}
+      </div>
+          
+        ) : (
+          <div className="lg:w-1/2 w-full">
+        {programs.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => setSelected(item)}
+            className={`border rounded-md p-4 mb-3 cursor-pointer ${
+              selected?.name === item.name ? "bg-green-50 border-brandRed" : "bg-white"
+            }`}
+          >
+            <div className="flex justify-between items-center flex-wrap gap-2">
+              <p className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold">
+                Program Options Sent
+              </p>
+              <p onClick={() => {
+                              setIsModalOpen(true);
+                              setEnquiryId(item.id);
+                            }} className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold cursor-pointer">
+                Edit
+              </p>
+
+    <Modal isOpen={isModalOpen} onClose={closeModal}>
+                                                                       <ModalHeader className="mb-8">Edit User Information</ModalHeader>
+                                                                       <ModalBody>
+                                                                       <form onSubmit={handleSubmit(onFormEdit)}>
+                                                           <div className="grid grid-cols-1 gap-4">
+                                                             {/* Left Side */}
+                                                       
+                                                               
+                                                               <div className="mb-4">
+                                                                 <label className="block text-sm mb-1 text-gray-700 mb-4">Assign To</label>
+                                                                 <select
+                                                                     {...register("assignedTo")}
+                                                                     className="input input-bordered w-full shadow-md p-3"
+                                                                   >
+                                                                     <option value="">Select Assignee</option>
+                                                                     <option value="A">A</option>
+                                                                     <option value="B">B</option>        
+                                                                     <option value="C">C</option>        
+                                                                   </select>
+                                                                   {errors.assignedTo && (
+                                                                     <p className="text-red-500 text-sm mt-1">{errors.assignedTo.message}</p>
+                                                                   )}
+                                                               </div>
+                                                               <div className="mb-4">
+                                                                 <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
+                                                                 <select
+                                                                     {...register("status")}
+                                                                     className="input input-bordered w-full shadow-md p-3"
+                                                                   >
+                                                                     <option value="">Select Status</option>
+                                                                     <option value="active">Active</option>
+                                                                     <option value="archive">Archive</option>               
+                                                                   </select>
+                                                                   {errors.status && (
+                                                                     <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+                                                                   )}
+                                                               </div>
+                                                              
+                                                           </div>
+                                                         
+                                                           <div className="flex justify-end gap-2 mt-6">
+                                                             <Button type="submit" className="btn btn-brandRed">
+                                                               Save
+                                                             </Button>
+                                                           </div>
+                                                         </form>
+                                                         
+                                                                       </ModalBody>
+                                                                     </Modal>             
+            </div>
+            <h3 className="text-sm font-bold mt-2">{item.firstName} {item.lastName}</h3>
+            <p className="text-sm mt-1 text-gray-700">
+              Preferred Destination:{" "}
+              <span className="inline-flex items-center gap-1">
+                {item.destination}
+              </span>
+            </p>
+            <p className="text-sm mt-1">
+              <span className="font-semibold">Created On:</span> {formatDate(item.createdAt)}
+            </p>
+          </div>
+        ))}
+      </div>
+        )
+      }
 
       {/* Right Panel */}
       {selected && (

@@ -61,8 +61,7 @@ function Students() {
 		const formData = new FormData();
 		formData.append("FirstName", data.FirstName);
 		formData.append("LastName", data.LastName);
-		formData.append("First_Name", First_Name);
-		formData.append("Last_Name", Last_Name);
+		formData.append("CreatedOn", `${First_Name} ${Last_Name}`);
 		formData.append("Email", data.Email);
 		formData.append("Password", data.Password);
 		formData.append("Phone", data.Phone); 
@@ -197,7 +196,7 @@ function Students() {
     </div>
       {/* <CTA /> */}
 
-    <StudentFilter/>
+    {/* <StudentFilter/> */}
       <StudentTable/>
     </>
   )

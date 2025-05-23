@@ -189,7 +189,6 @@ function Contract({id}) {
             <div>
             {contract ? (
   <div className="p-4 bg-white rounded shadow-md">
-    <h2 className="text-lg font-bold mb-2">Application Info</h2>
     <p><strong>Application Code:</strong> {contract.applicationCode}</p>
     <p><strong>Note:</strong> {contract.note}</p>
     <p><strong>Registration Fees:</strong> {contract.registrationFees}</p>

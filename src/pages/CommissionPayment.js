@@ -67,7 +67,7 @@ function CommissionPayment() {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/v1/user");
+        const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
         const allUsers = response.data.data;
   
         // Filter users with Role "admin" or "superadmin"
@@ -140,8 +140,8 @@ function CommissionPayment() {
                                 <Select name="branch" {...register('branch')} className="mt-1">
                                   <option>Select Branch</option>
                                   {admins.map((admin) => (
-                                    <option key={admin.id} value={admin.branch}>
-                                      {admin.branch}
+                                    <option key={admin.id} value={admin.Branch}>
+                                      {admin.Branch}
                                     </option>
                                   ))}
                                 </Select>

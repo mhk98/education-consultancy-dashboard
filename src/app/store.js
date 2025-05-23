@@ -51,6 +51,7 @@ const store = configureStore({
     [EnquiriesApi.reducerPath]: EnquiriesApi.reducer,
     [TaskApi.reducerPath]: TaskApi.reducer,
     [ContractApi.reducerPath]: ContractApi.reducer,
+
   
   },
 
@@ -59,7 +60,6 @@ const store = configureStore({
         // contactApi.middleware,
         authApi.middleware,
         profileApi.middleware,
-        applicationApi.middleware,
         documentApi.middleware,
         academicApi.middleware,
         testsApi.middleware,
@@ -78,6 +78,7 @@ const store = configureStore({
         EnquiriesApi.middleware,
         TaskApi.middleware,
         ContractApi.middleware,
+        applicationApi.middleware,
       
     ),
 });
