@@ -6,11 +6,13 @@ import { LiaEditSolid } from 'react-icons/lia'
 import { FaTrash } from 'react-icons/fa'
 import { Modal, ModalHeader, ModalBody } from '@windmill/react-ui'
 import { useDeletePendingPaymentMutation, useGetAllPendingPaymentQuery, useUpdatePendingPaymentMutation } from '../../features/pendingPayment/pendingPayment'
+import Invoice from './Invoice'
 
 function Amount() {
 
 const role = localStorage.getItem("role")
 const branch = localStorage.getItem("branch")
+const [selectBranch, setSelectBranch] = useState("")
 
 
     const {
@@ -33,7 +35,7 @@ const branch = localStorage.getItem("branch")
           }, [data, isLoading, isError, error]);
 
         const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllPendingPaymentQuery();
-          const [superAdminPayments, setSuperAdminPayments] = useState([]);
+          const [adminPayments, setAdminPayments] = useState([]);
         
           useEffect(() => {
             if (isError1) {
@@ -44,11 +46,29 @@ const branch = localStorage.getItem("branch")
         // Filter out students
         const filtered = allPayments.filter(payments => payments.branch === branch);
 
-              setSuperAdminPayments(filtered);
+        setAdminPayments(filtered);
             }
           }, [data1, isLoading1, isError1, error1, branch]);
     
           console.log("StudentPayment", payments)
+
+        const { data:data2, isLoading:isLoading2, isError:isError2, error:error2 } = useGetAllPendingPaymentQuery();
+          const [filteringPayments, setFilteringPayments] = useState([]);
+        
+          useEffect(() => {
+            if (isError2) {
+              console.log("Error fetching", error2);
+            } else if (!isLoading2 && data2) {
+              const allPayments = data2.data;
+  
+        // Filter out students
+        const filtered = allPayments.filter(payments => payments.branch === selectBranch);
+
+        setFilteringPayments(filtered);
+            }
+          }, [data2, isLoading2, isError2, error2, branch, selectBranch]);
+    
+          console.log("filteringPayments", filteringPayments)
     
           const formatDate = (dateString) => {
             const date = new Date(dateString);
@@ -58,6 +78,8 @@ const branch = localStorage.getItem("branch")
               year: "numeric",
             });
           };
+
+          
     
     
           const [paymentId, setPaymentId] = useState("")
@@ -105,9 +127,50 @@ const branch = localStorage.getItem("branch")
          };
     
 
+         const generateInvoiceNo = () => {
+          const now = new Date();
+          return `INV-${now.getFullYear()}${(now.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${now.getTime()}`;
+        };
+
+        
+        const [invoiceNo, setInvoiceNo] = useState('');
+
+        useEffect(() => {
+          const newInvoiceNo = generateInvoiceNo();
+          setInvoiceNo(newInvoiceNo);
+        }, []);
+
   return (
     <>
    
+   {
+    role === "superAdmin" &&
+
+    <div className="mb-4 grid lg:grid-cols-2 xl:grid-cols-2 grid-cols-1">
+   <div></div>
+
+   <div >
+            <select
+                            {...register("status")}
+                            className="input input-bordered w-full shadow-md p-3"
+                            onChange={(e) => setSelectBranch(e.target.value)}
+                          >
+                            <option value="">Select Branch</option>
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Chittagong">Chittagong</option>
+                          </select>
+                          {errors.status && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.status.message}
+                            </p>
+        )}
+                         
+    </div>
+   </div>
+   }
+
  <div className="w-full overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-700 bg-white shadow-md rounded-lg">
           <thead className="bg-gray-100 border-b border-gray-200">
@@ -119,6 +182,7 @@ const branch = localStorage.getItem("branch")
               <th className="p-3 min-w-[120px]">Purpose</th>
               <th className="p-3 min-w-[160px]">Status</th>
               <th className="p-3 min-w-[160px]">Mode of Payment</th>
+              <th className="p-3 min-w-[160px]">Download Invoice</th>
               <th className="p-3 min-w-[160px]">Action</th>
               
               {/* <th className="p-3 min-w-[160px]">Action</th> */}
@@ -126,7 +190,125 @@ const branch = localStorage.getItem("branch")
             </tr>
           </thead>
         {
-          role === "superAdmin" ? (
+          role === "superAdmin" && selectBranch ? (
+            <tbody>
+            {filteringPayments.map((payment, idx) => (
+              <tr
+                key={idx}
+                className={`border-b border-gray-200 ${
+                  idx % 2 === 0 ? "bg-gray-50" : "bg-white"
+                }`}
+              >
+                <td className="p-3 whitespace-nowrap">{formatDate(payment.createdAt)}</td>
+                <td className="p-3 whitespace-nowrap">{payment.user_id}</td>
+                <td className="p-3 whitespace-nowrap">{payment.transactionId}</td>
+                <td className="p-3 whitespace-nowrap">{payment.amount}</td>
+                <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
+                <td className="p-3 whitespace-nowrap">{payment.status}</td>
+                <td className="p-3 whitespace-nowrap">{payment.paymentStatus}</td>
+                <td className="p-3 whitespace-nowrap text-brandRed cursor-pointer">
+                  Invoice
+                </td>
+                {["Cash-In", "Cash-Out", "Offline"].includes(payment.paymentStatus) && (
+                  <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
+                    <LiaEditSolid
+                      fontSize={20}
+                      onClick={() => {
+                        setIsModalOpen(true);
+                        setPaymentId(payment.id);
+                      }}
+                      className="cursor-pointer"
+                    />
+                    <FaTrash
+                      onClick={() => handleDeleteUser(payment.id)}
+                      fontSize={20}
+                      className="cursor-pointer text-red-500"
+                    />
+                  </td>
+                )}
+          
+                {/* Modal should be outside the condition so it's mounted even when hidden */}
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                  <ModalHeader className="mb-8">Edit Statement Information</ModalHeader>
+                  <ModalBody>
+                    <form onSubmit={handleSubmit(onFormEdit)}>
+                      <div className="grid grid-cols-1 gap-4">
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700">Amount</label>
+                          <Input
+                            type="number"
+                            {...register("amount")}
+                            className="w-full p-3 shadow-md border rounded-md"
+                          />
+                          {errors.amount && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.amount.message}
+                            </p>
+                          )}
+                        </div>
+          
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700">
+                            Purpose for Cash-In
+                          </label>
+                          <Input
+                            type="text"
+                            {...register("purpose")}
+                            className="w-full p-3 shadow-md border rounded-md"
+                          />
+                          {errors.purpose && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.purpose.message}
+                            </p>
+                          )}
+                        </div>
+          
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700">Comment</label>
+                          <Input
+                            type="text"
+                            {...register("comment")}
+                            className="w-full p-3 shadow-md border rounded-md"
+                          />
+                          {errors.comment && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.comment.message}
+                            </p>
+                          )}
+                        </div>
+          
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700 mb-4">
+                            Status
+                          </label>
+                          <select
+                            {...register("status")}
+                            className="input input-bordered w-full shadow-md p-3"
+                          >
+                            <option value="">Select Status</option>
+                            <option value="PAID">PAID</option>
+                            <option value="PENDING">PENDING</option>
+                          </select>
+                          {errors.status && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.status.message}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+          
+                      <div className="flex justify-end gap-2 mt-6">
+                        <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
+                          Save
+                        </Button>
+                      </div>
+                    </form>
+                  </ModalBody>
+                </Modal>
+              </tr>
+            ))}
+          </tbody>
+          ): role === "superAdmin" ? (
             <tbody>
             {payments.map((payment, idx) => (
               <tr
@@ -142,7 +324,33 @@ const branch = localStorage.getItem("branch")
                 <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
                 <td className="p-3 whitespace-nowrap">{payment.status}</td>
                 <td className="p-3 whitespace-nowrap">{payment.paymentStatus}</td>
-          
+                <td className="p-3 whitespace-nowrap text-brandRed cursor-pointer">
+  <Invoice
+    invoiceData={{
+      invoiceNo: invoiceNo,
+      date: formatDate(payment.createdAt),  // ✅ Corrected here
+      studentId: payment.user_id,
+      name: 'John Doe',
+      phone: '0123456789',
+      address: '123 Main St, Dhaka',
+      branch: payment.branch,
+      transactionId: payment.transactionId,
+      paymentMethod: 'Bkash',
+      items: [
+        {
+          qty: 1,
+          purpose: payment.purpose,
+          amount: payment.amount,
+        },
+      ],
+      subTotal: payment.amount,
+      discount: 0, // Adjusted if no discount
+      taxes: 0,
+      total: payment.amount,
+    }}
+  />
+</td>
+
                 {["Cash-In", "Cash-Out", "Offline"].includes(payment.paymentStatus) && (
                   <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                     <LiaEditSolid
@@ -244,7 +452,7 @@ const branch = localStorage.getItem("branch")
           </tbody>
           ): (
             <tbody>
-            {superAdminPayments.map((payment, idx) => (
+            {adminPayments.map((payment, idx) => (
               <tr
                 key={idx}
                 className={`border-b border-gray-200 ${

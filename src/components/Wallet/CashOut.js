@@ -25,7 +25,7 @@ const CashIn = () => {
             let status = "Cash-Out"
           const info = {
             amount: data.amount,
-            transactionId: data.transactionId,
+            // transactionId: data.transactionId,
             purpose: data.purpose,
             employee: data.employee,
             paymentStatus:status,
@@ -50,7 +50,7 @@ const CashIn = () => {
          <div className="w-full flex justify-between">
               <form onSubmit={handleSubmit(onFormSubmit)} className="w-full">
                 <div className="grid grid-cols-1 gap-4">
-
+{/* 
                    <div className="mb-4">
                                       <label className="block text-sm mb-1 text-gray-700">Transaction Id</label>
                                       <Input
@@ -61,7 +61,7 @@ const CashIn = () => {
                                       {errors.transactionId && (
                                         <p className="text-red-500 text-sm mt-1">{errors.transactionId.message}</p>
                                       )}
-                                    </div>
+                                    </div> */}
                   {/* Amount */}
                   <div className="mb-4">
                     <label className="block text-sm mb-1 text-gray-700">Amount</label>

@@ -25,7 +25,6 @@ const CashIn = ({id}) => {
           const info = {
             amount: data.amount,
             purpose: data.purpose,
-            transactionId: data.transactionId,
             employee: data.employee,
             paymentStatus:status,
             branch:data.branch
@@ -48,7 +47,7 @@ const CashIn = ({id}) => {
               <form onSubmit={handleSubmit(onFormSubmit)} className="w-full">
                 <div className="grid grid-cols-1 gap-4">
                   {/* Amount */}
-                  <div className="mb-4">
+                  {/* <div className="mb-4">
                     <label className="block text-sm mb-1 text-gray-700">Transaction Id</label>
                     <Input
                       type="text"
@@ -58,7 +57,7 @@ const CashIn = ({id}) => {
                     {errors.transactionId && (
                       <p className="text-red-500 text-sm mt-1">{errors.transactionId.message}</p>
                     )}
-                  </div>
+                  </div> */}
 
                   <div className="mb-4">
                     <label className="block text-sm mb-1 text-gray-700">Amount</label>

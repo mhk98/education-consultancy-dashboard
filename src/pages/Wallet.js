@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 import { TbCurrencyTaka } from 'react-icons/tb'
-import WalletFilter from '../components/Wallet/WalletFilter'
 import Amount from '../components/Wallet/Amount';
 import CashIn from '../components/Wallet/CashIn';
 import CashOut from '../components/Wallet/CashOut';
@@ -43,7 +42,6 @@ const id = localStorage.getItem("userId")
     </div>
       {/* <CTA /> */}
 
-    <WalletFilter/>
       {/* <WalletTable/> */}
       <div className="p-4 md:p-8 w-full mx-auto">
         {/* Navigation Steps */}

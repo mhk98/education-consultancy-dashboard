@@ -323,6 +323,32 @@ const UserManagementFilter = () => {
                 </p>
               )}
             </div>
+
+            <div>
+              <Label>
+                <span>Branch</span>
+                <select
+                  {...register('Branch')}
+                  className="input input-bordered w-full p-2 border border-gray-300"
+                >
+                  <option value="">Select Branch</option>
+                  <option value="Khulna">Khulna</option>
+                  <option value="Satkhira">Satkhira</option>
+                  <option value="Tangail">Tangail</option>
+                  <option value="Jashore">Jashore</option>
+                  <option value="Rangpur">Rangpur</option>
+                  <option value="Dinajpur">Dinajpur</option>
+                  <option value="Gopalganj">Gopalganj</option>
+                  <option value="Savar">Savar</option>
+                  <option value="Feni">Feni</option>
+                </select>
+              </Label>
+              {errors.Branch && (
+                <p className="text-red-500 text-sm">
+                  {errors.Branch.message}
+                </p>
+              )}
+            </div>
             <div className="flex justify-end">
               <Button type="submit" className="bg-red-600 text-white">
                 Save

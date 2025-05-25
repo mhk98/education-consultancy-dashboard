@@ -67,7 +67,7 @@ function CommissionPayment() {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
+        const response = await axios.get("http://localhost:5000/api/v1/user");
         const allUsers = response.data.data;
   
         // Filter users with Role "admin" or "superadmin"
@@ -104,7 +104,7 @@ function CommissionPayment() {
     
             {/* Modal */}
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                    <ModalHeader>Payment Request Sent</ModalHeader>
+                                    <ModalHeader>Comission Request Sent</ModalHeader>
                                     <ModalBody>
                                     <form onSubmit={handleSubmit(onFormSubmit)}>
                         <div className="grid grid-cols-1 gap-4">
@@ -166,7 +166,7 @@ function CommissionPayment() {
             <button onClick={() => {
             setIsModalOpen(true)
           }}  className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
-              + Request Program from EduAnchor Team
+              + Request Commission
             </button>
           </div>
         </div>

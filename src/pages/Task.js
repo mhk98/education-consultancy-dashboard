@@ -16,8 +16,6 @@ function Task() {
   const user_id = localStorage.getItem("userId")
   const first_Name = localStorage.getItem("FirstName")
   const last_Name = localStorage.getItem("LastName")
-
-  const [admins, setAdmins] = useState([]);
     const [file, setFile] = useState(null);
       const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -65,17 +63,46 @@ function Task() {
 
 
  
-
+  const [admins, setAdmins] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user"); // Replace with your API endpoint
+        const response = await axios.get("http://localhost:5000/api/v1/user");
+        const allUsers = response.data.data;
+  
+        // ফিল্টার লজিক
+        const filtered = allUsers.filter(user => {
+          const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+          return role && role !== "student" && (
+            role === "superadmin" || (role === "admin" && user.Branch === branch)
+          );
+        });
+  
+        setAdmins(filtered);
+      } catch (err) {
+        console.error("Error fetching users:", err);
+      }
+    };
+  
+    fetchUsers();
+  }, [branch]);
+  
+    
+
+
+
+  const [superAdmins, setSuperAdmins] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/v1/user"); // Replace with your API endpoint
         const allUsers = response.data.data;
   
         // Filter out students
-        const filtered = allUsers.filter(user => user.Role?.toLowerCase() !== "student" && user.Branch === branch);
-        setAdmins(filtered);
+        const filtered = allUsers.filter(user => user.Role?.toLowerCase() !== "student");
+        setSuperAdmins(filtered);
       } catch (err) {
         console.error("Error fetching users:", err);
       
@@ -316,19 +343,39 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
                             </div>
                             
 
-                      <div className="mt-4">
-                   <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
 
-                                <Select name="assignedTo" {...register('assignedTo')} className="mt-1">
-                                  <option>Select Assignee</option>
-                                  {admins.map((admin) => (
-                                    <option key={admin.id} value={admin.id}>
-                                      {admin.FirstName} {admin.LastName}
-                                    </option>
-                                  ))}
-                                </Select>
-                                {errors.assignedTo && <p className="text-red-500 text-xs mt-1">{errors.assignedTo.message}</p>}
-                              </div>
+                   {
+                    role === "superAdmin" ? (
+                      <div className="mt-4">
+                      <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
+   
+                                   <Select name="assignedTo" {...register('assignedTo')} className="mt-1">
+                                     <option>Select Assignee</option>
+                                     {superAdmins.map((admin) => (
+                                       <option key={admin.id} value={admin.id}>
+                                         {admin.FirstName} {admin.LastName}
+                                       </option>
+                                     ))}
+                                   </Select>
+                                   {errors.assignedTo && <p className="text-red-500 text-xs mt-1">{errors.assignedTo.message}</p>}
+                                 </div>
+                    ): (
+                      <div className="mt-4">
+                      <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
+   
+                                   <Select name="assignedTo" {...register('assignedTo')} className="mt-1">
+                                     <option>Select Assignee</option>
+                                     {admins.map((admin) => (
+                                       <option key={admin.id} value={admin.id}>
+                                         {admin.FirstName} {admin.LastName}
+                                       </option>
+                                     ))}
+                                   </Select>
+                                   {errors.assignedTo && <p className="text-red-500 text-xs mt-1">{errors.assignedTo.message}</p>}
+                                 </div>
+                    )
+                   }
+
                               <div className="mb-4">
                     <label className="block text-sm text-gray-700 mb-2">
                       Branch
@@ -456,7 +503,7 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
             <td className="p-3 whitespace-nowrap">{task.description}</td>
             <td className="p-3 whitespace-nowrap">
               <a
-                href={`https://education-consultancy-backend.onrender.com/${task.file}`}
+                href={`http://localhost:5000/${task.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-brandRed"
@@ -471,7 +518,7 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
                 fontSize={20}
                 className="cursor-pointer"
                 onClick={() => {
-                  setIsModalOpen(true);
+                  setIsModalOpen1(true);
                   setTaskId(task.id)
                 }}
               />
@@ -491,9 +538,28 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
   <ModalBody>
     <form onSubmit={handleSubmit(onFormEdit)}>
       <div className="grid grid-cols-1 gap-4">
-        <div className="mb-4">
+       {
+        role === "superAdmin" ? (
+          <div className="mb-4">
           <label className="block text-sm text-gray-700 mb-2">
-            {role === "superAdmin" ? "Status" : "Task Status"}
+           Task Status
+          </label>
+          <select
+            {...register("status")}
+            className="input input-bordered w-full shadow-md p-3"
+          >
+            <option value="">Select Status</option>
+            <option value="PENDING">PENDING</option>
+            <option value="APPROVED">APPROVED</option>
+          </select>
+          {errors.status && (
+            <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+          )}
+        </div>
+        ) : (
+          <div className="mb-4">
+          <label className="block text-sm text-gray-700 mb-2">
+           Task Status
           </label>
           <select
             {...register("status")}
@@ -507,6 +573,8 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
             <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
           )}
         </div>
+        )
+       }
       </div>
 
       <div className="flex justify-end gap-2 mt-6">
