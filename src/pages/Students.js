@@ -65,6 +65,7 @@ function Students() {
 		formData.append("Email", data.Email);
 		formData.append("Password", data.Password);
 		formData.append("Phone", data.Phone); 
+		formData.append("Address", data.Address); 
 		formData.append("Role", role); 
 		if (image) {
 			formData.append("image", image);
@@ -85,7 +86,15 @@ function Students() {
 		}
 	};
 
-
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const form = e.target.form;
+      const index = Array.prototype.indexOf.call(form, e.target);
+      form.elements[index + 1]?.focus();
+    }
+  };
+  
   return (
     <>
       {/* <PageTitle>Dashboard</PageTitle> */}
@@ -123,6 +132,7 @@ function Students() {
                   <Input
                     type="text"
                     {...register("FirstName")}
+                    onKeyDown =  {handleEnter}
                     className="input input-bordered w-full form-control shadow-md p-3"
                   />
                   {errors.FirstName && (
@@ -134,28 +144,46 @@ function Students() {
                   <Input
                     type="text"
                     {...register("LastName")}
+                    onKeyDown =  {handleEnter}
                     className="input input-bordered w-full form-control shadow-md p-3"
                   />
                   {errors.LastName && (
                     <p className="text-red-500 text-sm mt-1">{errors.LastName.message}</p>
                   )}
                 </div>
+                
                 <div className="mb-4">
                   <label className="block text-sm mb-1 text-gray-700">Mobile Number</label>
                   <Input
                     type="number"
                     {...register("Phone")}
+                    onKeyDown =  {handleEnter}
                     className="input input-bordered w-full form-control shadow-md p-3"
                   />
                   {errors.Phone && (
                     <p className="text-red-500 text-sm mt-1">{errors.Phone.message}</p>
                   )}
                 </div>
+
+                <div className="mb-4">
+                  <label className="block text-sm mb-1 text-gray-700">Address</label>
+                  <Input
+                    type="text"
+                    {...register("Address")}
+                    onKeyDown =  {handleEnter}
+                    className="input input-bordered w-full form-control shadow-md p-3"
+                  />
+                  {errors.Address && (
+                    <p className="text-red-500 text-sm mt-1">{errors.Address.message}</p>
+                  )}
+                </div>
+
                 <div className="mb-4">
                   <label className="block text-sm mb-1 text-gray-700">Email</label>
                   <Input
                     type="email"
                     {...register("Email")}
+                    onKeyDown =  {handleEnter}
                     className="input input-bordered w-full form-control shadow-md p-3"
                   />
                   {errors.Email && (
@@ -167,6 +195,7 @@ function Students() {
                   <Input
                     type="password"
                     {...register("Password")}
+                    onKeyDown =  {handleEnter}
                     className="input input-bordered w-full form-control shadow-md p-3"
                   />
                   {errors.Password && (

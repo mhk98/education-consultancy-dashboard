@@ -112,6 +112,14 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                  }
                };
 
+               const handleEnter = (e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  const form = e.target.form;
+                  const index = Array.prototype.indexOf.call(form, e.target);
+                  form.elements[index + 1]?.focus();
+                }
+              };
 
     return (
 
@@ -204,6 +212,7 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                   <label className="block text-sm mb-1 text-gray-700 mb-4">Payment Status</label>
                   <select
                     {...register("status", { required: "Status is required" })}
+                    onKeyDown={handleEnter}
                     className="input input-bordered w-full shadow-md p-3"
                   >
                     <option value="">Select Status</option>

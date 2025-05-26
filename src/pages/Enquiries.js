@@ -123,6 +123,15 @@ const id = localStorage.getItem("userId")
       toast.error('An unexpected error occurred.');
     }
   };
+
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const form = e.target.form;
+      const index = Array.prototype.indexOf.call(form, e.target);
+      form.elements[index + 1]?.focus();
+    }
+  };
   
   return (
     <div className="w-full px-4 py-6 bg-gray-50">
@@ -174,20 +183,21 @@ const id = localStorage.getItem("userId")
                       <label className="block mb-1 font-medium">
                         First Name<span className="text-red-500">*</span>
                       </label>
-                      <Input {...register('firstName', { required: true })} placeholder="Enter First Name" />
+                      <Input onKeyDown = {handleEnter} {...register('firstName', { required: true })} placeholder="Enter First Name" />
                       {errors.firstName && <p className="text-red-500 text-sm">First name is required.</p>}
                     </div>
                     <div>
                       <label className="block mb-1 font-medium">
                         Last Name<span className="text-red-500">*</span>
                       </label>
-                      <Input {...register('lastName', { required: true })} placeholder="Enter Last Name" />
+                      <Input  onKeyDown = {handleEnter} {...register('lastName', { required: true })} placeholder="Enter Last Name" />
                       {errors.lastName && <p className="text-red-500 text-sm">Last name is required.</p>}
                     </div>
 
                     <div>
           <label className="block mb-1 font-medium">Select Branch<span className="text-red-500">*</span></label>
-                      <select {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
+                      <select   onKeyDown = {handleEnter} {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
+                   
                         <option >Select Branch</option>
                         <option value="">Select Branch</option>
                       <option value="Dhaka">Dhaka</option>
@@ -203,7 +213,8 @@ const id = localStorage.getItem("userId")
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block mb-1 font-medium">Preferred Destination<span className="text-red-500">*</span></label>
-                      <select {...register('destination', { required: true })} className="w-full border rounded px-3 py-2">
+                      <select    onKeyDown = {handleEnter} {...register('destination', { required: true })} className="w-full border rounded px-3 py-2">
+                     
                         <option value="">Select Destination</option>
                         <option value="Bangladesh">Bangladesh</option>
                         <option value="Finland">Finland</option>
@@ -212,7 +223,8 @@ const id = localStorage.getItem("userId")
                     </div>
                     <div>
                       <label className="block mb-1 font-medium">Student's Country of Education<span className="text-red-500">*</span></label>
-                      <select {...register('educationCountry', { required: true })} className="w-full border rounded px-3 py-2">
+                      <select   onKeyDown = {handleEnter} {...register('educationCountry', { required: true })} className="w-full border rounded px-3 py-2">
+                  
                         <option value="">Select Country</option>
                         <option value="Bangladesh">Bangladesh</option>
                         <option value="Finland">Finland</option>
@@ -221,7 +233,7 @@ const id = localStorage.getItem("userId")
                     </div>
                     <div>
                       <label className="block mb-1 font-medium">Highest Education Level<span className="text-red-500">*</span></label>
-                      <select {...register('educationLevel', { required: true })} className="w-full border rounded px-3 py-2">
+                      <select   onKeyDown = {handleEnter} {...register('educationLevel', { required: true })} className="w-full border rounded px-3 py-2">
                         <option >Select Level</option>
                         <option value="SSC">SSC</option>
                         <option value="HSC">HSC</option>
@@ -236,6 +248,7 @@ const id = localStorage.getItem("userId")
                         <span className="text-sm text-gray-500"> (Max 3)</span>
                       </Label>
                       <Controller
+                        onKeyDown = {handleEnter}
                         name="studyArea"
                         control={control}
                         rules={{ required: true }}
@@ -262,6 +275,7 @@ const id = localStorage.getItem("userId")
                         <span className="text-sm text-gray-500"> (Max 3)</span>
                       </Label>
                       <Controller
+                        onKeyDown = {handleEnter}
                         name="studyLevel"
                         control={control}
                         rules={{ required: true }}
@@ -285,6 +299,7 @@ const id = localStorage.getItem("userId")
                   <div className="w-full">
                     <label className="block mb-1 font-medium">Additional Information</label>
                     <textarea
+                      onKeyDown = {handleEnter}
                       {...register("additionalInfo")}
                       placeholder="Type your message here..."
                       className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -318,19 +333,19 @@ const id = localStorage.getItem("userId")
                         <label className="block mb-1 font-medium">
                           First Name<span className="text-red-500">*</span>
                         </label>
-                        <Input {...register('firstName', { required: true })} placeholder="Enter First Name" />
+                        <Input   onKeyDown = {handleEnter} {...register('firstName', { required: true })} placeholder="Enter First Name" />
                         {errors.firstName && <p className="text-red-500 text-sm">First name is required.</p>}
                       </div>
                       <div>
                         <label className="block mb-1 font-medium">
                           Last Name<span className="text-red-500">*</span>
                         </label>
-                        <Input {...register('lastName', { required: true })} placeholder="Enter Last Name" />
+                        <Input   onKeyDown = {handleEnter} {...register('lastName', { required: true })} placeholder="Enter Last Name" />
                         {errors.lastName && <p className="text-red-500 text-sm">Last name is required.</p>}
                       </div>
                       <div>
           <label className="block mb-1 font-medium">Select Branch<span className="text-red-500">*</span></label>
-                      <select {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
+                      <select   onKeyDown = {handleEnter} {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
                         <option >Select Branch</option>
                         <option value="">Select Branch</option>
                       <option value="Dhaka">Dhaka</option>
@@ -345,7 +360,7 @@ const id = localStorage.getItem("userId")
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block mb-1 font-medium">Preferred Destination<span className="text-red-500">*</span></label>
-                      <select {...register('destination', { required: true })} className="w-full border rounded px-3 py-2">
+                      <select   onKeyDown = {handleEnter} {...register('destination', { required: true })} className="w-full border rounded px-3 py-2">
                         <option value="">Select Destination</option>
                         <option value="Bangladesh">Bangladesh</option>
                         <option value="Finland">Finland</option>
@@ -354,7 +369,7 @@ const id = localStorage.getItem("userId")
                     </div>
                     <div>
                       <label className="block mb-1 font-medium">Student's Country of Education<span className="text-red-500">*</span></label>
-                      <select {...register('educationCountry', { required: true })} className="w-full border rounded px-3 py-2">
+                      <select    onKeyDown = {handleEnter} {...register('educationCountry', { required: true })} className="w-full border rounded px-3 py-2">
                         <option value="">Select Country</option>
                         <option value="Bangladesh">Bangladesh</option>
                         <option value="Finland">Finland</option>
@@ -363,7 +378,7 @@ const id = localStorage.getItem("userId")
                     </div>
                     <div>
                       <label className="block mb-1 font-medium">Highest Education Level<span className="text-red-500">*</span></label>
-                      <select {...register('educationLevel', { required: true })} className="w-full border rounded px-3 py-2">
+                      <select   onKeyDown = {handleEnter} {...register('educationLevel', { required: true })} className="w-full border rounded px-3 py-2">
                         <option >Select Level</option>
                         <option value="SSC">SSC</option>
                         <option value="HSC">HSC</option>
@@ -378,6 +393,7 @@ const id = localStorage.getItem("userId")
                           <span className="text-sm text-gray-500"> (Max 3)</span>
                         </Label>
                         <Controller
+                          onKeyDown = {handleEnter}
                           name="studyArea"
                           control={control}
                           rules={{ required: true }}
@@ -404,6 +420,7 @@ const id = localStorage.getItem("userId")
                           <span className="text-sm text-gray-500"> (Max 3)</span>
                         </Label>
                         <Controller
+                          onKeyDown = {handleEnter}
                           name="studyLevel"
                           control={control}
                           rules={{ required: true }}
@@ -428,6 +445,7 @@ const id = localStorage.getItem("userId")
                     <div className="w-full">
                     <label className="block mb-1 font-medium">Additional Information</label>
                     <textarea
+                      onKeyDown = {handleEnter}
                       {...register("additionalInfo")}
                       placeholder="Type your message here..."
                       className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"

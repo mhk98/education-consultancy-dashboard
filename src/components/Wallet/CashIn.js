@@ -1,12 +1,14 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Input, Button } from '@windmill/react-ui'
 import { useInitPendingPaymentMutation } from "../../features/pendingPayment/pendingPayment";
+import axios from "axios";
 
 
 const CashIn = ({id}) => {
-
+const role = localStorage.getItem("role")
+const branch = localStorage.getItem("branch")
     const {
           register,
           formState: { errors },
@@ -42,6 +44,64 @@ const CashIn = ({id}) => {
             }
         };
 
+
+         const [employees, setEmployees] = useState([]);
+            
+              useEffect(() => {
+                const fetchUsers = async () => {
+                  try {
+                    const response = await axios.get("http://localhost:5000/api/v1/user");
+                    const allUsers = response.data.data;
+              
+                    // ফিল্টার লজিক
+                    const filtered = allUsers.filter(user => {
+                      const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+                      return role && role === "employee" &&  user.Branch === branch      
+                    });
+              
+                    setEmployees(filtered);
+                  } catch (err) {
+                    console.error("Error fetching users:", err);
+                  }
+                };
+              
+                fetchUsers();
+              }, [branch]);
+
+
+
+              const [superAdminEmployees, setSuperAdminEmployees] = useState([]);
+    
+              useEffect(() => {
+                const fetchUsers = async () => {
+                  try {
+                    const response = await axios.get("http://localhost:5000/api/v1/user");
+                    const allUsers = response.data.data;
+              
+                    // ফিল্টার লজিক
+                    const filtered = allUsers.filter(user => {
+                      const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+                      return role && role === "employee"   
+                    });
+              
+                    setSuperAdminEmployees(filtered);
+                  } catch (err) {
+                    console.error("Error fetching users:", err);
+                  }
+                };
+              
+                fetchUsers();
+              }, [branch]);             
+
+              const handleEnter = (e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  const form = e.target.form;
+                  const index = Array.prototype.indexOf.call(form, e.target);
+                  form.elements[index + 1]?.focus();
+                }
+              };
+
     return (
          <div className="w-full flex justify-between">
               <form onSubmit={handleSubmit(onFormSubmit)} className="w-full">
@@ -64,6 +124,7 @@ const CashIn = ({id}) => {
                     <Input
                       type="number"
                       {...register("amount")}
+                      onKeyDown = {handleEnter}
                       className="w-full p-3 shadow-md border rounded-md"
                     />
                     {errors.amount && (
@@ -77,6 +138,7 @@ const CashIn = ({id}) => {
                     <Input
                       type="text"
                       {...register("purpose")}
+                      onKeyDown = {handleEnter}
                       className="w-full p-3 shadow-md border rounded-md"
                     />
                     {errors.purpose && (
@@ -84,21 +146,61 @@ const CashIn = ({id}) => {
                     )}
                   </div>
         
-                    <div className="mb-4">
-                                                                                   
-                    <label className="block text-sm mb-1 text-gray-700 mb-4">Employee Name</label>
-                        <select
-                          {...register("employee")} className="input input-bordered w-full shadow-md p-3">
-                                    <option value="">Select Employee</option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>        
-                                    <option value="C">C</option>        
-                                    <option value="D">D</option>        
-                                    <option value="E">E</option>        
-                        </select>
-                        {errors.employee && (
-                          <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>)}
-                        </div> 
+                  {
+                    role === "admin" ? (
+                      <div className="mb-4">
+                    <label className="block text-sm mb-1 text-gray-700 mb-4">Employee</label>
+                    <select
+                      {...register("employee")}
+                      onKeyDown = {handleEnter}
+                      className="input input-bordered w-full shadow-md p-3"
+                    >
+                      <option value="">Select Employee</option>
+                      {
+                        
+                      employees.map((employee) => (
+                        <option
+                          key={employee.id}
+                          value={`${employee.FirstName} ${employee.LastName}`}
+                        >
+                          {employee.FirstName} {employee.LastName}
+                        </option>
+                      ))
+                      
+                      }
+                    </select>
+                    {errors.employee && (
+                      <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>
+                    )}
+                  </div> 
+                    ): (
+                      <div className="mb-4">
+                    <label className="block text-sm mb-1 text-gray-700 mb-4">Employee</label>
+                    <select
+                      {...register("employee")}
+                      onKeyDown = {handleEnter}
+                      className="input input-bordered w-full shadow-md p-3"
+                    >
+                      <option value="">Select Employee</option>
+                      {
+                        
+                      superAdminEmployees.map((employee) => (
+                        <option
+                          key={employee.id}
+                          value={`${employee.FirstName} ${employee.LastName}`}
+                        >
+                          {employee.FirstName} {employee.LastName}
+                        </option>
+                      ))
+                      
+                      }
+                    </select>
+                    {errors.employee && (
+                      <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>
+                    )}
+                  </div> 
+                    )
+                  }
                  
                         <div className="mb-4">
                     <label className="block text-sm text-gray-700 mb-2">
@@ -106,6 +208,7 @@ const CashIn = ({id}) => {
                     </label>
                     <select
                       {...register("branch")}
+                      onKeyDown = {handleEnter}
                       className="input input-bordered w-full shadow-md p-3"
                     >
                       <option value="">Select Branch</option>

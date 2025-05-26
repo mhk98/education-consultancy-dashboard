@@ -151,6 +151,15 @@ const UserManagementFilter = () => {
       Math.min(startPage + pagesPerSet, totalPages - pagesPerSet + 1)
     );
 
+    const handleEnter = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const form = e.target.form;
+        const index = Array.prototype.indexOf.call(form, e.target);
+        form.elements[index + 1]?.focus();
+      }
+    };
+    
   return (
     <div className="w-full bg-white rounded-lg shadow-sm p-4">
       {/* Search Filters */}
@@ -292,6 +301,7 @@ const UserManagementFilter = () => {
                 <span>Role</span>
                 <select
                   {...register('Role')}
+            onKeyDown={handleEnter}
                   className="input input-bordered w-full p-2 border border-gray-300"
                 >
                   <option value="">Select Role</option>
@@ -310,6 +320,7 @@ const UserManagementFilter = () => {
                 <span>Profile Status</span>
                 <select
                   {...register('Profile')}
+            onKeyDown={handleEnter}
                   className="input input-bordered w-full p-2 border border-gray-300"
                 >
                   <option value="">Select Status</option>
@@ -329,6 +340,7 @@ const UserManagementFilter = () => {
                 <span>Branch</span>
                 <select
                   {...register('Branch')}
+            onKeyDown={handleEnter}
                   className="input input-bordered w-full p-2 border border-gray-300"
                 >
                   <option value="">Select Branch</option>

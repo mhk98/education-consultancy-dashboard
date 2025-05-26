@@ -237,6 +237,54 @@ const EnquiriesRequestedPanel = () => {
     </div>
   );
 
+    const [employees, setEmployees] = useState([]);
+      
+        useEffect(() => {
+          const fetchUsers = async () => {
+            try {
+              const response = await axios.get("http://localhost:5000/api/v1/user");
+              const allUsers = response.data.data;
+        
+              // ফিল্টার লজিক
+              const filtered = allUsers.filter(user => {
+                const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+                return role && role === "employee" &&  user.Branch === branch      
+              });
+        
+              setEmployees(filtered);
+            } catch (err) {
+              console.error("Error fetching users:", err);
+            }
+          };
+        
+          fetchUsers();
+        }, [branch]);
+  
+  
+        const [superAdminEmployees, setSuperAdminEmployees] = useState([]);
+      
+        useEffect(() => {
+          const fetchUsers = async () => {
+            try {
+              const response = await axios.get("http://localhost:5000/api/v1/user");
+              const allUsers = response.data.data;
+        
+              // ফিল্টার লজিক
+              const filtered = allUsers.filter(user => {
+                const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+                return role && role !== "student"   
+              });
+        
+              setSuperAdminEmployees(filtered);
+            } catch (err) {
+              console.error("Error fetching users:", err);
+            }
+          };
+        
+          fetchUsers();
+        }, [branch]);
+
+
   return (
     <div className="flex flex-col lg:flex-row p-4 gap-4 max-w-full overflow-x-hidden">
       {/* Left Panel */}
@@ -270,7 +318,7 @@ const EnquiriesRequestedPanel = () => {
                                                            <div className="grid grid-cols-1 gap-4">
                                                              {/* Left Side */}
                                                        
-                                                               
+{/*                                                                
                                                                <div className="mb-4">
                                                                  <label className="block text-sm mb-1 text-gray-700 mb-4">Assign To</label>
                                                                  <select
@@ -285,7 +333,32 @@ const EnquiriesRequestedPanel = () => {
                                                                    {errors.assignedTo && (
                                                                      <p className="text-red-500 text-sm mt-1">{errors.assignedTo.message}</p>
                                                                    )}
-                                                               </div>
+                                                               </div> */}
+
+<div className="mb-4">
+                    <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
+                    <select
+                      {...register("assignedTo")}
+                      className="input input-bordered w-full shadow-md p-3"
+                    >
+                      <option value="">Select Assignee</option>
+                      {
+                        
+                        superAdminEmployees.map((employee) => (
+                        <option
+                          key={employee.id}
+                          value={`${employee.FirstName} ${employee.LastName}`}
+                        >
+                          {employee.FirstName} {employee.LastName}
+                        </option>
+                      ))
+                      
+                      }
+                    </select>
+                    {errors.assignedTo && (
+                      <p className="text-red-500 text-sm mt-1">{errors.assignedTo.message}</p>
+                    )}
+                  </div>
                                                                <div className="mb-4">
                                                                  <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
                                                                  <select
@@ -355,21 +428,32 @@ const EnquiriesRequestedPanel = () => {
                                                              {/* Left Side */}
                                                        
                                                                
-                                                               <div className="mb-4">
-                                                                 <label className="block text-sm mb-1 text-gray-700 mb-4">Assign To</label>
-                                                                 <select
-                                                                     {...register("assignedTo")}
-                                                                     className="input input-bordered w-full shadow-md p-3"
-                                                                   >
-                                                                     <option value="">Select Assignee</option>
-                                                                     <option value="A">A</option>
-                                                                     <option value="B">B</option>        
-                                                                     <option value="C">C</option>        
-                                                                   </select>
-                                                                   {errors.assignedTo && (
-                                                                     <p className="text-red-500 text-sm mt-1">{errors.assignedTo.message}</p>
-                                                                   )}
-                                                               </div>
+                                                             
+<div className="mb-4">
+                    <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
+                    <select
+                      {...register("assignedTo")}
+                      className="input input-bordered w-full shadow-md p-3"
+                    >
+                      <option value="">Select Assignee</option>
+                      {
+                        
+                      employees.map((employee) => (
+                        <option
+                          key={employee.id}
+                          value={`${employee.FirstName} ${employee.LastName}`}
+                        >
+                          {employee.FirstName} {employee.LastName}
+                        </option>
+                      ))
+                      
+                      }
+                    </select>
+                    {errors.assignedTo && (
+                      <p className="text-red-500 text-sm mt-1">{errors.assignedTo.message}</p>
+                    )}
+                  </div>
+                                                               
                                                                <div className="mb-4">
                                                                  <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
                                                                  <select
@@ -425,12 +509,12 @@ const EnquiriesRequestedPanel = () => {
               <p className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold">
                 Program Options Sent
               </p>
-              <p onClick={() => {
+              {/* <p onClick={() => {
                               setIsModalOpen(true);
                               setEnquiryId(item.id);
                             }} className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold cursor-pointer">
                 Edit
-              </p>
+              </p> */}
 
     <Modal isOpen={isModalOpen} onClose={closeModal}>
                                                                        <ModalHeader className="mb-8">Edit User Information</ModalHeader>

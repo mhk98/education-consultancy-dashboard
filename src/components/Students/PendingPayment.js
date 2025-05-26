@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Input, Button } from '@windmill/react-ui'
 import toast from 'react-hot-toast'
 import {  useInitPendingPaymentMutation } from '../../features/pendingPayment/pendingPayment'
+import axios from 'axios'
 
 function PendingPayment({id}) {
 
@@ -88,6 +89,54 @@ function PendingPayment({id}) {
     };
 
     
+    
+      const [employees, setEmployees] = useState([]);
+    
+      useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const response = await axios.get("http://localhost:5000/api/v1/user");
+            const allUsers = response.data.data;
+      
+            // ফিল্টার লজিক
+            const filtered = allUsers.filter(user => {
+              const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+              return role && role === "employee" &&  user.Branch === branch      
+            });
+      
+            setEmployees(filtered);
+          } catch (err) {
+            console.error("Error fetching users:", err);
+          }
+        };
+      
+        fetchUsers();
+      }, [branch]);
+
+
+      const [superAdminEmployees, setSuperAdminEmployees] = useState([]);
+    
+      useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const response = await axios.get("http://localhost:5000/api/v1/user");
+            const allUsers = response.data.data;
+      
+            // ফিল্টার লজিক
+            const filtered = allUsers.filter(user => {
+              const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+              return role && role === "employee"   
+            });
+      
+            setSuperAdminEmployees(filtered);
+          } catch (err) {
+            console.error("Error fetching users:", err);
+          }
+        };
+      
+        fetchUsers();
+      }, [branch]);
+
 
   return (
     <>
@@ -181,20 +230,30 @@ function PendingPayment({id}) {
                     </div>
 
                     <div className="mb-4">
-                                                                                   
-                    <label className="block text-sm mb-1 text-gray-700 mb-4">Profile Status</label>
-                        <select
-                          {...register("employee")} className="input input-bordered w-full shadow-md p-3">
-                                    <option value="">Select Employee</option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>        
-                                    <option value="C">C</option>        
-                                    <option value="D">D</option>        
-                                    <option value="E">E</option>        
-                        </select>
-                        {errors.employee && (
-                          <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>)}
-                        </div> 
+                    <label className="block text-sm mb-1 text-gray-700 mb-4">Employee</label>
+                    <select
+                      {...register("employee")}
+                      className="input input-bordered w-full shadow-md p-3"
+                    >
+                      <option value="">Select Employee</option>
+                      {
+                        
+                      employees.map((employee) => (
+                        <option
+                          key={employee.id}
+                          value={`${employee.FirstName} ${employee.LastName}`}
+                        >
+                          {employee.FirstName} {employee.LastName}
+                        </option>
+                      ))
+                      
+                      }
+                    </select>
+                    {errors.employee && (
+                      <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>
+                    )}
+                  </div>
+
 
                     <div>
                         <label className="block text-sm mb-1 text-gray-700">Upload Payment Documents</label>

@@ -92,6 +92,17 @@ function CommissionPayment() {
 
   console.log("Admins:", admins);
    
+
+  
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const form = e.target.form;
+      const index = Array.prototype.indexOf.call(form, e.target);
+      form.elements[index + 1]?.focus();
+    }
+  };
+
         
   return (
     <>
@@ -115,6 +126,7 @@ function CommissionPayment() {
                               <Input
                                 type="text"
                                 {...register("amount")}
+                                onKeyDown = {handleEnter}
                                 className="input input-bordered w-full form-control shadow-md p-3"
                               />
                               {errors.amount && (
@@ -126,6 +138,8 @@ function CommissionPayment() {
                               <Input
                                 type="text"
                                 {...register("purpose")}
+                                onKeyDown = {handleEnter}
+
                                 className="input input-bordered w-full form-control shadow-md p-3"
                               />
                               {errors.purpose && (
@@ -138,6 +152,7 @@ function CommissionPayment() {
                    <label className="block text-sm mb-1 text-gray-700 mb-4">Branch</label>
 
                                 <Select name="branch" {...register('branch')} className="mt-1">
+                                onKeyDown = {handleEnter}
                                   <option>Select Branch</option>
                                   {admins.map((admin) => (
                                     <option key={admin.id} value={admin.Branch}>

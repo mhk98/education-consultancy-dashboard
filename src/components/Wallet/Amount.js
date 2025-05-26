@@ -142,6 +142,16 @@ const [selectBranch, setSelectBranch] = useState("")
           setInvoiceNo(newInvoiceNo);
         }, []);
 
+
+        const handleEnter = (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const form = e.target.form;
+            const index = Array.prototype.indexOf.call(form, e.target);
+            form.elements[index + 1]?.focus();
+          }
+        };
+
   return (
     <>
    
@@ -238,6 +248,7 @@ const [selectBranch, setSelectBranch] = useState("")
                           <Input
                             type="number"
                             {...register("amount")}
+                            onKeyDown = {handleEnter}
                             className="w-full p-3 shadow-md border rounded-md"
                           />
                           {errors.amount && (
@@ -254,6 +265,7 @@ const [selectBranch, setSelectBranch] = useState("")
                           <Input
                             type="text"
                             {...register("purpose")}
+                            onKeyDown = {handleEnter}
                             className="w-full p-3 shadow-md border rounded-md"
                           />
                           {errors.purpose && (
@@ -268,6 +280,7 @@ const [selectBranch, setSelectBranch] = useState("")
                           <Input
                             type="text"
                             {...register("comment")}
+                            onKeyDown = {handleEnter}
                             className="w-full p-3 shadow-md border rounded-md"
                           />
                           {errors.comment && (
@@ -283,6 +296,7 @@ const [selectBranch, setSelectBranch] = useState("")
                           </label>
                           <select
                             {...register("status")}
+                            onKeyDown = {handleEnter}
                             className="input input-bordered w-full shadow-md p-3"
                           >
                             <option value="">Select Status</option>
@@ -330,12 +344,12 @@ const [selectBranch, setSelectBranch] = useState("")
       invoiceNo: invoiceNo,
       date: formatDate(payment.createdAt),  // ✅ Corrected here
       studentId: payment.user_id,
-      name: 'John Doe',
-      phone: '0123456789',
-      address: '123 Main St, Dhaka',
+      name: payment.name,
+      phone: payment.phone,
+      address: payment.address,
       branch: payment.branch,
       transactionId: payment.transactionId,
-      paymentMethod: 'Bkash',
+      paymentMethod: payment.paymentStatus,
       items: [
         {
           qty: 1,

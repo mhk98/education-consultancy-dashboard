@@ -35,21 +35,31 @@ const Invoice = ({ invoiceData }) => {
       <div ref={invoiceRef} className="hidden">
         {/* Your actual invoice layout below */}
         <div className="p-6 max-w-3xl bg-white rounded shadow text-black">
-          <div className="text-center mb-4">
+          <div className="flex justify-between items-center mb-4">
+
+            <h1 className="text-2xl font-bold">EAC</h1>
             <h1 className="text-2xl font-bold">INVOICE</h1>
-            <p className="text-gray-500">Invoice No: {invoiceData.invoiceNo}</p>
-            <p className="text-gray-500">Date: {invoiceData.date}</p>
+            {/* <p className="text-gray-500">Invoice No: {invoiceData.invoiceNo}</p>
+            <p className="text-gray-500">Date: {invoiceData.date}</p> */}
           </div>
 
+          <div className='flex justify-between items-center' style={{marginTop:"45px"}}>
           <div className="mb-4">
-            <h2 className="font-semibold mb-1">Issued To:</h2>
+            <h2 className="font-semibold mb-1">Invoice No:</h2>
             <p>Student ID: {invoiceData.studentId}</p>
             <p>Name: {invoiceData.name}</p>
             <p>Phone: {invoiceData.phone}</p>
             <p>Address: {invoiceData.address}</p>
           </div>
+          <div className="mb-4">
+            <h2 className="font-semibold mb-1">Issued To:</h2>
+              <p>Branch: {invoiceData.branch}</p>
+              <p>Transaction ID: {invoiceData.transactionId}</p>
+              <p>Payment Method: {invoiceData.paymentMethod}</p>
+          </div>
+          </div>
 
-          <table className="w-full border-collapse mb-4">
+          <table className="w-full border-collapse" style={{marginTop:"45px"}}>
             <thead>
               <tr className="bg-gray-100 text-left">
                 <th className="p-2 border">QTY</th>
@@ -68,21 +78,25 @@ const Invoice = ({ invoiceData }) => {
             </tbody>
           </table>
 
-          <div className="text-right mb-4">
+          <div className='flex justify-between' style={{marginTop:"30px"}}>
+              <h1 className='font-bold text-xl'>Terms and conditions</h1>
+          <div className="text-right" style={{marginTop:"30px"}}>
             <p>Sub total: {invoiceData.subTotal}</p>
             <p>Discount: {invoiceData.discount}</p>
             <p>Taxes: {invoiceData.taxes}</p>
             <p className="font-bold">TOTAL: {invoiceData.total}</p>
           </div>
+          </div>
 
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center" style={{marginTop:"30px"}}>
             <div>
-              <p>Branch: {invoiceData.branch}</p>
-              <p>Transaction ID: {invoiceData.transactionId}</p>
-              <p>Payment Method: {invoiceData.paymentMethod}</p>
+              <h3>PAYMENT METHOD: CASH/BANK/BIKASH/ONLINE</h3>
+              <h2>THANK YOU FOR YOUR PAYMENT!</h2>
+              <h1 className='font-bold'>EA CONSULTANCY</h1>
+              
             </div>
             <div className="text-center">
-              <p className="mt-8 border-t border-gray-400 pt-2">Signature</p>
+              <p className="mt-8 border-t border-gray-400 pt-2">Managing Director’s Signature</p>
             </div>
           </div>
         </div>
