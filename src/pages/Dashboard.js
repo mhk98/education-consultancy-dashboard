@@ -1,33 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
-import CTA from '../components/CTA'
-import InfoCard from '../components/Cards/InfoCard'
-import ChartCard from '../components/Chart/ChartCard'
-import { Doughnut, Line } from 'react-chartjs-2'
-import ChartLegend from '../components/Chart/ChartLegend'
-import PageTitle from '../components/Typography/PageTitle'
-import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from '../icons'
-import RoundIcon from '../components/RoundIcon'
 import response from '../utils/demo/tableData'
-import {
-  TableBody,
-  TableContainer,
-  Table,
-  TableHeader,
-  TableCell,
-  TableRow,
-  TableFooter,
-  Avatar,
-  Badge,
-  Pagination,
-} from '@windmill/react-ui'
-
-import {
-  doughnutOptions,
-  lineOptions,
-  doughnutLegends,
-  lineLegends,
-} from '../utils/demo/chartsData'
 import FilterPanel from '../components/FilterPanel'
 import DashboardCards from '../components/DashboardCards'
 import DashboardItems from '../components/DashboardItems'
@@ -66,27 +38,23 @@ function Dashboard() {
         </div>
 
         {/* Right: Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3">
-          {/* Flywire Button */}
+        {/* <div className="flex flex-col sm:flex-row gap-3">
+       
           <button className="flex items-center justify-center gap-2 px-4 py-2 border border-brandRed text-brandRed rounded-md hover:bg-brandRed-50 transition">
             <span className="text-sm md:text-base">Pay Fees via</span>
-            {/* <img
-              src="https://cdn.flywire.com/assets/images/logos/flywire/flywire-logo-brandRed.svg"
-              alt="Flywire"
-              className="h-5"
-            /> */}
+      
           </button>
 
-          {/* Request Program Options */}
+         
           <button className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
             + Request Program Options from EduAnchor Team
           </button>
 
-          {/* Register New Student */}
+        
           <button className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
             + Register New Student
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
       {/* <CTA /> */}
@@ -131,7 +99,7 @@ function Dashboard() {
         </InfoCard>
       </div> */}
 
-        <DashboardCards/>
+        {/* <DashboardCards/> */}
       {/* <TableContainer>
         <Table>
           <TableHeader>
