@@ -183,9 +183,15 @@ function UserManagement() {
                       className="input input-bordered w-full shadow-md p-3"
                     >
                       <option value="">Select Branch</option>
-                      <option value="Dhaka">Dhaka</option>
-                      <option value="Chittagong">Chittagong</option>
-                      <option value="Khulna">Khulna</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
                     </select>
                     {errors.Branch && (
                       <p className="text-red-500 text-sm mt-1">{errors.Branch.message}</p>

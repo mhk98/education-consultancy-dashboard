@@ -167,9 +167,17 @@ const [selectBranch, setSelectBranch] = useState("")
                             className="input input-bordered w-full shadow-md p-3"
                             onChange={(e) => setSelectBranch(e.target.value)}
                           >
+                           
                             <option value="">Select Branch</option>
-                            <option value="Dhaka">Dhaka</option>
-                            <option value="Chittagong">Chittagong</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
                           </select>
                           {errors.status && (
                             <p className="text-red-500 text-sm mt-1">

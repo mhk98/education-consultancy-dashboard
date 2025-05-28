@@ -46,6 +46,13 @@ export const applicationApi = createApi({
       pollingInterval: 1000,
     }),
 
+   getStatusCounts: build.query({
+      query: (params) => {
+        const queryString = new URLSearchParams(params).toString();
+        return `/application//status?${queryString}`;
+      },
+    }),
+
     getDataById: build.query({
       query: (id) => ({
         url: `application/${id}`,
@@ -64,4 +71,5 @@ export const {
  useUpdateApplicationMutation,
  useGetAllApplicationQuery,
  useGetDataByIdQuery,
+ useGetStatusCountsQuery,
 } = applicationApi;

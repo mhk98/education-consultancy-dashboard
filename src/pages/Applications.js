@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import response from '../utils/demo/tableData'
-import { TbDownload } from 'react-icons/tb'
-import ApplicationsFilterPanel from '../components/Applications/ApplicationsFilterPanel'
 import ApplicationsTable from '../components/Applications/ApplicationsTable'
 
 function Applications() {
