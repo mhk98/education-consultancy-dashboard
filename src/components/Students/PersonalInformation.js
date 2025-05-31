@@ -60,6 +60,16 @@ const PersonalInformation = ({id}) => {
     const res = await updateProfile({data:info, id})
       if(res.data.success === true) {
         toast.success(res.data.message)
+        reset()
+     setIsModalOpen(false)
+     setIsModalOpen1(false)
+     setIsModalOpen2(false)
+     setIsModalOpen3(false)
+     setIsModalOpen4(false)
+     setIsModalOpen5(false)
+     setIsModalOpen6(false)
+     setIsModalOpen7(false)
+
       } else {
         toast.error(res?.error?.data?.message)
       }

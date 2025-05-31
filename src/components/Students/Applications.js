@@ -3,7 +3,7 @@ import ApplyProgram from "./ApplyProgram";
 import AppliedProgram from "./AppliedProgram";
 
 const Applications = ({id}) => {
-  const [activeTab, setActiveTab] = useState("apply");
+  const [activeTab, setActiveTab] = useState("applied");
 
   return (
     <div className="w-full bg-white shadow-sm">

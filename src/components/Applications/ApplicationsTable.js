@@ -66,7 +66,8 @@ export default function ApplicationsTable() {
       const res = await updateApplication({ id: applicationId, data: payload });
       if (res.data?.success) {
         toast.success(res.data.message);
-        closeModal();
+        reset()
+        setIsModalOpen(false)
       } else {
         toast.error(res.error?.data?.message || "Update failed. Please try again.");
       }

@@ -56,7 +56,8 @@ function Programs() {
         try {
             const res = await createprogramYear(data);
             if (res.data?.success) {
-                toast.success(res.data.message);         
+                toast.success(res.data.message);       
+                reset()  
             } else {
                 toast.error(res.error?.data?.message || "Failed please try again.");
             }

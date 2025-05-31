@@ -78,6 +78,8 @@ function Students() {
 			const res = await userRegister(formData);
 			if (res.data?.success) {
 				toast.success(res.data.message);
+        setIsModalOpen(false)
+
 			} else {
 				toast.error(res.error?.data?.message || "Registration failed. Please try again.");
 			}

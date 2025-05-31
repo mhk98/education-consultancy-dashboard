@@ -41,6 +41,7 @@ function Task() {
     formData.append("assignor", `${first_Name} ${last_Name}`); 
     formData.append("task", data.task); 
     formData.append("branch", branch); 
+    formData.append("dueDate", data.dueDate); 
     formData.append("description", data.description); 
     formData.append("comment", data.comment); 
     if (file) {
@@ -52,7 +53,7 @@ function Task() {
       if (res.data?.success) {
         toast.success(res.data.message);
         reset();
-        closeModal();
+        setIsModalOpen(false)
       } else {
         toast.error(res.error?.data?.message || 'Failed. Please try again.');
       }
@@ -68,14 +69,14 @@ function Task() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/user");
+        const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
         const allUsers = response.data.data;
   
         // ফিল্টার লজিক
         const filtered = allUsers.filter(user => {
           const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
           return role && role !== "student" && (
-            role === "superadmin" || (role === "admin" && user.Branch === branch)
+            role === "superadmin" || (role === "admin" && user.Branch === branch) || (role === "employee" && user.Branch === branch)
           );
         });
   
@@ -97,7 +98,7 @@ function Task() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/user"); // Replace with your API endpoint
+        const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user"); // Replace with your API endpoint
         const allUsers = response.data.data;
   
         // Filter out students
@@ -139,6 +140,9 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
                const res = await updateTask({id:taskId, data});
                if (res.data?.success) {
                  toast.success(res.data.message);
+                 reset()
+          setIsModalOpen1(false)
+
                } else {
                  toast.error(res.error?.data?.message || "Failed. Please try again.");
                }
@@ -304,7 +308,16 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
                         <div className="grid grid-cols-1 gap-4">
                           {/* Left Side */}
                     
-                          
+           <div>
+          <label htmlFor="startDate" className="block mb-1 font-medium">Due Date</label>
+          <input
+            type="date"
+            id="dueDate"
+            name="dueDate"
+            {...register("dueDate")}
+            className="w-full border rounded p-2"
+          />
+        </div>
                             <div className="mb-4">
                               <label className="block text-sm mb-1 text-gray-700">Task</label>
                               <Input
@@ -346,11 +359,12 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
 
                    {
                     role === "superAdmin" ? (
+                      
                       <div className="mt-4">
                       <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
    
                                    <Select name="assignedTo" {...register('assignedTo')} className="mt-1">
-                                     <option>Select Assignee</option>
+                                     <option>Select Assigned To</option>
                                      {superAdmins.map((admin) => (
                                        <option key={admin.id} value={admin.id}>
                                          {admin.FirstName} {admin.LastName}
@@ -364,7 +378,7 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
                       <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
    
                                    <Select name="assignedTo" {...register('assignedTo')} className="mt-1">
-                                     <option>Select Assignee</option>
+                                     <option>Select Assigned To</option>
                                      {admins.map((admin) => (
                                        <option key={admin.id} value={admin.id}>
                                          {admin.FirstName} {admin.LastName}
@@ -386,9 +400,15 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
                       className="input input-bordered w-full shadow-md p-3"
                     >
                       <option value="">Select Branch</option>
-                      <option value="Dhaka">Dhaka</option>
-                      <option value="Chittagong">Chittagong</option>
-                      <option value="Khulna">Khulna</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
                     </select>
                     {errors.branch && (
                       <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>
@@ -480,6 +500,7 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
     <table className="w-full text-sm text-left text-gray-700 bg-white shadow-md rounded-lg">
       <thead className="bg-gray-100 border-b border-gray-200">
         <tr>
+          <th className="p-3 min-w-[180px]">Due Date</th>
           <th className="p-3 min-w-[180px]">Assignor</th>
           <th className="p-3 min-w-[180px]">Assigned To</th>
           <th className="p-3 min-w-[180px]">Task</th>
@@ -497,13 +518,14 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
             key={idx}
             className={`border-b border-gray-200 ${idx % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
           >
+            <td className="p-3 whitespace-nowrap">{task.dueDate}</td>
             <td className="p-3 whitespace-nowrap">{task.assignor}</td>
             <td className="p-3 whitespace-nowrap">{task.assignedTo}</td>
             <td className="p-3 whitespace-nowrap">{task.task}</td>
             <td className="p-3 whitespace-nowrap">{task.description}</td>
             <td className="p-3 whitespace-nowrap">
               <a
-                href={`http://localhost:5000/${task.file}`}
+                href={`https://education-consultancy-backend.onrender.com/${task.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-brandRed"

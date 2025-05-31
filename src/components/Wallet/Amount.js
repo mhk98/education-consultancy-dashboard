@@ -103,6 +103,9 @@ const [selectBranch, setSelectBranch] = useState("")
              const res = await updatePendingPayment({id:paymentId, data});
              if (res.data?.success) {
                toast.success(res.data.message);
+               reset()
+              setIsModalOpen(false)
+
              } else {
                toast.error(res.error?.data?.message || "Failed. Please try again.");
              }
@@ -167,9 +170,17 @@ const [selectBranch, setSelectBranch] = useState("")
                             className="input input-bordered w-full shadow-md p-3"
                             onChange={(e) => setSelectBranch(e.target.value)}
                           >
+                           
                             <option value="">Select Branch</option>
-                            <option value="Dhaka">Dhaka</option>
-                            <option value="Chittagong">Chittagong</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
                           </select>
                           {errors.status && (
                             <p className="text-red-500 text-sm mt-1">
@@ -192,7 +203,7 @@ const [selectBranch, setSelectBranch] = useState("")
               <th className="p-3 min-w-[120px]">Purpose</th>
               <th className="p-3 min-w-[160px]">Status</th>
               <th className="p-3 min-w-[160px]">Mode of Payment</th>
-              <th className="p-3 min-w-[160px]">Download Invoice</th>
+              <th className="p-3 min-w-[160px]">Invoice</th>
               <th className="p-3 min-w-[160px]">Action</th>
               
               {/* <th className="p-3 min-w-[160px]">Action</th> */}
@@ -480,6 +491,32 @@ const [selectBranch, setSelectBranch] = useState("")
                 <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
                 <td className="p-3 whitespace-nowrap">{payment.status}</td>
                 <td className="p-3 whitespace-nowrap">{payment.paymentStatus}</td>
+                <td className="p-3 whitespace-nowrap text-brandRed cursor-pointer">
+  <Invoice
+    invoiceData={{
+      invoiceNo: invoiceNo,
+      date: formatDate(payment.createdAt),  // ✅ Corrected here
+      studentId: payment.user_id,
+      name: payment.name,
+      phone: payment.phone,
+      address: payment.address,
+      branch: payment.branch,
+      transactionId: payment.transactionId,
+      paymentMethod: payment.paymentStatus,
+      items: [
+        {
+          qty: 1,
+          purpose: payment.purpose,
+          amount: payment.amount,
+        },
+      ],
+      subTotal: payment.amount,
+      discount: 0, // Adjusted if no discount
+      taxes: 0,
+      total: payment.amount,
+    }}
+  />
+</td>
           
                 {["Cash-In", "Cash-Out", "Offline"].includes(payment.paymentStatus) && (
                   <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">

@@ -1,0 +1,158 @@
+import React, { useEffect, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { useCreateEADocumentMutation, useDeleteEADocumentMutation, useGetAllEADocumentQuery } from "../../features/eaDocument/eaDocument";
+
+
+const BASE_URL = "https://education-consultancy-backend.onrender.com/";
+
+const EADocument = ({ id }) => {
+  const [file, setFile] = useState(null);
+  const [document, setDocument] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const {
+    data,
+    isLoading: queryLoading,
+    isError,
+    error,
+    refetch
+  } = useGetAllEADocumentQuery(id);
+
+  const [createEADocument] = useCreateEADocumentMutation();
+  const [deleteEADocument] = useDeleteEADocumentMutation();
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(error?.data?.message || "Failed to load documents.");
+    } else if (!queryLoading && data?.data) {
+      setDocument(data.data);
+    }
+  }, [data, queryLoading, isError, error]);
+
+  const handleEADocSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData();
+
+    const selectedFile = form.file.files[0];
+    if (selectedFile.size > 5 * 1024 * 1024) {
+      toast.error("File size must be under 5MB");
+      return;
+    }
+
+    formData.append("title", form.title.value);
+    formData.append("file", selectedFile);
+    formData.append("user_id", id);
+
+    try {
+      setIsLoading(true);
+      const res = await createEADocument(formData);
+      if (res?.data?.success) {
+        toast.success("Document uploaded successfully");
+        form.reset();
+        setIsModalOpen(false);
+        refetch();
+      } else {
+        toast.error(res?.error?.data?.message || "Upload failed");
+      }
+    } catch (err) {
+      toast.error("Unexpected error occurred.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteEADoc = async (docId) => {
+    try {
+      const res = await deleteEADocument(docId);
+      if (res?.data?.success) {
+        toast.success("Document deleted");
+        refetch();
+      } else {
+        toast.error("Failed to delete document");
+      }
+    } catch {
+      toast.error("Something went wrong");
+    }
+  };
+
+  const openPdf = (filePath) => {
+    if (!filePath) return;
+    const finalUrl = BASE_URL + filePath.replace(/\\/g, "/");
+    window.open(finalUrl, "_blank");
+  };
+
+  return (
+    <div className="border rounded-2xl p-4 mb-6 shadow-sm bg-white">
+      <div className="mt-2">
+        <h3 className="text-lg font-semibold mb-4">EduAnchor Documents</h3>
+
+        <form
+          onSubmit={handleEADocSubmit}
+          className="flex flex-col md:flex-row gap-4 items-start mb-6"
+        >
+          <input
+            type="text"
+            name="title"
+            placeholder="Document Title"
+            required
+            className="input border px-3 py-2 rounded w-full md:w-1/2"
+          />
+          <input
+            type="file"
+            name="file"
+            accept="application/pdf"
+            required
+            className="input"
+          />
+          <p className="text-sm text-gray-600 mt-1">Max 5MB</p>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="bg-brandRed text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            {isLoading ? "Uploading..." : "Upload"}
+          </button>
+        </form>
+
+        {queryLoading && <p className="text-gray-500">Loading documents...</p>}
+
+        {document?.length > 0 ? (
+          <div className="space-y-3">
+            {document.map((doc) => (
+              <div
+                key={doc.id}
+                className="flex items-center justify-between p-3 border rounded bg-gray-50 hover:bg-gray-100"
+              >
+                <span className="text-sm text-brandRed">
+                  <a
+                    href={`${BASE_URL}${doc.file?.replace(/\\/g, "/")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    {doc.title}
+                  </a>
+                </span>
+                <FaTrashAlt
+                  className="text-red-500 cursor-pointer"
+                  onClick={() => handleDeleteEADoc(doc.id)}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          !queryLoading && (
+            <p className="text-sm text-gray-500">
+              No EduAnchor documents uploaded yet.
+            </p>
+          )
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default EADocument;

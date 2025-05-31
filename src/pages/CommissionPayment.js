@@ -54,6 +54,9 @@ function CommissionPayment() {
       const res = await createCommission(info);
       if (res.data?.success) {
         toast.success(res.data.message);
+        reset()
+     setIsModalOpen(false)
+
         reset();
       } else {
         toast.error(res.error?.data?.message || 'Failed. Please try again.');
@@ -67,7 +70,7 @@ function CommissionPayment() {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/v1/user");
+        const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
         const allUsers = response.data.data;
   
         // Filter users with Role "admin" or "superadmin"

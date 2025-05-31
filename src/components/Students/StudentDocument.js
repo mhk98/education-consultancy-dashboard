@@ -15,7 +15,7 @@ import {
   useGetAllAdditionalDocumentQuery
 } from "../../features/additionalDocument/additionalDocument";
 
-const BASE_URL = "http://localhost:5000/";
+const BASE_URL = "https://education-consultancy-backend.onrender.com/";
 
 const StudentDocument = ({ id }) => {
   const { register, handleSubmit, reset } = useForm();
@@ -61,7 +61,7 @@ const StudentDocument = ({ id }) => {
 
     try {
       const res = await updateDocument({ data: formData, id });
-      if (res.data?.data === true) {
+      if (res.data.success === true) {
         toast.success("Mandatory documents updated");
         setIsModalOpen(false);
         reset();
@@ -83,12 +83,16 @@ const StudentDocument = ({ id }) => {
 
     try {
       const res = await createAdditionalDocument(formData);
-      if (res?.data?.success) {
+      if (res?.data?.success === true) {
         toast.success("Additional document uploaded");
+        setIsModalOpen(false)
         form.reset();
         refetch();
       } else {
-        toast.error(res?.error?.data?.message || "Upload failed");
+        // toast.error(res?.error?.data?.message || "Upload failed");
+        toast.error(res?.error?.data?.message)
+        console.log("error", res.error.data)
+        
       }
     } catch {
       toast.error("Failed to upload document");
@@ -207,7 +211,15 @@ const StudentDocument = ({ id }) => {
                   onClick={() => openPdf(doc.file || doc.path)}
                   className="text-sm cursor-pointer text-brandRed-700"
                 >
-                  {doc.title}
+                  {/* {doc.title} */}
+                  <a
+                href={`${doc.file}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-brandRed"
+              >
+                {doc.title}
+              </a>
                 </span>
                 <FaTrashAlt
                   className="text-red-500 cursor-pointer"
@@ -235,9 +247,9 @@ const StudentDocument = ({ id }) => {
                 { label: "Bachelor Certificate (if applicable) ", name: "bachelorCertificate" },
                 { label: "Bachelor Transcript (if applicable) ", name: "bachelorTranscript" },
                 { label: "Passport", name: "passport" },
-                { label: "Essay", name: "essay" },
+                { label: "SOP", name: "essay" },
                 { label: "Instruction Letter", name: "instructionLetter" },
-                { label: "Instruction Letter", name: "instructionLetter" },
+                // { label: "Instruction Letter", name: "instructionLetter" },
                 
               ].map((input, idx) => (
                 <div key={idx} className="mb-4">
@@ -263,7 +275,7 @@ const StudentDocument = ({ id }) => {
 const DocumentSection = ({ title, files, openPdf }) => (
   <div className="mb-8">
     <div className="flex items-center mb-4">
-      <FaCheckCircle className="text-green-500 mr-2" size={20} />
+      {/* <FaCheckCircle className="text-green-500 mr-2" size={20} /> */}
       <h2 className="text-lg font-semibold">{title} <span className="text-red-500">*</span></h2>
     </div>
     <div className="flex flex-wrap gap-4 my-4">

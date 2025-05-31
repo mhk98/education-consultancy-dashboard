@@ -90,8 +90,8 @@ const UserManagementFilter = () => {
       const res = await updateUser({ id: userId, data: formData });
       if (res.data?.success) {
         toast.success(res.data.message);
-        setIsModalOpen(false);
         refetch();
+        setIsModalOpen(false)
       } else {
         toast.error(res.error?.data?.message || 'Update failed.');
       }
@@ -337,6 +337,26 @@ const UserManagementFilter = () => {
 
             <div>
               <Label>
+                <span>Regional Status</span>
+                <select
+                  {...register('RegionalStatus')}
+            onKeyDown={handleEnter}
+                  className="input input-bordered w-full p-2 border border-gray-300"
+                >
+                  <option value="">Select Regional Status</option>
+                  <option value="Manager">Manager</option>      
+                  <option value="Employee">Employee</option>       
+                </select>
+              </Label>
+              {errors.RegionalStatus && (
+                <p className="text-red-500 text-sm">
+                  {errors.RegionalStatus.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Label>
                 <span>Branch</span>
                 <select
                   {...register('Branch')}
@@ -361,6 +381,20 @@ const UserManagementFilter = () => {
                 </p>
               )}
             </div>
+
+<div>
+                    <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">
+                      New Password
+                    </label>
+                    <Input
+                      type="password"
+                      {...register("newPassword")}
+                      className="shadow-md p-3"
+                    />
+                    {errors.newPassword && (
+                      <p className="text-red-500 text-sm mt-1">{errors.newPassword.message}</p>
+                    )}
+                  </div>
             <div className="flex justify-end">
               <Button type="submit" className="bg-red-600 text-white">
                 Save

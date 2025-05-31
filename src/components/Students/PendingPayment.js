@@ -41,6 +41,7 @@ function PendingPayment({id}) {
         const info = {
           amount:data.amount,
           paymentStatus:status,
+          purpose:data.purpose,
           user_id:id,
           branch:branch
         }
@@ -65,6 +66,7 @@ function PendingPayment({id}) {
         const formData = new FormData();
         formData.append("amount", data.amount);
         formData.append("paymentStatus", status); 
+        formData.append("purpose", data.purpose); 
         formData.append("employee", data.employee); 
         formData.append("branch", branch); 
         formData.append("user_id", id); 
@@ -95,7 +97,7 @@ function PendingPayment({id}) {
       useEffect(() => {
         const fetchUsers = async () => {
           try {
-            const response = await axios.get("http://localhost:5000/api/v1/user");
+            const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
             const allUsers = response.data.data;
       
             // ফিল্টার লজিক
@@ -119,7 +121,7 @@ function PendingPayment({id}) {
       useEffect(() => {
         const fetchUsers = async () => {
           try {
-            const response = await axios.get("http://localhost:5000/api/v1/user");
+            const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
             const allUsers = response.data.data;
       
             // ফিল্টার লজিক
@@ -194,6 +196,18 @@ function PendingPayment({id}) {
                         <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>
                       )}
                     </div>
+
+                     <div className="mb-4">
+                                        <label className="block text-sm mb-1 text-gray-700">Payment Purpose</label>
+                                        <Input
+                                          type="text"
+                                          {...register("purpose")}
+                                          className="w-full p-3 shadow-md border rounded-md"
+                                        />
+                                        {errors.purpose && (
+                                          <p className="text-red-500 text-sm mt-1">{errors.purpose.message}</p>
+                                        )}
+                                      </div>
       
                   </div>
           
@@ -228,6 +242,18 @@ function PendingPayment({id}) {
                         <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>
                       )}
                     </div>
+
+                    <div className="mb-4">
+                                        <label className="block text-sm mb-1 text-gray-700">Payment Purpose</label>
+                                        <Input
+                                          type="text"
+                                          {...register("purpose")}
+                                          className="w-full p-3 shadow-md border rounded-md"
+                                        />
+                                        {errors.purpose && (
+                                          <p className="text-red-500 text-sm mt-1">{errors.purpose.message}</p>
+                                        )}
+                                      </div>
 
                     <div className="mb-4">
                     <label className="block text-sm mb-1 text-gray-700 mb-4">Employee</label>

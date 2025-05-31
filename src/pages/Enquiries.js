@@ -115,7 +115,7 @@ const id = localStorage.getItem("userId")
       if (res.data?.success) {
         toast.success(res.data.message);
         reset();
-        closeModal();
+        setIsModalOpen(false)
       } else {
         toast.error(res.error?.data?.message || 'Failed. Please try again.');
       }
@@ -198,11 +198,16 @@ const id = localStorage.getItem("userId")
           <label className="block mb-1 font-medium">Select Branch<span className="text-red-500">*</span></label>
                       <select   onKeyDown = {handleEnter} {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
                    
-                        <option >Select Branch</option>
-                        <option value="">Select Branch</option>
-                      <option value="Dhaka">Dhaka</option>
-                      <option value="Chittagong">Chittagong</option>
-                      <option value="Khulna">Khulna</option>
+                      <option value="">Select Branch</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
                       </select>
                       {errors.branch && (
                       <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>
@@ -346,11 +351,16 @@ const id = localStorage.getItem("userId")
                       <div>
           <label className="block mb-1 font-medium">Select Branch<span className="text-red-500">*</span></label>
                       <select   onKeyDown = {handleEnter} {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
-                        <option >Select Branch</option>
                         <option value="">Select Branch</option>
-                      <option value="Dhaka">Dhaka</option>
-                      <option value="Chittagong">Chittagong</option>
-                      <option value="Khulna">Khulna</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
                       </select>
                       {errors.branch && (
                       <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>

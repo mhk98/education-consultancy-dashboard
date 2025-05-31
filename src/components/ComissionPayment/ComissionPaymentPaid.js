@@ -133,7 +133,7 @@ const ComissionPaymentPaid = () => {
                 <td className="p-3 whitespace-nowrap">{payment.status}</td>
                 <td className="p-3 whitespace-nowrap">
                 <a
-                  href={`http://localhost:5000/${payment.file}`}
+                  href={`https://education-consultancy-backend.onrender.com/${payment.file}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-brandRed"

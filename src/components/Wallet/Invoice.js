@@ -27,7 +27,7 @@ const Invoice = ({ invoiceData }) => {
     <>
       <button
         onClick={downloadInvoice}
-        className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+        className="px-2 py-1 bg-brandRed text-white text-xs rounded"
       >
         Download Invoice
       </button>

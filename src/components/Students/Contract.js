@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal, ModalHeader, ModalBody, Input, Button } from '@windmill/react-ui';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useCreateContractMutation, useGetDataByIdQuery } from '../../features/contract/contract';
+import { useGetDataByIdQuery, useUpdateContractMutation } from '../../features/contract/contract';
 
 function Contract({id}) {
 
@@ -21,9 +21,9 @@ function Contract({id}) {
    } = useForm();
 
 
-    const [createContract] = useCreateContractMutation();
+    const [updateContract] = useUpdateContractMutation(id);
    
-     const onFormSubmit = async (data) => {
+     const onFormEdit = async (data) => {
 
       const info = {
         registrationFees: data.registrationFees,
@@ -32,11 +32,10 @@ function Contract({id}) {
         spouseServicecharge: data.spouseServicecharge,
         applicationCode: data.applicationCode,
         note: data.note,
-        user_id: id
       }
     
        try {
-         const res = await createContract(info);
+         const res = await updateContract({id, data:info});
          if (res.data?.success) {
            toast.success(res.data.message);
            reset();
@@ -87,7 +86,7 @@ function Contract({id}) {
                  <Modal isOpen={isModalOpen} onClose={closeModal}>
                                          <ModalHeader>Contract History</ModalHeader>
                                          <ModalBody>
-             <form onSubmit={handleSubmit(onFormSubmit)}>
+             <form onSubmit={handleSubmit(onFormEdit)}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Left Side */}
               
@@ -181,7 +180,7 @@ function Contract({id}) {
                  <button onClick={() => {
                  setIsModalOpen(true)
                }}  className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
-                   + Add Contract
+                   + Edit Contract
                  </button>
                </div>
                

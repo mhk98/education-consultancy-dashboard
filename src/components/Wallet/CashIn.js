@@ -9,6 +9,8 @@ import axios from "axios";
 const CashIn = ({id}) => {
 const role = localStorage.getItem("role")
 const branch = localStorage.getItem("branch")
+const userId = localStorage.getItem("userId")
+
     const {
           register,
           formState: { errors },
@@ -29,7 +31,9 @@ const branch = localStorage.getItem("branch")
             purpose: data.purpose,
             employee: data.employee,
             paymentStatus:status,
-            branch:data.branch
+            branch:data.branch,
+            user_id:userId,
+
           }
        
             try {
@@ -50,7 +54,7 @@ const branch = localStorage.getItem("branch")
               useEffect(() => {
                 const fetchUsers = async () => {
                   try {
-                    const response = await axios.get("http://localhost:5000/api/v1/user");
+                    const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
                     const allUsers = response.data.data;
               
                     // ফিল্টার লজিক
@@ -75,7 +79,7 @@ const branch = localStorage.getItem("branch")
               useEffect(() => {
                 const fetchUsers = async () => {
                   try {
-                    const response = await axios.get("http://localhost:5000/api/v1/user");
+                    const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
                     const allUsers = response.data.data;
               
                     // ফিল্টার লজিক
@@ -147,7 +151,7 @@ const branch = localStorage.getItem("branch")
                   </div>
         
                   {
-                    role === "admin" ? (
+                    role === "admin" &&
                       <div className="mb-4">
                     <label className="block text-sm mb-1 text-gray-700 mb-4">Employee</label>
                     <select
@@ -173,36 +177,12 @@ const branch = localStorage.getItem("branch")
                       <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>
                     )}
                   </div> 
-                    ): (
-                      <div className="mb-4">
-                    <label className="block text-sm mb-1 text-gray-700 mb-4">Employee</label>
-                    <select
-                      {...register("employee")}
-                      onKeyDown = {handleEnter}
-                      className="input input-bordered w-full shadow-md p-3"
-                    >
-                      <option value="">Select Employee</option>
-                      {
-                        
-                      superAdminEmployees.map((employee) => (
-                        <option
-                          key={employee.id}
-                          value={`${employee.FirstName} ${employee.LastName}`}
-                        >
-                          {employee.FirstName} {employee.LastName}
-                        </option>
-                      ))
-                      
-                      }
-                    </select>
-                    {errors.employee && (
-                      <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>
-                    )}
-                  </div> 
-                    )
+                    
                   }
                  
-                        <div className="mb-4">
+                  {
+                    role === "admin" && 
+                    <div className="mb-4">
                     <label className="block text-sm text-gray-700 mb-2">
                       Branch
                     </label>
@@ -212,14 +192,22 @@ const branch = localStorage.getItem("branch")
                       className="input input-bordered w-full shadow-md p-3"
                     >
                       <option value="">Select Branch</option>
-                      <option value="Dhaka">Dhaka</option>
-                      <option value="Chittagong">Chittagong</option>
-                      <option value="Khulna">Khulna</option>
+                     
+            <option value="Khulna">Khulna</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
                     </select>
                     {errors.branch && (
                       <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>
                     )}
                   </div>
+                  }
 
                 </div>
         

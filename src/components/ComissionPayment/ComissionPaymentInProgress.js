@@ -89,6 +89,9 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                    const res = await updateCommission({id:paymentId, data:formData});
                    if (res.data?.success) {
                      toast.success(res.data.message);
+                     reset()
+                     setIsModalOpen(false)
+
                    } else {
                      toast.error(res.error?.data?.message || "Failed. Please try again.");
                    }

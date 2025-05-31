@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import StudentDocument from "./StudentDocument";
+import EADocument from "./EADocument";
 
 const Document = ({id}) => {
   const [activeTab, setActiveTab] = useState("apply");
@@ -43,7 +44,7 @@ const Document = ({id}) => {
           </div>
         ) : (
           <div>
-            <p>EduAnchor document is empty</p>
+            <EADocument id={id}/>
           </div>
         )}
       </div>

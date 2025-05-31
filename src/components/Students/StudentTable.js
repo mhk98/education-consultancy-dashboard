@@ -26,10 +26,12 @@ export default function StudentTable() {
 
   const queryArgs =
     role === "superAdmin"
-      ? { FirstName, LastName, id: StudentId }
-      : role === "admin"
-      ? { Branch: branch, FirstName, LastName, id: StudentId }
+      ? { FirstName, LastName, id: StudentId,  }
+      : role === "admin" || role === "employee"
+      ? { Branch: branch, FirstName, LastName, id: StudentId,}
       : null;
+
+
 
   const {
     data,
@@ -55,7 +57,7 @@ export default function StudentTable() {
     }
   
     // ✅ এখানে student role ফিল্টার করে নিচ্ছি
-    return users.filter(user => user.Role?.toLowerCase() === "student");
+    return users.filter(user => user.Role?.toLowerCase() === "student" && user.Profile === "active");
   }, [role, data, data2]);
   
 
@@ -107,14 +109,18 @@ export default function StudentTable() {
         <td className="p-3 whitespace-nowrap">{student.Email}</td>
         <td className="p-3 whitespace-nowrap">{student.Phone}</td>
         <td className="p-3 whitespace-nowrap">{student.Branch}</td>
-        <td className="p-3 whitespace-nowrap">{student.role}</td>
+        {/* <td className="p-3 whitespace-nowrap">{student.role}</td> */}
         <td className="p-3 whitespace-nowrap">{student.Assigned}</td>
         <td className="p-3 whitespace-nowrap">{student.Status}</td>
         <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
           <Link to={`/app/editprofile/${student.id}`}>
             <LiaEditSolid className="cursor-pointer" />
           </Link>
+          {
+            role === "superAdmin" && 
           <FaTrash className="cursor-pointer text-red-500" />
+
+          }
         </td>
       </tr>
     ));
@@ -205,7 +211,7 @@ export default function StudentTable() {
             <th className="p-3">Email</th>
             <th className="p-3">Phone Number</th>
             <th className="p-3">Branch</th>
-            <th className="p-3">Role</th>
+            {/* <th className="p-3">Role</th> */}
             <th className="p-3">Assigned To</th>
             <th className="p-3">Status</th>
             <th className="p-3">Actions</th>

@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -17,20 +15,31 @@ const FilterPanel = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch data on filters change
   useEffect(() => {
     const fetchStatusCounts = async () => {
       setLoading(true);
       setError(null);
       try {
-        // Filter out empty values to avoid sending unnecessary params
         const params = Object.fromEntries(
           Object.entries(filters).filter(([_, v]) => v !== '')
         );
 
-        const response = await axios.get('http://localhost:5000/api/v1/application/status', { params });
+        const response = await axios.get('https://education-consultancy-backend.onrender.com/api/v1/application/status', { params });
 
-        setStatusCounts(response.data.data || []);
+        const rawData = response.data.data || [];
+
+        const counts = rawData.reduce((acc, curr) => {
+          const status = curr.status || 'Unknown';
+          acc[status] = (acc[status] || 0) + 1;
+          return acc;
+        }, {});
+
+        const groupedStatusCounts = Object.entries(counts).map(([status, count]) => ({
+          status,
+          count,
+        }));
+
+        setStatusCounts(groupedStatusCounts);
       } catch (err) {
         setError('Failed to fetch application counts.');
         console.error(err);
@@ -42,43 +51,35 @@ const FilterPanel = () => {
     fetchStatusCounts();
   }, [filters]);
 
-  // Handle input/select changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-
     setFilters((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-
   const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case 'approved':
-        return 'border-green-500';
-      case 'pending':
-        return 'border-yellow-500';
-      case 'rejected':
-        return 'border-red-500';
-      case 'in review':
-        return 'border-blue-500';
-      default:
-        return 'border-gray-400';
-    }
+    const lower = status.toLowerCase();
+    if (lower.includes('Application Submitted')) return 'border-green-500';
+    if (lower.includes('University Application Initiated')) return 'border-yellow-500';
+    if (lower.includes('Offer Recieved')) return 'border-red-500';
+    if (lower.includes('reviTuition Fees Paid')) return 'border-blue-500';
+    if (lower.includes('LOA Received')) return 'border-indigo-500';
+    if (lower.includes('Visa Submitted')) return 'border-purple-500';
+    if (lower.includes('Visa Received')) return 'border-purple-500';
+    if (lower.includes('Case Closed')) return 'border-purple-500';
+    return 'border-gray-400';
   };
-  
 
   return (
     <div className="max-w-7xl mx-auto p-6 bg-white rounded shadow">
       <h1 className="text-2xl font-bold mb-6">Application Filters</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-        {/* Start Date */}
+        {/* Date Filters */}
         <div>
-          <label htmlFor="startDate" className="block mb-1 font-medium">
-            From Date
-          </label>
+          <label htmlFor="startDate" className="block mb-1 font-medium">From Date</label>
           <input
             type="date"
             id="startDate"
@@ -86,15 +87,11 @@ const FilterPanel = () => {
             value={filters.startDate}
             onChange={handleFilterChange}
             className="w-full border rounded p-2"
-            max={filters.endDate || undefined} // optional: can't pick startDate after endDate
+            max={filters.endDate || undefined}
           />
         </div>
-
-        {/* End Date */}
         <div>
-          <label htmlFor="endDate" className="block mb-1 font-medium">
-            To Date
-          </label>
+          <label htmlFor="endDate" className="block mb-1 font-medium">To Date</label>
           <input
             type="date"
             id="endDate"
@@ -102,15 +99,13 @@ const FilterPanel = () => {
             value={filters.endDate}
             onChange={handleFilterChange}
             className="w-full border rounded p-2"
-            min={filters.startDate || undefined} // optional: can't pick endDate before startDate
+            min={filters.startDate || undefined}
           />
         </div>
 
         {/* Intake */}
         <div>
-          <label htmlFor="intake" className="block mb-1 font-medium">
-            Intake
-          </label>
+          <label htmlFor="intake" className="block mb-1 font-medium">Intake</label>
           <select
             id="intake"
             name="intake"
@@ -127,9 +122,7 @@ const FilterPanel = () => {
 
         {/* Year */}
         <div>
-          <label htmlFor="year" className="block mb-1 font-medium">
-            Year
-          </label>
+          <label htmlFor="year" className="block mb-1 font-medium">Year</label>
           <select
             id="year"
             name="year"
@@ -146,9 +139,7 @@ const FilterPanel = () => {
 
         {/* Country */}
         <div>
-          <label htmlFor="country" className="block mb-1 font-medium">
-            Country
-          </label>
+          <label htmlFor="country" className="block mb-1 font-medium">Country</label>
           <select
             id="country"
             name="country"
@@ -165,9 +156,7 @@ const FilterPanel = () => {
 
         {/* Branch */}
         <div>
-          <label htmlFor="branch" className="block mb-1 font-medium">
-            Branch
-          </label>
+          <label htmlFor="branch" className="block mb-1 font-medium">Branch</label>
           <select
             id="branch"
             name="branch"
@@ -187,9 +176,10 @@ const FilterPanel = () => {
             <option value="Feni">Feni</option>
           </select>
         </div>
+        
       </div>
 
-      {/* Display status counts */}
+      {/* Display Status Counts */}
       <div>
         {loading && <p>Loading data...</p>}
         {error && <p className="text-red-600">{error}</p>}
@@ -198,20 +188,19 @@ const FilterPanel = () => {
           <p>No applications found with current filters.</p>
         )}
 
-<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 py-8">
-{statusCounts.map(({ status, count }) => (
-  <div
-    key={status}
-    className={`bg-white rounded-lg shadow-sm p-4 border-l-4 ${getStatusColor(status)}`}
-  >
-    <div className="flex justify-between items-center mb-2">
-      <h4 className="text-sm font-medium text-gray-800 capitalize">{status}</h4>
-    </div>
-    <div className="text-2xl font-semibold text-gray-800">{count}</div>
-  </div>
-))}
-
-    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 py-8">
+          {statusCounts.map(({ status, count }) => (
+            <div
+              key={status}
+              className={`bg-white rounded-lg shadow-sm p-4 border-l-4 ${getStatusColor(status)}`}
+            >
+              <div className="flex flex-col mb-2">
+                <h4 className="text-md font-medium text-gray-800 capitalize">{status}</h4>
+                <span className="text-lg font-semibold text-gray-900">{count}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

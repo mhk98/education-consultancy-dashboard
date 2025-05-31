@@ -30,16 +30,11 @@ const features = [
   },
   {
     icon: <FaHome className="text-2xl text-brandRed" />,
-    title: "Accommodation",
+    title: "Media",
     description:
       "Provide your students with better experience by enabling them to find an accommodation. Choose from a list of properties.",
   },
-  {
-    icon: <FaClipboardList className="text-2xl text-brandRed" />,
-    title: "White-Labelled Test Prep Solution",
-    description:
-      "Provide your students with a white-labelled test prep solution. Choose from flexible batch timings tailored by our experts for your success!",
-  },
+
 ];
 
 const DashboardItems = () => {
@@ -70,7 +65,7 @@ const DashboardItems = () => {
                   <a
                     key={i}
                     href={link.href}
-                    className="text-sm text-brandRed hover:underline"
+                    className="text-sm text-gray-800 hover:underline"
                   >
                     {link.label}
                   </a>

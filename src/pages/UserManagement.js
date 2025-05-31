@@ -43,6 +43,7 @@ function UserManagement() {
       formData.append("CreatedOn", `${First_Name} ${Last_Name}`);
       formData.append("Password", data.Password);
       formData.append("Phone", data.Phone); 
+		  formData.append("Address", data.Address); 
       formData.append("Role", data.Role); 
       formData.append("Branch", data.Branch); 
       if (file) {
@@ -54,7 +55,7 @@ function UserManagement() {
          if (res.data?.success) {
            toast.success(res.data.message);
            reset();
-           closeModal();
+           setIsModalOpen(false)
          } else {
            toast.error(res.error?.data?.message || 'Failed. Please try again.');
          }
@@ -130,6 +131,19 @@ function UserManagement() {
                         )}
                       </div>
                       <div className="mb-4">
+                                        <label className="block text-sm mb-1 text-gray-700">Address</label>
+                                        <Input
+                                          type="text"
+                                          {...register("Address")}
+                                          onKeyDown =  {handleEnter}
+                                          className="input input-bordered w-full form-control shadow-md p-3"
+                                        />
+                                        {errors.Address && (
+                                          <p className="text-red-500 text-sm mt-1">{errors.Address.message}</p>
+                                        )}
+                                      </div>
+
+                      <div className="mb-4">
                         <label className="block text-sm mb-1 text-gray-700">Email</label>
                         <Input
                           type="email"
@@ -183,9 +197,15 @@ function UserManagement() {
                       className="input input-bordered w-full shadow-md p-3"
                     >
                       <option value="">Select Branch</option>
-                      <option value="Dhaka">Dhaka</option>
-                      <option value="Chittagong">Chittagong</option>
-                      <option value="Khulna">Khulna</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
                     </select>
                     {errors.Branch && (
                       <p className="text-red-500 text-sm mt-1">{errors.Branch.message}</p>

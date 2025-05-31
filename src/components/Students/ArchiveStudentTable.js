@@ -5,7 +5,9 @@ import { Link } from "react-router-dom/cjs/react-router-dom";
 import { useGetAllUserQuery } from "../../features/auth/auth";
 
 export default function ArchiveStudentTable() {
-  const { data, isLoading, isError, error } = useGetAllUserQuery();
+  // const { data, isLoading, isError, error } = useGetAllUserQuery();
+  const { data, isLoading, isError, error } = useGetAllUserQuery({}); // ✅ safe
+
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
@@ -18,6 +20,8 @@ export default function ArchiveStudentTable() {
       setStudents(filteredStudents);
     }
   }, [data, isLoading, isError, error]);
+
+  console.log("students", students)
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
