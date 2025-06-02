@@ -24,7 +24,7 @@ const StudentEditProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`https://education-consultancy-backend.onrender.com/api/v1/user/${id}`);
+        const res = await axios.get(`https://api.eaconsultancy.info/api/v1/user/${id}`);
         setData(res.data.data);
       } catch (err) {
         console.error("Failed to fetch user data:", err);

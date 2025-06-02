@@ -24,7 +24,7 @@ const FilterPanel = () => {
           Object.entries(filters).filter(([_, v]) => v !== '')
         );
 
-        const response = await axios.get('https://education-consultancy-backend.onrender.com/api/v1/application/status', { params });
+        const response = await axios.get('https://api.eaconsultancy.info/api/v1/application/status', { params });
 
         const rawData = response.data.data || [];
 

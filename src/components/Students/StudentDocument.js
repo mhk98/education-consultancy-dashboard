@@ -15,7 +15,7 @@ import {
   useGetAllAdditionalDocumentQuery
 } from "../../features/additionalDocument/additionalDocument";
 
-const BASE_URL = "https://education-consultancy-backend.onrender.com/";
+const BASE_URL = "https://api.eaconsultancy.info/";
 
 const StudentDocument = ({ id }) => {
   const { register, handleSubmit, reset } = useForm();

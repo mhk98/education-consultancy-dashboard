@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useCreateEADocumentMutation, useDeleteEADocumentMutation, useGetAllEADocumentQuery } from "../../features/eaDocument/eaDocument";
 
 
-const BASE_URL = "https://education-consultancy-backend.onrender.com/";
+const BASE_URL = "https://api.eaconsultancy.info/";
 
 const EADocument = ({ id }) => {
   const [file, setFile] = useState(null);

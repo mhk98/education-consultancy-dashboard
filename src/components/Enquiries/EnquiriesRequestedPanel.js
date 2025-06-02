@@ -82,7 +82,7 @@ const EnquiriesRequestedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'https://education-consultancy-backend.onrender.com/'; // Adjust to your server's URL
+  const fileBaseURL = 'https://api.eaconsultancy.info/'; // Adjust to your server's URL
 
  const {
       register,
@@ -135,7 +135,7 @@ const EnquiriesRequestedPanel = () => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://education-consultancy-backend.onrender.com/api/v1/comment/${selected.id}?type=kc`
+        `https://api.eaconsultancy.info/api/v1/comment/${selected.id}?type=kc`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -146,7 +146,7 @@ const EnquiriesRequestedPanel = () => {
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
     try {
-      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/comment/create", {
+      await axios.post("https://api.eaconsultancy.info/api/v1/comment/create", {
         user_id:id,
         enquiry_id: selected.id,
         text: newComment,
@@ -165,7 +165,7 @@ const EnquiriesRequestedPanel = () => {
     const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("https://education-consultancy-backend.onrender.com/api/v1/reply/create", {
+      await axios.post("https://api.eaconsultancy.info/api/v1/reply/create", {
         user_id:id,
         comment_id: commentId,
         text: replyText,
@@ -245,7 +245,7 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
+              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
@@ -269,7 +269,7 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("https://education-consultancy-backend.onrender.com/api/v1/user");
+              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
