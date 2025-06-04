@@ -16,7 +16,16 @@ const ApplyProgram = ({ id }) => {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      year: "",
+      intake: "",
+      university: "",
+      program: "",
+      priority: "",
+      country: "",
+    }
+  });
 
   const [createApplication] = useCreateApplicationMutation();
 
@@ -35,6 +44,14 @@ const ApplyProgram = ({ id }) => {
       const res = await createApplication(data);
       if (res.data.success === true) {
         toast.success(res.data.message);
+        reset({
+          year: "",
+          intake: "",
+          university: "",
+          program: "",
+          priority: "",
+          country: "",
+        });
       } else {
         toast.error(res?.error?.data?.message);
       }
@@ -138,7 +155,7 @@ const ApplyProgram = ({ id }) => {
         {/* Year */}
         <div className="mt-4">
           <Select name="year" {...register('year')} className="mt-1">
-            <option>Select Year</option>
+            <option value="">Select Year</option>
             {years.map((year) => (
               <option key={year.id} value={year.year}>
                 {year.year}
@@ -151,7 +168,7 @@ const ApplyProgram = ({ id }) => {
         {/* Intake */}
         <div className="mt-4">
           <Select name="intake" {...register('intake')} className="mt-1">
-            <option>Select Intake</option>
+            <option value="">Select Intake</option>
             {intakes.map((intake) => (
               <option key={intake.id} value={intake.intake}>
                 {intake.intake}
@@ -164,7 +181,7 @@ const ApplyProgram = ({ id }) => {
         {/* University */}
         <div className="mt-4">
           <Select name="university" {...register('university')} className="mt-1">
-            <option>Select University</option>
+            <option value="">Select University</option>
             {universities.map((university) => (
               <option key={university.id} value={university.university}>
                 {university.university}
@@ -177,7 +194,7 @@ const ApplyProgram = ({ id }) => {
         {/* Program */}
         <div className="mt-4">
           <Select name="program" {...register('program')} className="mt-1">
-            <option>Select Program</option>
+            <option value="">Select Program</option>
             {programs.map((program) => (
               <option key={program.id} value={program.program}>
                 {program.program}
@@ -190,7 +207,7 @@ const ApplyProgram = ({ id }) => {
         {/* Country */}
         <div className="mt-4">
           <Select name="country" {...register('country')} className="mt-1">
-            <option>Select Country</option>
+            <option value="">Select Country</option>
             {countries.map((country) => (
               <option key={country.id} value={country.country}>
                 {country.country}
@@ -203,7 +220,7 @@ const ApplyProgram = ({ id }) => {
         {/* Priority */}
         <div className="mt-4">
           <Select name="priority" {...register('priority')} className="mt-1">
-            <option>Select Priority</option>
+            <option value="">Select Priority</option>
             <option>1st Priority</option>
             <option>2nd Priority</option>
             <option>3rd Priority</option>

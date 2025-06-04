@@ -7,6 +7,7 @@ import { FaTrash } from 'react-icons/fa'
 import { Modal, ModalHeader, ModalBody } from '@windmill/react-ui'
 import { useDeletePendingPaymentMutation, useGetAllPendingPaymentQuery, useUpdatePendingPaymentMutation } from '../../features/pendingPayment/pendingPayment'
 import Invoice from './Invoice'
+import { TbCurrencyTaka } from 'react-icons/tb'
 
 function SuperAdminStatement() {
 
@@ -129,6 +130,66 @@ const user_id = localStorage.getItem("userId")
           }
         };
 
+
+
+         const { data:data2, isLoading:isLoading2, isError:isError2, error:error2 } = useGetAllPendingPaymentQuery();
+              // const [creditPayments, setCreditPayments] = useState([]);
+              const [totalAmount, setTotalAmount] = useState(0);
+              
+              useEffect(() => {
+                if (isError2) {
+                  console.log("Error fetching", error2);
+                } else if (!isLoading2 && data2) {
+                  const allCreditPayments = data2.data;
+              
+                  // ✅ Filter payments with any of the 3 paymentStatus values
+                  const filtered = allCreditPayments.filter(payment =>
+                    ["Cash-In", "Offline", "Online"].includes(payment.paymentStatus) && payment.status === "PAID" && payment.branch === branch
+                  );
+              
+                  // setCreditPayments(filtered);
+              
+                  // ✅ Sum amounts
+                  const total = filtered.reduce((sum, payment) => {
+                    return sum + Number(payment.amount || 0);
+                  }, 0);
+              
+                  setTotalAmount(total);
+                }
+              }, [data2, isLoading2, isError2, error2, branch]);
+        
+        
+              const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllPendingPaymentQuery();
+              // const [creditPayments, setCreditPayments] = useState([]);
+              const [totalDebitAmount, setTotalDebitAmount] = useState(0);
+              
+              useEffect(() => {
+                if (isError1) {
+                  console.log("Error fetching", error1);
+                } else if (!isLoading1 && data1) {
+                  const allCreditPayments = data1.data;
+              
+                  // ✅ Filter payments with any of the 3 paymentStatus values
+                  const filtered = allCreditPayments.filter(payment =>
+                    ["Cash-Out",].includes(payment.paymentStatus) && payment.status === "PAID" && payment.branch === branch
+                  );
+              
+                  // setCreditPayments(filtered);
+              
+                  // ✅ Sum amounts
+                  const total = filtered.reduce((sum, payment) => {
+                    return sum + Number(payment.amount || 0);
+                  }, 0);
+              
+                  setTotalDebitAmount(total);
+                }
+              }, [data1, isLoading1, isError1, error1]);
+        
+        
+              const balance = totalAmount - totalDebitAmount;
+        
+              console.log("balance", balance)
+
   return (
     <>
    
@@ -136,9 +197,9 @@ const user_id = localStorage.getItem("userId")
     role === "superAdmin" &&
 
     <div className="mb-4 grid lg:grid-cols-2 xl:grid-cols-2 grid-cols-1">
-   <div></div>
+   {/* <div></div> */}
 
-   <div >
+   {/* <div >
             <select
                             {...register("status")}
                             className="input input-bordered w-full shadow-md p-3"
@@ -146,6 +207,8 @@ const user_id = localStorage.getItem("userId")
                           >
                            
                             <option value="">Select Branch</option>
+                        <option value="Edu Anchor">Edu Anchor</option>
+
             <option value="Khulna">Khulna</option>
             <option value="Satkhira">Satkhira</option>
             <option value="Tangail">Tangail</option>
@@ -162,7 +225,19 @@ const user_id = localStorage.getItem("userId")
                             </p>
         )}
                          
-    </div>
+    </div> */}
+
+ <div className="flex items-center sm:flex-row gap-3">
+          <p>Balance:</p>
+          <button className="px-4 py-2 flex items-center bg-white text-brandRed border-2 border-brandRed rounded-md text-sm md:text-base transition">
+          <TbCurrencyTaka /> {balance}
+          </button>
+
+          {/* Register New Student */}
+          {/* <button className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
+            ADD MONEY
+          </button> */}
+        </div>
    </div>
    }
 

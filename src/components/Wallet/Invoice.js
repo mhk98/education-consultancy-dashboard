@@ -37,7 +37,7 @@ const Invoice = ({ invoiceData }) => {
         <div className="p-6 max-w-3xl bg-white rounded shadow text-black">
           <div className="flex justify-between items-center mb-4">
 
-            <h1 className="text-2xl font-bold">EAC</h1>
+            <h1 className="text-2xl font-bold">EA Consultancy Limited</h1>
             <h1 className="text-2xl font-bold">INVOICE</h1>
             {/* <p className="text-gray-500">Invoice No: {invoiceData.invoiceNo}</p>
             <p className="text-gray-500">Date: {invoiceData.date}</p> */}
@@ -62,7 +62,7 @@ const Invoice = ({ invoiceData }) => {
           <table className="w-full border-collapse" style={{marginTop:"45px"}}>
             <thead>
               <tr className="bg-gray-100 text-left">
-                <th className="p-2 border">QTY</th>
+                {/* <th className="p-2 border">QTY</th> */}
                 <th className="p-2 border">PURPOSE</th>
                 <th className="p-2 border">AMOUNT</th>
               </tr>
@@ -70,7 +70,7 @@ const Invoice = ({ invoiceData }) => {
             <tbody>
               {invoiceData.items.map((item, index) => (
                 <tr key={index}>
-                  <td className="p-2 border">{item.qty}</td>
+                  {/* <td className="p-2 border">{item.qty}</td> */}
                   <td className="p-2 border">{item.purpose}</td>
                   <td className="p-2 border">{item.amount}</td>
                 </tr>
@@ -79,7 +79,7 @@ const Invoice = ({ invoiceData }) => {
           </table>
 
           <div className='flex justify-between' style={{marginTop:"30px"}}>
-              <h1 className='font-bold text-xl'>Terms and conditions</h1>
+              <h1 className='font-bold text-xl'>Refund conditions</h1>
           <div className="text-right" style={{marginTop:"30px"}}>
             <p>Sub total: {invoiceData.subTotal}</p>
             <p>Discount: {invoiceData.discount}</p>

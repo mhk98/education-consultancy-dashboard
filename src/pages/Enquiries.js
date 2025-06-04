@@ -199,6 +199,8 @@ const id = localStorage.getItem("userId")
                       <select   onKeyDown = {handleEnter} {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
                    
                       <option value="">Select Branch</option>
+                        <option value="Edu Anchor">Edu Anchor</option>
+
             <option value="Khulna">Khulna</option>
             <option value="Satkhira">Satkhira</option>
             <option value="Tangail">Tangail</option>
@@ -352,6 +354,8 @@ const id = localStorage.getItem("userId")
           <label className="block mb-1 font-medium">Select Branch<span className="text-red-500">*</span></label>
                       <select   onKeyDown = {handleEnter} {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
                         <option value="">Select Branch</option>
+                        <option value="Edu Anchor">Edu Anchor</option>
+
             <option value="Khulna">Khulna</option>
             <option value="Satkhira">Satkhira</option>
             <option value="Tangail">Tangail</option>

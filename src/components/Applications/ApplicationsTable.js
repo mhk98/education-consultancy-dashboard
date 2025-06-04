@@ -6,8 +6,9 @@ import { Link } from "react-router-dom/cjs/react-router-dom";
 import { Input, Label, Button, Modal, ModalHeader, ModalBody } from "@windmill/react-ui";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { BiShow } from "react-icons/bi";
+import { BiShow, BiSolidTrashAlt } from "react-icons/bi";
 import {
+  useDeleteApplicationMutation,
   useGetAllApplicationQuery,
   useUpdateApplicationMutation,
 } from "../../features/application/application";
@@ -114,6 +115,22 @@ export default function ApplicationsTable() {
         });
   };
 
+  const [deleteApplication, refetch] = useDeleteApplicationMutation()
+
+  const handleDeleteApplication = async (acknowledge) => {
+      try {
+        const res = await deleteApplication(acknowledge);
+        if (res.data?.success) {
+          toast.success(res.data.message);
+          refetch();
+        } else {
+          toast.error(res.error?.data?.message || 'Deletion failed.');
+        }
+      } catch {
+        toast.error('An unexpected error occurred.');
+      }
+    };
+
   const renderTableRows = (dataToRender) => {
     return dataToRender.map((program, idx) => (
       <tr
@@ -145,6 +162,13 @@ export default function ApplicationsTable() {
               setApplicationId(program.id);
             }}
           />
+          {
+            role === "superAdmin" &&
+            <BiSolidTrashAlt
+                              onClick={() => handleDeleteApplication(program.acknowledge)}
+                              className="cursor-pointer"
+                            />
+          }
         </td>
       </tr>
     ));

@@ -9,6 +9,8 @@ import axios from "axios";
 const CashIn = () => {
   const role = localStorage.getItem("role")
   const branch = localStorage.getItem("branch")
+const FirstName = localStorage.getItem("FirstName")
+const LastName = localStorage.getItem("LastName")
   const id = localStorage.getItem("userId")
     const {
           register,
@@ -30,9 +32,9 @@ const CashIn = () => {
             amount: data.amount,
             // transactionId: data.transactionId,
             purpose: data.purpose,
-            employee: data.employee,
+            employee: `${FirstName} ${LastName}`,
             paymentStatus:status,
-            branch:data.branch,
+            branch:branch,
             user_id:id,
 
         
@@ -56,7 +58,7 @@ const CashIn = () => {
                       useEffect(() => {
                         const fetchUsers = async () => {
                           try {
-                            const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+                            const response = await axios.get("http://localhost:5000/api/v1/user");
                             const allUsers = response.data.data;
                       
                             // ফিল্টার লজিক
@@ -81,7 +83,7 @@ const CashIn = () => {
                       useEffect(() => {
                         const fetchUsers = async () => {
                           try {
-                            const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+                            const response = await axios.get("http://localhost:5000/api/v1/user");
                             const allUsers = response.data.data;
                       
                             // ফিল্টার লজিক
@@ -152,7 +154,7 @@ const CashIn = () => {
                     )}
                   </div>
 
-                  {
+                  {/* {
                     role === "admin" &&
                       <div className="mb-4">
                     <label className="block text-sm mb-1 text-gray-700 mb-4">Employee</label>
@@ -194,6 +196,8 @@ const CashIn = () => {
           >
             
             <option value="">Select Branch</option>
+                        <option value="Edu Anchor">Edu Anchor</option>
+
   <option value="Khulna">Khulna</option>
   <option value="Satkhira">Satkhira</option>
   <option value="Tangail">Tangail</option>
@@ -208,7 +212,7 @@ const CashIn = () => {
             <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>
           )}
         </div>
-        }
+        } */}
                       
                 </div>
         

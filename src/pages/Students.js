@@ -7,10 +7,13 @@ import { Modal, ModalHeader, ModalBody, Input, Button } from '@windmill/react-ui
 import { useUserRegisterMutation } from '../features/auth/auth'
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom'
 import toast from 'react-hot-toast'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 function Students() {
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
+  const [phone, setPhone] = useState('');
 
   // pagination setup
   const resultsPerPage = 10
@@ -64,7 +67,9 @@ function Students() {
 		formData.append("CreatedOn", `${First_Name} ${Last_Name}`);
 		formData.append("Email", data.Email);
 		formData.append("Password", data.Password);
-		formData.append("Phone", data.Phone); 
+		// formData.append("Phone", `${data.CountryCode}${data.Phone}`);
+    formData.append("Phone", phone); // phone from PhoneInput state
+		formData.append("Branch", data.Branch); 
 		formData.append("Address", data.Address); 
 		formData.append("Role", role); 
 		if (image) {
@@ -154,7 +159,7 @@ function Students() {
                   )}
                 </div>
                 
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label className="block text-sm mb-1 text-gray-700">Mobile Number</label>
                   <Input
                     type="number"
@@ -165,7 +170,47 @@ function Students() {
                   {errors.Phone && (
                     <p className="text-red-500 text-sm mt-1">{errors.Phone.message}</p>
                   )}
-                </div>
+                </div> */}
+
+            {/* <div className="mb-4">
+              <label className="block text-sm mb-1 text-gray-700">Mobile Number</label>
+              <div className="flex">
+                <select
+                  className="input input-bordered shadow-md p-3 rounded-l-md"
+                  style={{ borderRight: "none" }}
+                  defaultValue="+880"
+                  {...register("CountryCode")}
+                >
+                  <option value="+880">🇧🇩 +880</option>
+                  <option value="+91">🇮🇳 +91</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
+                </select>
+                <Input
+                  type="tel"
+                  {...register("Phone")}
+                  onKeyDown={handleEnter}
+                  placeholder="1XXXXXXXXX"
+                  className="input input-bordered shadow-md p-3 rounded-r-md"
+                />
+              </div>
+              {errors.Phone && <p className="text-red-500 text-sm mt-1">{errors.Phone.message}</p>}
+            </div> */}
+
+<div className="mb-4">
+  <label className="block text-sm mb-1 text-gray-700">Mobile Number</label>
+  <PhoneInput
+    country={'bd'}
+    value={phone}
+    onChange={setPhone}
+    inputProps={{
+      name: 'Phone',
+      required: true,
+      className: "w-full px-10 py-3 rounded border border-gray-300 shadow-sm"
+    }}
+    containerStyle={{ width: '100%' }}
+  />
+</div>
 
                 <div className="mb-4">
                   <label className="block text-sm mb-1 text-gray-700">Address</label>
@@ -192,6 +237,32 @@ function Students() {
                     <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
                   )}
                 </div>
+                <div className="mb-4">
+                    <label className="block text-sm text-gray-700 mb-2">
+                      Branch
+                    </label>
+                    <select
+                      {...register("Branch")}
+                      onKeyDown={handleEnter}
+                      className="input input-bordered w-full shadow-md p-3"
+                    >
+                      <option value="">Select Branch</option>
+                        <option value="Edu Anchor">Edu Anchor</option>
+
+            <option value="Khulna">Khulna</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
+                    </select>
+                    {errors.Branch && (
+                      <p className="text-red-500 text-sm mt-1">{errors.Branch.message}</p>
+                    )}
+                  </div>
                 <div className="mb-4">
                   <label className="block text-sm mb-1 text-gray-700">Password</label>
                   <Input

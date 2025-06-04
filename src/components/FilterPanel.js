@@ -24,7 +24,7 @@ const FilterPanel = () => {
           Object.entries(filters).filter(([_, v]) => v !== '')
         );
 
-        const response = await axios.get('https://api.eaconsultancy.info/api/v1/application/status', { params });
+        const response = await axios.get('http://localhost:5000/api/v1/application/status', { params });
 
         const rawData = response.data.data || [];
 
@@ -165,6 +165,7 @@ const FilterPanel = () => {
             className="w-full border rounded p-2"
           >
             <option value="">Select Branch</option>
+            <option value="Edu Anchor">Edu Anchor</option>
             <option value="Khulna">Khulna</option>
             <option value="Satkhira">Satkhira</option>
             <option value="Tangail">Tangail</option>

@@ -69,7 +69,7 @@ function Task() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+        const response = await axios.get("http://localhost:5000/api/v1/user");
         const allUsers = response.data.data;
   
         // ফিল্টার লজিক
@@ -98,7 +98,7 @@ function Task() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("https://api.eaconsultancy.info/api/v1/user"); // Replace with your API endpoint
+        const response = await axios.get("http://localhost:5000/api/v1/user"); // Replace with your API endpoint
         const allUsers = response.data.data;
   
         // Filter out students
@@ -275,7 +275,7 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
           //   );
 
 
-          const { data, isLoading, isError, error } = useGetAllTaskQuery({ branch, user_id});
+          const { data, isLoading, isError, error } = useGetAllTaskQuery({ user_id, assignedTo_id:user_id});
 
           const [tasks, setTasks] = useState([])
           useEffect(() => {
@@ -400,6 +400,8 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
                       className="input input-bordered w-full shadow-md p-3"
                     >
                       <option value="">Select Branch</option>
+                        <option value="Edu Anchor">Edu Anchor</option>
+
             <option value="Khulna">Khulna</option>
             <option value="Satkhira">Satkhira</option>
             <option value="Tangail">Tangail</option>
@@ -525,7 +527,7 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
             <td className="p-3 whitespace-nowrap">{task.description}</td>
             <td className="p-3 whitespace-nowrap">
               <a
-                href={`https://api.eaconsultancy.info/${task.file}`}
+                href={`http://localhost:5000/${task.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-brandRed"

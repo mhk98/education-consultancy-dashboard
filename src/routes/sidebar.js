@@ -68,7 +68,7 @@ const routes = [
     path: '/app/manage-enquiries',
     icon: 'ChatIcon',
     name: 'Manage Enquiries',
-    roles: ['admin', 'superAdmin', 'student' ],
+    roles: ['admin', 'superAdmin', 'student', 'employee' ],
 
   },
  

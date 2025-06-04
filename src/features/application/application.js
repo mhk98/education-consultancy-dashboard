@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const applicationApi = createApi({
   reducerPath: "applicationApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.eaconsultancy.info/api/v1/",
+    baseUrl: "http://localhost:5000/api/v1/",
   }),
 
   tagTypes: ["application"], // Define the tag type
@@ -18,8 +18,8 @@ export const applicationApi = createApi({
     }),
 
     deleteApplication: build.mutation({
-      query: (id) => ({
-        url: `/application/${id}`,
+      query: (acknowledge) => ({
+        url: `/application/${acknowledge}`,
         method: "DELETE",
       }),
       invalidatesTags: ["application"],

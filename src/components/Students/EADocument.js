@@ -4,13 +4,14 @@ import toast from "react-hot-toast";
 import { useCreateEADocumentMutation, useDeleteEADocumentMutation, useGetAllEADocumentQuery } from "../../features/eaDocument/eaDocument";
 
 
-const BASE_URL = "https://api.eaconsultancy.info/";
+const BASE_URL = "http://localhost:5000/";
 
 const EADocument = ({ id }) => {
   const [file, setFile] = useState(null);
   const [document, setDocument] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const role = localStorage.getItem("role")
 
   const {
     data,
@@ -89,7 +90,9 @@ const EADocument = ({ id }) => {
       <div className="mt-2">
         <h3 className="text-lg font-semibold mb-4">EduAnchor Documents</h3>
 
-        <form
+        {
+          role === "superAdmin" && 
+          <form
           onSubmit={handleEADocSubmit}
           className="flex flex-col md:flex-row gap-4 items-start mb-6"
         >
@@ -115,7 +118,8 @@ const EADocument = ({ id }) => {
           >
             {isLoading ? "Uploading..." : "Upload"}
           </button>
-        </form>
+        </form> 
+        }
 
         {queryLoading && <p className="text-gray-500">Loading documents...</p>}
 

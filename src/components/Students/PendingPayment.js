@@ -8,6 +8,8 @@ import axios from 'axios'
 function PendingPayment({id}) {
 
   const branch = localStorage.getItem("branch")
+  const FirstName = localStorage.getItem("FirstName")
+  const LastName = localStorage.getItem("LastName")
   const [activeTab, setActiveTab] = useState("online");
  const [file, setFile] = useState(null);
 
@@ -67,7 +69,7 @@ function PendingPayment({id}) {
         formData.append("amount", data.amount);
         formData.append("paymentStatus", status); 
         formData.append("purpose", data.purpose); 
-        formData.append("employee", data.employee); 
+        formData.append("employee", `${FirstName} ${LastName}`); 
         formData.append("branch", branch); 
         formData.append("user_id", id); 
         if (file) {
@@ -92,28 +94,28 @@ function PendingPayment({id}) {
 
     
     
-      const [employees, setEmployees] = useState([]);
+      // const [employees, setEmployees] = useState([]);
     
-      useEffect(() => {
-        const fetchUsers = async () => {
-          try {
-            const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
-            const allUsers = response.data.data;
+      // useEffect(() => {
+      //   const fetchUsers = async () => {
+      //     try {
+      //       const response = await axios.get("http://localhost:5000/api/v1/user");
+      //       const allUsers = response.data.data;
       
-            // ফিল্টার লজিক
-            const filtered = allUsers.filter(user => {
-              const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
-              return role && role === "employee" &&  user.Branch === branch      
-            });
+      //       // ফিল্টার লজিক
+      //       const filtered = allUsers.filter(user => {
+      //         const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+      //         return role && role === "employee" &&  user.Branch === branch      
+      //       });
       
-            setEmployees(filtered);
-          } catch (err) {
-            console.error("Error fetching users:", err);
-          }
-        };
+      //       setEmployees(filtered);
+      //     } catch (err) {
+      //       console.error("Error fetching users:", err);
+      //     }
+      //   };
       
-        fetchUsers();
-      }, [branch]);
+      //   fetchUsers();
+      // }, [branch]);
 
 
       const [superAdminEmployees, setSuperAdminEmployees] = useState([]);
@@ -121,7 +123,7 @@ function PendingPayment({id}) {
       useEffect(() => {
         const fetchUsers = async () => {
           try {
-            const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+            const response = await axios.get("http://localhost:5000/api/v1/user");
             const allUsers = response.data.data;
       
             // ফিল্টার লজিক
@@ -255,7 +257,7 @@ function PendingPayment({id}) {
                                         )}
                                       </div>
 
-                    <div className="mb-4">
+                    {/* <div className="mb-4">
                     <label className="block text-sm mb-1 text-gray-700 mb-4">Employee</label>
                     <select
                       {...register("employee")}
@@ -278,7 +280,7 @@ function PendingPayment({id}) {
                     {errors.employee && (
                       <p className="text-red-500 text-sm mt-1">{errors.employee.message}</p>
                     )}
-                  </div>
+                  </div> */}
 
 
                     <div>

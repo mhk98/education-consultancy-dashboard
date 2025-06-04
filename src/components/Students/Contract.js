@@ -6,6 +6,7 @@ import { useGetDataByIdQuery, useUpdateContractMutation } from '../../features/c
 
 function Contract({id}) {
 
+  const role = localStorage.getItem("role")
   const [isModalOpen, setIsModalOpen] = useState(false)
        
   function closeModal() {
@@ -176,13 +177,16 @@ function Contract({id}) {
                </div>
      
                {/* Right Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3">
+                {
+                  role === "superAdmin" && 
+                  <div className="flex flex-col sm:flex-row gap-3">
                  <button onClick={() => {
                  setIsModalOpen(true)
                }}  className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
                    + Edit Contract
                  </button>
                </div>
+                }
                
              </div>
             <div>

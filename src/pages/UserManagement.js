@@ -197,6 +197,8 @@ function UserManagement() {
                       className="input input-bordered w-full shadow-md p-3"
                     >
                       <option value="">Select Branch</option>
+                        <option value="Edu Anchor">Edu Anchor</option>
+
             <option value="Khulna">Khulna</option>
             <option value="Satkhira">Satkhira</option>
             <option value="Tangail">Tangail</option>

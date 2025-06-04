@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const TaskApi = createApi({
   reducerPath: "TaskApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.eaconsultancy.info/api/v1/",
+    baseUrl: "http://localhost:5000/api/v1/",
   }),
 
   tagTypes: ["task"], // Define the tag type
@@ -35,9 +35,9 @@ export const TaskApi = createApi({
     }),
 
     getAllTask: build.query({
-      query: ({branch, user_id}) => ({
+      query: ({branch, user_id, assignedTo_id}) => ({
         url: "/task",
-        params: { branch, user_id }
+        params: { branch, user_id, assignedTo_id }
 
       }),
       providesTags: ["task"],

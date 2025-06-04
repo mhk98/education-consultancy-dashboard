@@ -9,6 +9,8 @@ import axios from "axios";
 const CashIn = ({id}) => {
 const role = localStorage.getItem("role")
 const branch = localStorage.getItem("branch")
+const FirstName = localStorage.getItem("FirstName")
+const LastName = localStorage.getItem("LastName")
 const userId = localStorage.getItem("userId")
 
     const {
@@ -29,9 +31,9 @@ const userId = localStorage.getItem("userId")
           const info = {
             amount: data.amount,
             purpose: data.purpose,
-            employee: data.employee,
+            employee: `${FirstName} ${LastName}`,
             paymentStatus:status,
-            branch:data.branch,
+            branch: branch,
             user_id:userId,
 
           }
@@ -54,7 +56,7 @@ const userId = localStorage.getItem("userId")
               useEffect(() => {
                 const fetchUsers = async () => {
                   try {
-                    const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+                    const response = await axios.get("http://localhost:5000/api/v1/user");
                     const allUsers = response.data.data;
               
                     // ফিল্টার লজিক
@@ -79,7 +81,7 @@ const userId = localStorage.getItem("userId")
               useEffect(() => {
                 const fetchUsers = async () => {
                   try {
-                    const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+                    const response = await axios.get("http://localhost:5000/api/v1/user");
                     const allUsers = response.data.data;
               
                     // ফিল্টার লজিক
@@ -150,7 +152,7 @@ const userId = localStorage.getItem("userId")
                     )}
                   </div>
         
-                  {
+                  {/* {
                     role === "admin" &&
                       <div className="mb-4">
                     <label className="block text-sm mb-1 text-gray-700 mb-4">Employee</label>
@@ -192,6 +194,8 @@ const userId = localStorage.getItem("userId")
                       className="input input-bordered w-full shadow-md p-3"
                     >
                       <option value="">Select Branch</option>
+                        <option value="Edu Anchor">Edu Anchor</option>
+
                      
             <option value="Khulna">Khulna</option>
             <option value="Satkhira">Satkhira</option>
@@ -207,7 +211,7 @@ const userId = localStorage.getItem("userId")
                       <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>
                     )}
                   </div>
-                  }
+                  } */}
 
                 </div>
         
