@@ -285,7 +285,7 @@ function Students() {
             </div>
           
             <div className="flex justify-end gap-2 mt-6">
-              <Button type="submit" className="btn btn-brandRed">
+              <Button type="submit" className="btn bg-brandRed">
                 Save
               </Button>
             </div>

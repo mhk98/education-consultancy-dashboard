@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import { Provider } from 'react-redux'
 import store from './app/store'
 import PaymentStatus from './components/Students/PaymentStatus'
+import PrivateRoute from './components/PrivateRoute'
 
 const Layout = lazy(() => import('./containers/Layout'))
 const Login = lazy(() => import('./pages/Login'))
@@ -24,10 +25,10 @@ function App() {
           <Route path="/forgot-password" component={ForgotPassword} />
 
           {/* Place new routes over this */}
-          <Route path="/app" component={Layout} />
-          <Route path="/editprofile" component={StudentEditProfile} />
-          <Route path="/archive-student" component={StudentEditProfile} />
-          <Route path="/payments" component={PaymentStatus} />
+          <PrivateRoute path="/app" component={Layout} />
+          <PrivateRoute path="/editprofile" component={StudentEditProfile} />
+          <PrivateRoute path="/archive-student" component={StudentEditProfile} />
+          <PrivateRoute path="/payments" component={PaymentStatus} />
           {/* If you have an index page, you can remothis Redirect */}
           <Redirect exact from="/" to="/login" />
         </Switch>

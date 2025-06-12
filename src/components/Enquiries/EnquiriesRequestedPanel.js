@@ -11,16 +11,17 @@ const EnquiriesRequestedPanel = () => {
   const role = localStorage.getItem("role")
   const branch = localStorage.getItem("branch")
   const [selected, setSelected] = useState(null);
-  const { data, isLoading, isError, error } = useGetAllEnquiriesQuery();
-  const [programList, setProgramList] = useState([]);
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     console.log("Error fetching", error);
-  //   } else if (!isLoading && data) {
-  //     setProgramList(data.data);
-  //   }
-  // }, [data, isLoading, isError, error]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [startPage, setStartPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pagesPerSet, setPagesPerSet] = useState(10);
+  const itemsPerPage = 1;
+
+
+  const { data, isLoading, isError, error } = useGetAllEnquiriesQuery({ page: currentPage,
+        limit: itemsPerPage,});
+  const [programList, setProgramList] = useState([]);
 
 
   useEffect(() => {
@@ -33,6 +34,41 @@ const EnquiriesRequestedPanel = () => {
         setProgramList(filteredProgram);
       }
     }, [data, isLoading, isError, error]);
+
+
+
+
+
+    // Update total pages when data changes
+      useEffect(() => {
+        if (isError) {
+          console.error("Error fetching user data", error);
+        } else if (data && data.meta?.total != null) {
+          setTotalPages(Math.ceil(data.meta.total / itemsPerPage));
+        }
+      }, [data, isError, error]);
+    
+      // Responsive pagination button count
+      useEffect(() => {
+        const handleResize = () => {
+          if (window.innerWidth < 640) setPagesPerSet(5);
+          else if (window.innerWidth < 1024) setPagesPerSet(7);
+          else setPagesPerSet(10);
+        };
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+      }, []);
+    
+
+      const endPage = Math.min(startPage + pagesPerSet - 1, totalPages);
+  const handlePageChange = p => {
+    setCurrentPage(p);
+    if (p < startPage) setStartPage(p);
+    else if (p > endPage) setStartPage(p - pagesPerSet + 1);
+  };
+  const handlePreviousSet = () => setStartPage(Math.max(startPage - pagesPerSet, 1));
+  const handleNextSet = () => setStartPage(Math.min(startPage + pagesPerSet, totalPages - pagesPerSet + 1));
 
 
     
@@ -82,7 +118,7 @@ const EnquiriesRequestedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
+  const fileBaseURL = 'https://api.eaconsultancy.info/'; // Adjust to your server's URL
 
  const {
       register,
@@ -135,7 +171,7 @@ const EnquiriesRequestedPanel = () => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/v1/comment/${selected.id}?type=kc`
+        `https://api.eaconsultancy.info/api/v1/comment/${selected.id}?type=kc`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -146,7 +182,7 @@ const EnquiriesRequestedPanel = () => {
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
     try {
-      await axios.post("http://localhost:5000/api/v1/comment/create", {
+      await axios.post("https://api.eaconsultancy.info/api/v1/comment/create", {
         user_id:id,
         enquiry_id: selected.id,
         text: newComment,
@@ -165,7 +201,7 @@ const EnquiriesRequestedPanel = () => {
     const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("http://localhost:5000/api/v1/reply/create", {
+      await axios.post("https://api.eaconsultancy.info/api/v1/reply/create", {
         user_id:id,
         comment_id: commentId,
         text: replyText,
@@ -245,7 +281,7 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("http://localhost:5000/api/v1/user");
+              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
@@ -269,7 +305,7 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("http://localhost:5000/api/v1/user");
+              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
@@ -380,7 +416,7 @@ const EnquiriesRequestedPanel = () => {
                                                            </div>
                                                          
                                                            <div className="flex justify-end gap-2 mt-6">
-                                                             <Button type="submit" className="btn btn-brandRed">
+                                                             <Button type="submit" className="btn bg-brandRed">
                                                                Save
                                                              </Button>
                                                            </div>
@@ -401,6 +437,37 @@ const EnquiriesRequestedPanel = () => {
             </p>
           </div>
         ))}
+
+  {/* -- Pagination -- */}
+      <div className="flex items-center justify-center space-x-2 mt-6">
+        <button
+          onClick={handlePreviousSet}
+          disabled={startPage === 1}
+          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+        >
+          Prev
+        </button>
+        {[...Array(endPage - startPage + 1)].map((_, i) => {
+          const p = startPage + i;
+          return (
+            <button
+              key={p}
+              onClick={() => handlePageChange(p)}
+              className={`px-3 py-2 text-white rounded-md ${p === currentPage ? "bg-brandRed" : "bg-brandDisable"}`}
+            >
+              {p}
+            </button>
+          );
+        })}
+        <button
+          onClick={handleNextSet}
+          disabled={endPage === totalPages}
+          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+        >
+          Next
+        </button>
+      </div>
+
       </div>
         ) : role === "admin" ? (
 <div className="lg:w-1/2 w-full">
@@ -475,7 +542,7 @@ const EnquiriesRequestedPanel = () => {
                                                            </div>
                                                          
                                                            <div className="flex justify-end gap-2 mt-6">
-                                                             <Button type="submit" className="btn btn-brandRed">
+                                                             <Button type="submit" className="btn bg-brandRed">
                                                                Save
                                                              </Button>
                                                            </div>
@@ -560,7 +627,7 @@ const EnquiriesRequestedPanel = () => {
                                                            </div>
                                                          
                                                            <div className="flex justify-end gap-2 mt-6">
-                                                             <Button type="submit" className="btn btn-brandRed">
+                                                             <Button type="submit" className="btn bg-brandRed">
                                                                Save
                                                              </Button>
                                                            </div>

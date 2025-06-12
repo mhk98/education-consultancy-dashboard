@@ -6,16 +6,17 @@ import { useForm } from "react-hook-form";
 import { Modal, ModalHeader, ModalBody, Button } from "@windmill/react-ui";
 import {
   useGetDataByIdQuery,
-  useUpdateDocumentMutation
+  useUpdateDocumentMutation,
 } from "../../features/document/document";
-
 import {
   useCreateAdditionalDocumentMutation,
   useDeleteAdditionalDocumentMutation,
-  useGetAllAdditionalDocumentQuery
+  useGetSingleAdditionalDataByIdQuery,
 } from "../../features/additionalDocument/additionalDocument";
 
-const BASE_URL = "http://localhost:5000/";
+const BASE_URL = "https://api.eaconsultancy.info/";
+
+const MAX_FILE_SIZE_MB = 5;
 
 const StudentDocument = ({ id }) => {
   const { register, handleSubmit, reset } = useForm();
@@ -26,7 +27,7 @@ const StudentDocument = ({ id }) => {
   const { data, isLoading, isError, error } = useGetDataByIdQuery(id);
   const [updateDocument] = useUpdateDocumentMutation();
 
-  const { data: additionalDocsData, refetch } = useGetAllAdditionalDocumentQuery(id);
+  const { data: additionalDocsData, refetch } = useGetSingleAdditionalDataByIdQuery(id);
   const [createAdditionalDocument] = useCreateAdditionalDocumentMutation();
   const [deleteAdditionalDocument] = useDeleteAdditionalDocumentMutation();
 
@@ -45,19 +46,32 @@ const StudentDocument = ({ id }) => {
   };
 
   const handleFileChange = (e, fieldName) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      toast.error(`"${fieldName}" exceeds 5MB limit`);
+      return;
+    }
     setFile((prev) => ({
       ...prev,
-      [fieldName]: e.target.files[0],
+      [fieldName]: selectedFile,
     }));
   };
 
   const onEditSubmit = async () => {
     const formData = new FormData();
+    let hasFile = false;
+
     Object.entries(file).forEach(([key, value]) => {
       if (value) {
         formData.append(key, value);
+        hasFile = true;
       }
     });
+
+    if (!hasFile) {
+      toast.error("Please select at least one document to upload");
+      return;
+    }
 
     try {
       const res = await updateDocument({ data: formData, id });
@@ -65,6 +79,7 @@ const StudentDocument = ({ id }) => {
         toast.success("Mandatory documents updated");
         setIsModalOpen(false);
         reset();
+        setFile({});
       } else {
         toast.error(res?.error?.data?.message || "Update failed");
       }
@@ -76,23 +91,27 @@ const StudentDocument = ({ id }) => {
   const handleAdditionalDocSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
+    const fileInput = form.file.files[0];
+
+    if (fileInput && fileInput.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      toast.error("File exceeds 5MB limit");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("title", form.title.value);
-    formData.append("file", form.file.files[0]);
-    formData.append("user_id", id); // adjust to "user_id" if backend expects snake_case
+    formData.append("file", fileInput);
+    formData.append("user_id", id);
 
     try {
       const res = await createAdditionalDocument(formData);
       if (res?.data?.success === true) {
         toast.success("Additional document uploaded");
-        setIsModalOpen(false)
+        setIsModalOpen(false);
         form.reset();
         refetch();
       } else {
-        // toast.error(res?.error?.data?.message || "Upload failed");
-        toast.error(res?.error?.data?.message)
-        console.log("error", res.error.data)
-        
+        toast.error(res?.error?.data?.message || "Upload failed");
       }
     } catch {
       toast.error("Failed to upload document");
@@ -115,7 +134,6 @@ const StudentDocument = ({ id }) => {
 
   return (
     <div className="border rounded-2xl p-4 mb-6 shadow-sm bg-white">
-      {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2 text-brandRed font-semibold text-sm">
           <MdOutlineGrading className="w-5 h-5" />
@@ -152,7 +170,6 @@ const StudentDocument = ({ id }) => {
             ]}
             openPdf={openPdf}
           />
-
           <DocumentSection
             title="Std. Bachelor Certificate & Transcript"
             files={[
@@ -176,7 +193,10 @@ const StudentDocument = ({ id }) => {
       {/* Additional Documents */}
       <div className="mt-8">
         <h3 className="text-lg font-semibold mb-2">Additional Documents</h3>
-        <form onSubmit={handleAdditionalDocSubmit} className="flex flex-col md:flex-row gap-4 items-start mb-6">
+        <form
+          onSubmit={handleAdditionalDocSubmit}
+          className="flex flex-col md:flex-row gap-4 items-start mb-6"
+        >
           <input
             type="text"
             name="title"
@@ -207,20 +227,14 @@ const StudentDocument = ({ id }) => {
                 key={doc.id}
                 className="flex items-center justify-between p-3 border rounded bg-gray-50 hover:bg-gray-100"
               >
-                <span
-                  onClick={() => openPdf(doc.file || doc.path)}
-                  className="text-sm cursor-pointer text-brandRed-700"
+                <a
+                  href={`${BASE_URL}${doc.file?.replace(/\\/g, "/")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-brandRed"
                 >
-                  {/* {doc.title} */}
-                  <a
-                href={`${doc.file}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-brandRed"
-              >
-                {doc.title}
-              </a>
-                </span>
+                  {doc.title}
+                </a>
                 <FaTrashAlt
                   className="text-red-500 cursor-pointer"
                   onClick={() => handleDeleteAdditionalDoc(doc.id)}
@@ -233,9 +247,9 @@ const StudentDocument = ({ id }) => {
         )}
       </div>
 
-      {/* Modal for editing mandatory documents */}
+      {/* Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <ModalHeader>Mandatory Document Upload  (Filesize Limit 5MB)</ModalHeader>
+        <ModalHeader>Mandatory Document Upload (Filesize Limit 5MB)</ModalHeader>
         <ModalBody className="max-h-[70vh] overflow-y-auto">
           <form onSubmit={handleSubmit(onEditSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -244,16 +258,16 @@ const StudentDocument = ({ id }) => {
                 { label: "Std. 10th Transcript", name: "tenthMarksheet" },
                 { label: "Std. 12th Certificate", name: "twelveCertificate" },
                 { label: "Std. 12th Transcript", name: "twelveMarksheet" },
-                { label: "Bachelor Certificate (if applicable) ", name: "bachelorCertificate" },
-                { label: "Bachelor Transcript (if applicable) ", name: "bachelorTranscript" },
+                { label: "Bachelor Certificate", name: "bachelorCertificate" },
+                { label: "Bachelor Transcript", name: "bachelorTranscript" },
                 { label: "Passport", name: "passport" },
                 { label: "SOP", name: "essay" },
                 { label: "Instruction Letter", name: "instructionLetter" },
-                // { label: "Instruction Letter", name: "instructionLetter" },
-                
               ].map((input, idx) => (
                 <div key={idx} className="mb-4">
-                  <label className="block text-sm mb-1 text-gray-700">{input.label}</label>
+                  <label className="block text-sm mb-1 text-gray-700">
+                    {input.label}
+                  </label>
                   <input
                     type="file"
                     accept="application/pdf"
@@ -263,7 +277,9 @@ const StudentDocument = ({ id }) => {
               ))}
             </div>
             <div className="flex justify-end mt-4">
-              <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>Save</Button>
+              <Button type="submit" style={{ backgroundColor: "#C71320" }}>
+                Save
+              </Button>
             </div>
           </form>
         </ModalBody>
@@ -274,10 +290,9 @@ const StudentDocument = ({ id }) => {
 
 const DocumentSection = ({ title, files, openPdf }) => (
   <div className="mb-8">
-    <div className="flex items-center mb-4">
-      {/* <FaCheckCircle className="text-green-500 mr-2" size={20} /> */}
-      <h2 className="text-lg font-semibold">{title} <span className="text-red-500">*</span></h2>
-    </div>
+    <h2 className="text-lg font-semibold">
+      {title} <span className="text-red-500">*</span>
+    </h2>
     <div className="flex flex-wrap gap-4 my-4">
       {files.map(
         (file, index) =>

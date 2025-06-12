@@ -4,42 +4,44 @@ import {
   FaWallet,
   FaBookOpen,
   FaHome,
-  FaClipboardList,
 } from "react-icons/fa";
 
 const features = [
   {
     icon: <FaUserGraduate className="text-2xl text-brandRed" />,
     title: "Students",
+    href: "/app/students",
     links: [
-      { label: "Manage Students", href: "#" },
-      { label: "Manage Applications", href: "#" },
+      { label: "Manage Students", href: "/students/manage" },
+      { label: "Manage Applications", href: "/students/applications" },
     ],
   },
   {
     icon: <FaWallet className="text-2xl text-brandRed" />,
     title: "My Wallet",
+    href: "/app/wallet",
     description:
       "Add money to your wallet for instant Application Fee payments.",
   },
   {
     icon: <FaBookOpen className="text-2xl text-brandRed" />,
     title: "Learning Resources",
+    href: "/resources",
     description:
       "Complete Library of Product Knowledge– Country Guides, Presentation Decks, Outreach Materials.",
   },
   {
     icon: <FaHome className="text-2xl text-brandRed" />,
     title: "Media",
+    href: "https://drive.google.com/drive/folders/1heNokqg9OIgQl9iJKxzFXcNxorR1wHYy",
     description:
       "Provide your students with better experience by enabling them to find an accommodation. Choose from a list of properties.",
   },
-
 ];
 
 const DashboardItems = () => {
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-gray-50 ">
+    <div className="p-4 sm:p-6 lg:p-8 bg-gray-50">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map((item, index) => (
           <div
@@ -50,9 +52,18 @@ const DashboardItems = () => {
               <div className="bg-brandRed-100 p-3 rounded-full">
                 {item.icon}
               </div>
-              <h3 className="text-lg font-semibold text-gray-800">
-                {item.title}
-              </h3>
+              {item.href ? (
+                <a
+                  href={item.href}
+                  className="text-lg font-semibold text-gray-800 hover:underline"
+                >
+                  {item.title}
+                </a>
+              ) : (
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {item.title}
+                </h3>
+              )}
             </div>
 
             {item.description && (

@@ -23,7 +23,7 @@ const UserManagementFilter = () => {
   const [startPage, setStartPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pagesPerSet, setPagesPerSet] = useState(10);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(10);
 
   // Search input states
   const [firstNameInput, setFirstNameInput] = useState('');
@@ -398,7 +398,7 @@ const UserManagementFilter = () => {
                     )}
                   </div>
             <div className="flex justify-end">
-              <Button type="submit" className="bg-red-600 text-white">
+              <Button type="submit" className="bg-brandRed text-white">
                 Save
               </Button>
             </div>

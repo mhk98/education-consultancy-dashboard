@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { LiaEditSolid } from "react-icons/lia";
 import { Link } from "react-router-dom/cjs/react-router-dom";
@@ -30,15 +30,35 @@ export default function ApplicationsTable() {
   const branch = localStorage.getItem("branch");
   const userId = localStorage.getItem("userId");
 
+   const [currentPage, setCurrentPage] = useState(1);
+  const [startPage, setStartPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pagesPerSet, setPagesPerSet] = useState(10);
+  const itemsPerPage = 10;
+
   // ✅ Add query args for student
-  const queryArgs =
-    role === "superAdmin"
-      ? { FirstName, LastName, user_id: StudentId }
-      : role === "admin"
-      ? { branch, FirstName, LastName, user_id: StudentId }
-      : role === "student"
-      ? { user_id: userId }
-      : null;
+  // const queryArgs =
+  //   role === "superAdmin"
+  //     ? { FirstName, LastName, user_id: StudentId }
+  //     : role === "admin"
+  //     ? { branch, FirstName, LastName, user_id: StudentId }
+  //     : role === "student"
+  //     ? { user_id: userId }
+  //     : null;
+
+        const queryArgs = role
+    ? {
+        ...(role === "superAdmin"
+          ? { FirstName, LastName, user_id: StudentId }
+          : (role === "admin" || role === "employee")
+          ? { branch, FirstName, LastName, user_id: StudentId }
+          : role === "student"
+          ? { user_id: userId }
+          : {}),
+        page: currentPage,
+        limit: itemsPerPage,
+      }
+    : null;
 
   const {
     data,
@@ -76,6 +96,28 @@ export default function ApplicationsTable() {
       toast.error("An unexpected error occurred.");
     }
   };
+
+
+    // Update total pages when data changes
+  useEffect(() => {
+    if (isError) {
+      console.error("Error fetching user data", error);
+    } else if (data && data.meta?.total != null) {
+      setTotalPages(Math.ceil(data.meta.total / itemsPerPage));
+    }
+  }, [data, isError, error]);
+
+  // Responsive pagination button count
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) setPagesPerSet(5);
+      else if (window.innerWidth < 1024) setPagesPerSet(7);
+      else setPagesPerSet(10);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // ✅ Always use data?.data for applications
   const students = useMemo(() => {
@@ -115,6 +157,15 @@ export default function ApplicationsTable() {
         });
   };
 
+
+  const endPage = Math.min(startPage + pagesPerSet - 1, totalPages);
+  const handlePageChange = p => {
+    setCurrentPage(p);
+    if (p < startPage) setStartPage(p);
+    else if (p > endPage) setStartPage(p - pagesPerSet + 1);
+  };
+  const handlePreviousSet = () => setStartPage(Math.max(startPage - pagesPerSet, 1));
+  const handleNextSet = () => setStartPage(Math.min(startPage + pagesPerSet, totalPages - pagesPerSet + 1));
   const [deleteApplication, refetch] = useDeleteApplicationMutation()
 
   const handleDeleteApplication = async (acknowledge) => {
@@ -291,6 +342,37 @@ export default function ApplicationsTable() {
           </form>
         </ModalBody>
       </Modal>
+
+
+         {/* -- Pagination -- */}
+      <div className="flex items-center justify-center space-x-2 mt-6">
+        <button
+          onClick={handlePreviousSet}
+          disabled={startPage === 1}
+          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+        >
+          Prev
+        </button>
+        {[...Array(endPage - startPage + 1)].map((_, i) => {
+          const p = startPage + i;
+          return (
+            <button
+              key={p}
+              onClick={() => handlePageChange(p)}
+              className={`px-3 py-2 text-white rounded-md ${p === currentPage ? "bg-brandRed" : "bg-brandDisable"}`}
+            >
+              {p}
+            </button>
+          );
+        })}
+        <button
+          onClick={handleNextSet}
+          disabled={endPage === totalPages}
+          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

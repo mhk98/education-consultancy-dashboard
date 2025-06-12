@@ -131,16 +131,18 @@ const ComissionPaymentPaid = () => {
                 <td className="p-3 whitespace-nowrap">{payment.amount}</td>
                 <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
                 <td className="p-3 whitespace-nowrap">{payment.status}</td>
-                <td className="p-3 whitespace-nowrap">
-                <a
-                  href={`http://localhost:5000/${payment.file}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-brandRed"
-                >
-                  Preview PDF
-                </a>
-              </td>
+                {
+                  payment.file ? <td className="p-3 whitespace-nowrap">
+                  <a
+                    href={`https://api.eaconsultancy.info/${payment.file}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brandRed"
+                  >
+                    Preview PDF
+                  </a>
+                </td> : <p>Not Available</p>
+                }
                 <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                   <LiaEditSolid
                     fontSize={20}
