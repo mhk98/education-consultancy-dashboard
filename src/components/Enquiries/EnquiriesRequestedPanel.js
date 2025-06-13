@@ -16,7 +16,13 @@ const EnquiriesRequestedPanel = () => {
   const [startPage, setStartPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pagesPerSet, setPagesPerSet] = useState(10);
-  const itemsPerPage = 1;
+  const itemsPerPage = 10;
+
+  const [currentPage1, setCurrentPage1] = useState(1);
+  const [startPage1, setStartPage1] = useState(1);
+  const [totalPages1, setTotalPages1] = useState(1);
+  const [pagesPerSet1, setPagesPerSet1] = useState(10);
+  const itemsPerPage1 = 10;
 
 
   const { data, isLoading, isError, error } = useGetAllEnquiriesQuery({ page: currentPage,
@@ -47,8 +53,8 @@ const EnquiriesRequestedPanel = () => {
           setTotalPages(Math.ceil(data.meta.total / itemsPerPage));
         }
       }, [data, isError, error]);
-    
-      // Responsive pagination button count
+
+                   // Responsive pagination button count
       useEffect(() => {
         const handleResize = () => {
           if (window.innerWidth < 640) setPagesPerSet(5);
@@ -59,9 +65,9 @@ const EnquiriesRequestedPanel = () => {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
       }, []);
-    
 
-      const endPage = Math.min(startPage + pagesPerSet - 1, totalPages);
+
+  const endPage = Math.min(startPage + pagesPerSet - 1, totalPages);
   const handlePageChange = p => {
     setCurrentPage(p);
     if (p < startPage) setStartPage(p);
@@ -69,10 +75,11 @@ const EnquiriesRequestedPanel = () => {
   };
   const handlePreviousSet = () => setStartPage(Math.max(startPage - pagesPerSet, 1));
   const handleNextSet = () => setStartPage(Math.min(startPage + pagesPerSet, totalPages - pagesPerSet + 1));
-
-
     
-   const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllEnquiriesQuery();
+     
+    
+   const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllEnquiriesQuery({ page: currentPage1,
+        limit: itemsPerPage1,});
    const [adminPrograms, setAdminPrograms] = useState([]);
  
    useEffect(() => {
@@ -90,6 +97,37 @@ const EnquiriesRequestedPanel = () => {
 
    console.log("adminPrograms", adminPrograms)
 
+
+ // Update total pages when data changes
+      useEffect(() => {
+        if (isError1) {
+          console.error("Error fetching user data", error1);
+        } else if (data1 && data1.meta?.total != null) {
+          setTotalPages1(Math.ceil(data1.meta.total / itemsPerPage1));
+        }
+      }, [data1, isError1, error1]);
+
+                   // Responsive pagination button count
+      useEffect(() => {
+        const handleResize = () => {
+          if (window.innerWidth < 640) setPagesPerSet1(5);
+          else if (window.innerWidth < 1024) setPagesPerSet1(7);
+          else setPagesPerSet1(10);
+        };
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+      }, []);
+
+
+  const endPage1 = Math.min(startPage1 + pagesPerSet1 - 1, totalPages1);
+  const handlePageChange1 = p => {
+    setCurrentPage1(p);
+    if (p < startPage1) setStartPage1(p);
+    else if (p > endPage1) setStartPage1(p - pagesPerSet1 + 1);
+  };
+  const handlePreviousSet1 = () => setStartPage1(Math.max(startPage1 - pagesPerSet1, 1));
+  const handleNextSet1 = () => setStartPage1(Math.min(startPage1 + pagesPerSet1, totalPages1 - pagesPerSet1 + 1));
 
 
    
@@ -118,7 +156,7 @@ const EnquiriesRequestedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'https://api.eaconsultancy.info/'; // Adjust to your server's URL
+  const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
 
  const {
       register,
@@ -171,7 +209,7 @@ const EnquiriesRequestedPanel = () => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://api.eaconsultancy.info/api/v1/comment/${selected.id}?type=kc`
+        `http://localhost:5000/api/v1/comment/${selected.id}?type=kc`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -182,7 +220,7 @@ const EnquiriesRequestedPanel = () => {
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
     try {
-      await axios.post("https://api.eaconsultancy.info/api/v1/comment/create", {
+      await axios.post("http://localhost:5000/api/v1/comment/create", {
         user_id:id,
         enquiry_id: selected.id,
         text: newComment,
@@ -201,7 +239,7 @@ const EnquiriesRequestedPanel = () => {
     const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("https://api.eaconsultancy.info/api/v1/reply/create", {
+      await axios.post("http://localhost:5000/api/v1/reply/create", {
         user_id:id,
         comment_id: commentId,
         text: replyText,
@@ -281,7 +319,7 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+              const response = await axios.get("http://localhost:5000/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
@@ -305,7 +343,7 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+              const response = await axios.get("http://localhost:5000/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
@@ -563,6 +601,35 @@ const EnquiriesRequestedPanel = () => {
             </p>
           </div>
         ))}
+
+             <div className="flex items-center justify-center space-x-2 mt-6">
+        <button
+          onClick={handlePreviousSet1}
+          disabled={startPage1 === 1}
+          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+        >
+          Prev
+        </button>
+        {[...Array(endPage1 - startPage1 + 1)].map((_, i) => {
+          const p = startPage1 + i;
+          return (
+            <button
+              key={p}
+              onClick={() => handlePageChange1(p)}
+              className={`px-3 py-2 text-white rounded-md ${p === currentPage1 ? "bg-brandRed" : "bg-brandDisable"}`}
+            >
+              {p}
+            </button>
+          );
+        })}
+        <button
+          onClick={handleNextSet1}
+          disabled={endPage1 === totalPages1}
+          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+        >
+          Next
+        </button>
+      </div>
       </div>
           
         ) : (

@@ -8,7 +8,7 @@ const getAuthToken = () => {
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.eaconsultancy.info/api/v1/",
+    baseUrl: "http://localhost:5000/api/v1/",
 
     // This will attach the token to every request that requires authorization
     prepareHeaders: (headers) => {
@@ -65,6 +65,16 @@ export const authApi = createApi({
       refetchOnMountOrArgChange: true,
       pollingInterval: 1000,
     }),
+
+    getAllStudent: build.query({
+      query: ({searchTerm, FirstName, LastName, Branch, Email, id, Profile, page, limit}) => ({
+        url: "/user/student",
+        params: {searchTerm, FirstName, LastName, Branch, Email, id, Profile, page, limit }
+      }),
+      providesTags: ["auth"],
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 1000,
+    }),
     
 
     getUserDataById: build.query({
@@ -87,5 +97,6 @@ export const {
   useGetUserDataByIdQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useGetAllStudentQuery
 
 } = authApi;

@@ -38,7 +38,7 @@
 //     });
 //   };
 
-//   const fileBaseURL = 'https://api.eaconsultancy.info/'; // Adjust to your server's URL
+//   const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
 
 //  const {
 //       register,
@@ -332,7 +332,7 @@ const EnquiriesRequestedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'https://api.eaconsultancy.info/'; // Adjust to your server's URL
+  const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
 
  const {
       register,
@@ -385,7 +385,7 @@ const EnquiriesRequestedPanel = () => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://api.eaconsultancy.info/api/v1/comment/${selected.id}?type=kc`
+        `http://localhost:5000/api/v1/comment/${selected.id}?type=kc`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -396,7 +396,7 @@ const EnquiriesRequestedPanel = () => {
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
     try {
-      await axios.post("https://api.eaconsultancy.info/api/v1/comment/create", {
+      await axios.post("http://localhost:5000/api/v1/comment/create", {
         user_id:id,
         enquiry_id: selected.id,
         text: newComment,
@@ -415,7 +415,7 @@ const EnquiriesRequestedPanel = () => {
     const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("https://api.eaconsultancy.info/api/v1/reply/create", {
+      await axios.post("http://localhost:5000/api/v1/reply/create", {
         user_id:id,
         comment_id: commentId,
         text: replyText,

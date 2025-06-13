@@ -89,6 +89,7 @@ const ApplyProgram = ({ id }) => {
     }
   }, [countryData, isLoadingCountry, isErrorCountry, errorCountry]);
 
+
   // Program Intake
   const {
     data: intakeData,
@@ -152,32 +153,19 @@ const ApplyProgram = ({ id }) => {
       </div>
 
       <form onSubmit={handleSubmit(onFormSubmit)} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-center">
-        {/* Year */}
+
+        {/* Country */}
         <div className="mt-4">
-          <Select name="year" {...register('year')} className="mt-1">
-            <option value="">Select Year</option>
-            {years.map((year) => (
-              <option key={year.id} value={year.year}>
-                {year.year}
+          <Select name="country" {...register('country')} className="mt-1">
+            <option value="">Select Country</option>
+            {countries.map((country) => (
+              <option key={country.id} value={country.country}>
+                {country.country}
               </option>
             ))}
           </Select>
-          {errors.year && <p className="text-red-500 text-xs mt-1">{errors.year.message}</p>}
+          {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country.message}</p>}
         </div>
-
-        {/* Intake */}
-        <div className="mt-4">
-          <Select name="intake" {...register('intake')} className="mt-1">
-            <option value="">Select Intake</option>
-            {intakes.map((intake) => (
-              <option key={intake.id} value={intake.intake}>
-                {intake.intake}
-              </option>
-            ))}
-          </Select>
-          {errors.intake && <p className="text-red-500 text-xs mt-1">{errors.intake.message}</p>}
-        </div>
-
         {/* University */}
         <div className="mt-4">
           <Select name="university" {...register('university')} className="mt-1">
@@ -204,20 +192,33 @@ const ApplyProgram = ({ id }) => {
           {errors.program && <p className="text-red-500 text-xs mt-1">{errors.program.message}</p>}
         </div>
 
-        {/* Country */}
+        {/* Intake */}
         <div className="mt-4">
-          <Select name="country" {...register('country')} className="mt-1">
-            <option value="">Select Country</option>
-            {countries.map((country) => (
-              <option key={country.id} value={country.country}>
-                {country.country}
+          <Select name="intake" {...register('intake')} className="mt-1">
+            <option value="">Select Intake</option>
+            {intakes.map((intake) => (
+              <option key={intake.id} value={intake.intake}>
+                {intake.intake}
               </option>
             ))}
           </Select>
-          {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country.message}</p>}
+          {errors.intake && <p className="text-red-500 text-xs mt-1">{errors.intake.message}</p>}
         </div>
 
-        {/* Priority */}
+        {/* Year */}
+        <div className="mt-4">
+          <Select name="year" {...register('year')} className="mt-1">
+            <option value="">Select Year</option>
+            {years.map((year) => (
+              <option key={year.id} value={year.year}>
+                {year.year}
+              </option>
+            ))}
+          </Select>
+          {errors.year && <p className="text-red-500 text-xs mt-1">{errors.year.message}</p>}
+        </div>
+
+                {/* Priority */}
         <div className="mt-4">
           <Select name="priority" {...register('priority')} className="mt-1">
             <option value="">Select Priority</option>
@@ -227,7 +228,6 @@ const ApplyProgram = ({ id }) => {
           </Select>
           {errors.priority && <p className="text-red-500 text-xs mt-1">{errors.priority.message}</p>}
         </div>
-
         {/* Submit Button */}
         <button
           type="submit"

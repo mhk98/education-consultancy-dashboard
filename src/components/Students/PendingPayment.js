@@ -99,7 +99,7 @@ function PendingPayment({id}) {
       // useEffect(() => {
       //   const fetchUsers = async () => {
       //     try {
-      //       const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+      //       const response = await axios.get("http://localhost:5000/api/v1/user");
       //       const allUsers = response.data.data;
       
       //       // ফিল্টার লজিক
@@ -123,7 +123,7 @@ function PendingPayment({id}) {
       useEffect(() => {
         const fetchUsers = async () => {
           try {
-            const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+            const response = await axios.get("http://localhost:5000/api/v1/user");
             const allUsers = response.data.data;
       
             // ফিল্টার লজিক

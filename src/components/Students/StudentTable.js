@@ -240,7 +240,7 @@ import { FaTrash } from "react-icons/fa";
 import { LiaEditSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 import { Input, Label, Button } from "@windmill/react-ui";
-import { useGetAllUserQuery, useGetUserDataByIdQuery } from "../../features/auth/auth";
+import { useGetAllStudentQuery, useGetAllUserQuery, useGetUserDataByIdQuery } from "../../features/auth/auth";
 
 export default function StudentTable() {
   const [firstName, setFirstName] = useState("");
@@ -264,16 +264,16 @@ export default function StudentTable() {
   const queryArgs = role
     ? {
         ...(role === "superAdmin"
-          ? { FirstName: firstName, LastName: lastName, id: studentId }
+          ? { FirstName: firstName, LastName: lastName, id: studentId, Profile: "active", Role:"student" }
           : (role === "admin" || role === "employee")
-          ? { Branch: branch, FirstName: firstName, LastName: lastName, id: studentId }
+          ? { Branch: branch, FirstName: firstName, LastName: lastName, id: studentId , Profile: "active", Role:"student"}
           : {}),
         page: currentPage,
         limit: itemsPerPage,
       }
     : null;
 
-  const { data, isLoading, isError, error } = useGetAllUserQuery(queryArgs, {
+  const { data, isLoading, isError, error } = useGetAllStudentQuery(queryArgs, {
     skip: !queryArgs,
   });
 

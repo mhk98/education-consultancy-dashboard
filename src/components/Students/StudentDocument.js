@@ -14,7 +14,7 @@ import {
   useGetSingleAdditionalDataByIdQuery,
 } from "../../features/additionalDocument/additionalDocument";
 
-const BASE_URL = "https://api.eaconsultancy.info/";
+const BASE_URL = "http://localhost:5000/";
 
 const MAX_FILE_SIZE_MB = 5;
 
