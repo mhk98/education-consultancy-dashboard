@@ -12,7 +12,7 @@ export default function RegionalManagers() {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/v1/user"); // update with your actual API
+        const response = await axios.get("https://api.eaconsultancy.info/api/v1/user"); // update with your actual API
         const users = response.data.data || [];
 
         // Filter users with role === "admin"
@@ -48,7 +48,7 @@ export default function RegionalManagers() {
           >
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4">
               <img
-                src={`http://localhost:5000/${admin.image}`} // fallback image
+                src={`https://api.eaconsultancy.info/${admin.image}`} // fallback image
                 alt={`${admin.FirstName} ${admin.LastName}`}
                 className="w-20 h-20 rounded-full object-cover"
               />

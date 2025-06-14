@@ -11,6 +11,11 @@ import { useGetAllprogramUniversityQuery } from "../../features/programUniversit
 import { useGetAllprogramNameQuery } from "../../features/programName/programName";
 
 const ApplyProgram = ({ id }) => {
+
+  
+const [selectedCountryId, setSelectedCountryId] = useState('');
+const [selectedUniversityId, setSelectedUniversityId] = useState('');
+
   const {
     register,
     formState: { errors },
@@ -113,7 +118,7 @@ const ApplyProgram = ({ id }) => {
     isError: isErrorUniversity,
     error: errorUniversity,
     isLoading: isLoadingUniversity
-  } = useGetAllprogramUniversityQuery();
+  } = useGetAllprogramUniversityQuery({country:selectedCountryId});
   const [universities, setUniversities] = useState([]);
 
   useEffect(() => {
@@ -130,7 +135,7 @@ const ApplyProgram = ({ id }) => {
     isError: isErrorProgram,
     error: errorProgram,
     isLoading: isLoadingProgram
-  } = useGetAllprogramNameQuery();
+  } = useGetAllprogramNameQuery({country_id:selectedCountryId, university_id:selectedUniversityId});
   const [programs, setPrograms] = useState([]);
 
   useEffect(() => {
@@ -156,26 +161,53 @@ const ApplyProgram = ({ id }) => {
 
         {/* Country */}
         <div className="mt-4">
-          <Select name="country" {...register('country')} className="mt-1">
-            <option value="">Select Country</option>
-            {countries.map((country) => (
-              <option key={country.id} value={country.country}>
-                {country.country}
-              </option>
-            ))}
-          </Select>
+          <Select
+  name="country"
+  {...register('country', {
+    onChange: (e) => {
+      const value = e.target.value;
+      setSelectedCountryId(value); // update your local state
+    },
+  })}
+  className="mt-1"
+>
+  <option value="">Select Country</option>
+  {countries.map((country) => (
+    <option key={country.id} value={country.id}>
+      {country.country}
+    </option>
+  ))}
+</Select>
           {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country.message}</p>}
         </div>
         {/* University */}
         <div className="mt-4">
-          <Select name="university" {...register('university')} className="mt-1">
+          {/* <Select name="university" {...register('university')} className="mt-1">
             <option value="">Select University</option>
             {universities.map((university) => (
               <option key={university.id} value={university.university}>
                 {university.university}
               </option>
             ))}
-          </Select>
+          </Select> */}
+
+              <Select
+  name="university"
+  {...register('university', {
+    onChange: (e) => {
+      const value = e.target.value;
+      setSelectedUniversityId(value); // update your local state
+    },
+  })}
+  className="mt-1"
+>
+  <option value="">Select University</option>
+  {universities.map((university) => (
+    <option key={university.id} value={university.id}>
+      {university.university}
+    </option>
+  ))}
+</Select>
           {errors.university && <p className="text-red-500 text-xs mt-1">{errors.university.message}</p>}
         </div>
 

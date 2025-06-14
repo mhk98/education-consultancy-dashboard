@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const programUniversityApi = createApi({
   reducerPath: "programUniversityApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["programUniversity"], // Define the tag type
@@ -35,8 +35,9 @@ export const programUniversityApi = createApi({
     }),
 
     getAllprogramUniversity: build.query({
-      query: () => ({
+      query: ({country_id}) => ({
         url: "/programUniversity",
+        params:{country_id}
       }),
       providesTags: ["programUniversity"],
 
