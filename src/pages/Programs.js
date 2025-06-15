@@ -16,10 +16,14 @@ import {
 import { useCreateprogramNameMutation } from '../features/programName/programName'
 import { useCreateprogramIntakeMutation } from '../features/programIntake/programIntake'
 import { useCreateprogramYearMutation } from '../features/programYears/programYears'
+import axios from 'axios'
 
 function Programs() {
   const [countries, setCountries] = useState([])
   const [universities, setUniversities] = useState([])
+
+  console.log("countries", countries)
+  console.log("universities", universities)
 
   const handleEnter = (e) => {
     if (e.key === 'Enter') {
@@ -32,17 +36,37 @@ function Programs() {
 
   // === FETCH DATA ===
   const { data: countryData, isError: countryErr, error: errCountry } = useGetAllProgramCountryQuery()
-  const { data: universityData, isError: universityErr, error: errUniversity } = useGetAllprogramUniversityQuery()
-
-  useEffect(() => {
+   useEffect(() => {
     if (countryData?.data) setCountries(countryData.data)
-    if (countryErr) toast.error(errCountry?.data?.message || 'Error loading countries')
+    if (countryErr) console.log(errCountry?.data?.message)
   }, [countryData, countryErr, errCountry])
 
-  useEffect(() => {
-    if (universityData?.data) setUniversities(universityData.data)
-    if (universityErr) toast.error(errUniversity?.data?.message || 'Error loading universities')
-  }, [universityData, universityErr, errUniversity])
+
+//   const { data: universityData, isError: universityErr, error: errUniversity } = useGetAllprogramUniversityQuery()
+
+// useEffect(() => {
+//     if (universityData?.data) setUniversities(universityData.data)
+//     if (universityErr) console.log(errUniversity?.data?.message)
+//   }, [universityData, universityErr, errUniversity])
+
+useEffect(() => {
+  const fetchUniversities = async () => {
+    try {
+      const res = await axios.get('https://api.eaconsultancy.info/api/v1/programUniversity/') // Change the URL to your actual endpoint
+      if (res.data?.success) {
+        setUniversities(res.data.data)
+      } else {
+        console.error('Failed to fetch universities:', res.data?.message)
+      }
+    } catch (err) {
+      console.error('Axios error:', err.response?.data?.message || err.message)
+    }
+  }
+
+  fetchUniversities()
+}, [])
+
+
 
   // === MUTATIONS ===
   const [createProgramCountry] = useCreateProgramCountryMutation()

@@ -16,6 +16,9 @@ const ApplyProgram = ({ id }) => {
 const [selectedCountryId, setSelectedCountryId] = useState('');
 const [selectedUniversityId, setSelectedUniversityId] = useState('');
 
+console.log("selectedCountryId", selectedCountryId)
+console.log("selectedUniversityId", selectedUniversityId)
+
   const {
     register,
     formState: { errors },
@@ -118,7 +121,7 @@ const [selectedUniversityId, setSelectedUniversityId] = useState('');
     isError: isErrorUniversity,
     error: errorUniversity,
     isLoading: isLoadingUniversity
-  } = useGetAllprogramUniversityQuery({country:selectedCountryId});
+  } = useGetAllprogramUniversityQuery({country_id:selectedCountryId});
   const [universities, setUniversities] = useState([]);
 
   useEffect(() => {
@@ -128,6 +131,8 @@ const [selectedUniversityId, setSelectedUniversityId] = useState('');
       setUniversities(universityData.data);
     }
   }, [universityData, isLoadingUniversity, isErrorUniversity, errorUniversity]);
+
+  console.log("universities", universities)
 
   // Program Name
   const {
