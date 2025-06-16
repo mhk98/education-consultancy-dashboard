@@ -12,6 +12,7 @@ import {
   useGetAllApplicationQuery,
   useUpdateApplicationMutation,
 } from "../../features/application/application";
+import axios from "axios";
 
 export default function ApplicationsTable() {
   const [FirstName, setFirstName] = useState("");
@@ -225,6 +226,56 @@ export default function ApplicationsTable() {
     ));
   };
 
+
+  const [admins, setAdmins] = useState([]);
+  
+    useEffect(() => {
+      const fetchUsers = async () => {
+        try {
+          const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+          const allUsers = response.data.data;
+    
+          // ফিল্টার লজিক
+          const filtered = allUsers.filter(user => {
+            const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+            return role && role !== "student" && (
+              (role === "admin" && user.Branch === branch) || (role === "employee" && user.Branch === branch)
+            );
+          });
+    
+          setAdmins(filtered);
+        } catch (err) {
+          console.error("Error fetching users:", err);
+        }
+      };
+    
+      fetchUsers();
+    }, [branch]);
+
+
+    const [superAdmins, setSuperAdmins] = useState([]);
+    
+      useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const response = await axios.get("https://api.eaconsultancy.info/api/v1/user"); // Replace with your API endpoint
+            const allUsers = response.data.data;
+      
+            // Filter out students
+            const filtered = allUsers.filter(user => user.Role?.toLowerCase() !== "student");
+            setSuperAdmins(filtered);
+          } catch (err) {
+            console.error("Error fetching users:", err);
+          
+          }
+        };
+      
+        fetchUsers();
+      }, []);
+      
+    
+      console.log("Admins:", admins);
+
   return (
     <div className="overflow-x-auto p-4">
       {/* Filters */}
@@ -323,16 +374,35 @@ export default function ApplicationsTable() {
                   {errors.status && <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>}
                 </div>
               )}
-              <div className="mb-4">
+             {
+              role === "superAdmin" ? (
+                 <div className="mb-4">
                 <label className="block text-sm mb-1 text-gray-700">EduAnchor Assignee</label>
                 <select {...register("assignee")} className="input input-bordered w-full shadow-md p-3">
                   <option value="">Select Assignee</option>
-                  <option value="Rakib">Rakib</option>
-                  <option value="Shakib">Shakib</option>
-                  <option value="Habib">Habib</option>
+                  {superAdmins.map((superAdmin) => (
+                                       <option key={superAdmin.id} value={`${superAdmin.FirstName} ${superAdmin.LastName}`}>
+                                         {superAdmin.FirstName} {superAdmin.LastName}
+                                       </option>
+                                     ))}
                 </select>
                 {errors.assignee && <p className="text-red-500 text-sm mt-1">{errors.assignee.message}</p>}
               </div>
+              ) : (
+                 <div className="mb-4">
+                <label className="block text-sm mb-1 text-gray-700">EduAnchor Assignee</label>
+                <select {...register("assignee")} className="input input-bordered w-full shadow-md p-3">
+                  <option value="">Select Assignee</option>
+                  {admins.map((admin) => (
+                                       <option key={admin.id} value={`${admin.FirstName} ${admin.LastName}`}>
+                                         {admin.FirstName} {admin.LastName}
+                                       </option>
+                                     ))}
+                </select>
+                {errors.assignee && <p className="text-red-500 text-sm mt-1">{errors.assignee.message}</p>}
+              </div>
+              )
+             }
             </div>
             <div className="flex justify-end gap-2 mt-6">
               <Button type="submit" className="btn" style={{ backgroundColor: "#C71320" }}>

@@ -67,9 +67,9 @@ export const authApi = createApi({
     }),
 
     getAllStudent: build.query({
-      query: ({searchTerm, FirstName, LastName, Branch, Email, id, Profile, page, limit}) => ({
+      query: ({searchTerm, FirstName, LastName, Branch, Email, id, Profile, Role, page, limit}) => ({
         url: "/user/student",
-        params: {searchTerm, FirstName, LastName, Branch, Email, id, Profile, page, limit }
+        params: {searchTerm, FirstName, LastName, Branch, Email, id, Profile, Role, page, limit }
       }),
       providesTags: ["auth"],
       refetchOnMountOrArgChange: true,

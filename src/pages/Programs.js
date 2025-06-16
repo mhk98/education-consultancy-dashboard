@@ -21,6 +21,10 @@ import axios from 'axios'
 function Programs() {
   const [countries, setCountries] = useState([])
   const [universities, setUniversities] = useState([])
+  const [selectedCountryId, setSelectedCountryId] = useState('');
+
+  console.log("selectedCountryId", selectedCountryId)
+  
 
   console.log("countries", countries)
   console.log("universities", universities)
@@ -52,7 +56,12 @@ function Programs() {
 useEffect(() => {
   const fetchUniversities = async () => {
     try {
-      const res = await axios.get('https://api.eaconsultancy.info/api/v1/programUniversity/') // Change the URL to your actual endpoint
+      const res = await axios.get('https://api.eaconsultancy.info/api/v1/programUniversity/', {
+        params: {
+          country_id:selectedCountryId
+        },
+      })
+
       if (res.data?.success) {
         setUniversities(res.data.data)
       } else {
@@ -64,7 +73,8 @@ useEffect(() => {
   }
 
   fetchUniversities()
-}, [])
+}, [selectedCountryId])
+
 
 
 
@@ -210,6 +220,33 @@ useEffect(() => {
             {errProgramForm.program && <p className="text-red-500 text-sm">{errProgramForm.program.message}</p>}
           </div>
           <div>
+            <label className="block text-sm text-gray-700">Country</label>
+            {/* <select {...regProgram('country', { required: 'Country is required' })} className="w-full p-2 border rounded" onKeyDown={handleEnter}>
+              <option value="">Select Country</option>
+              {countries.map((c) => (
+                <option key={c.id} value={c.id}>{c.country}</option>
+              ))}
+            </select> */}
+                    <select className="w-full p-2 border rounded mt-1" onKeyDown={handleEnter}
+              name="country"
+              {...regProgram('country', {
+                onChange: (e) => {
+                  const value = e.target.value;
+                  setSelectedCountryId(value); // update your local state
+                },
+              })}
+           
+            >
+              <option value="">Select Country</option>
+              {countries.map((country) => (
+                <option key={country.id} value={country.id}>
+                  {country.country}
+                </option>
+              ))}
+            </select>
+            {errProgramForm.country && <p className="text-red-500 text-sm">{errProgramForm.country.message}</p>}
+          </div>
+          <div>
             <label className="block text-sm text-gray-700">University</label>
             <select {...regProgram('university', { required: 'University is required' })} className="w-full p-2 border rounded" onKeyDown={handleEnter}>
               <option value="">Select University</option>
@@ -219,16 +256,7 @@ useEffect(() => {
             </select>
             {errProgramForm.university && <p className="text-red-500 text-sm">{errProgramForm.university.message}</p>}
           </div>
-          <div>
-            <label className="block text-sm text-gray-700">Country</label>
-            <select {...regProgram('country', { required: 'Country is required' })} className="w-full p-2 border rounded" onKeyDown={handleEnter}>
-              <option value="">Select Country</option>
-              {countries.map((c) => (
-                <option key={c.id} value={c.id}>{c.country}</option>
-              ))}
-            </select>
-            {errProgramForm.country && <p className="text-red-500 text-sm">{errProgramForm.country.message}</p>}
-          </div>
+          
           <button className="bg-brandRed text-white px-4 py-2 rounded col-span-full">Add Program</button>
         </form>
 

@@ -264,9 +264,9 @@ export default function StudentTable() {
   const queryArgs = role
     ? {
         ...(role === "superAdmin"
-          ? { FirstName: firstName, LastName: lastName, id: studentId, Profile: "active", Role:"student" }
+          ? { FirstName: firstName, LastName: lastName, id: studentId,  Role:"student" }
           : (role === "admin" || role === "employee")
-          ? { Branch: branch, FirstName: firstName, LastName: lastName, id: studentId , Profile: "active", Role:"student"}
+          ? { Branch: branch, FirstName: firstName, LastName: lastName, id: studentId , Profile:"active", Role:"student"}
           : {}),
         page: currentPage,
         limit: itemsPerPage,
