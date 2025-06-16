@@ -222,10 +222,18 @@ const id = localStorage.getItem("userId")
                       <label className="block mb-1 font-medium">Preferred Destination<span className="text-red-500">*</span></label>
                       <select    onKeyDown = {handleEnter} {...register('destination', { required: true })} className="w-full border rounded px-3 py-2">
                      
-                        <option value="">Select Destination</option>
-                        <option value="Bangladesh">Bangladesh</option>
-                        <option value="Finland">Finland</option>
-                        <option value="German">German</option>
+                  <option value="">Select Destination</option>
+                  <option value="Germany">Germany</option>
+                  <option value="Hungary">Hungary</option>
+                  <option value="Belgium">Belgium</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="China">China</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Netherlands">Netherlands</option>
+                  <option value="Cyprus">Cyprus</option>
+                  <option value="Sweden">Sweden</option>
+                  <option value="Denmark">Denmark</option>
+
                       </select>
                     </div>
                     <div>
@@ -233,9 +241,16 @@ const id = localStorage.getItem("userId")
                       <select   onKeyDown = {handleEnter} {...register('educationCountry', { required: true })} className="w-full border rounded px-3 py-2">
                   
                         <option value="">Select Country</option>
-                        <option value="Bangladesh">Bangladesh</option>
-                        <option value="Finland">Finland</option>
-                        <option value="German">German</option>
+                        <option value="Germany">Germany</option>
+                  <option value="Hungary">Hungary</option>
+                  <option value="Belgium">Belgium</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="China">China</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Netherlands">Netherlands</option>
+                  <option value="Cyprus">Cyprus</option>
+                  <option value="Sweden">Sweden</option>
+                  <option value="Denmark">Denmark</option>
                       </select>
                     </div>
                     <div>
@@ -376,18 +391,32 @@ const id = localStorage.getItem("userId")
                       <label className="block mb-1 font-medium">Preferred Destination<span className="text-red-500">*</span></label>
                       <select   onKeyDown = {handleEnter} {...register('destination', { required: true })} className="w-full border rounded px-3 py-2">
                         <option value="">Select Destination</option>
-                        <option value="Bangladesh">Bangladesh</option>
-                        <option value="Finland">Finland</option>
-                        <option value="German">German</option>
+                        <option value="Germany">Germany</option>
+                  <option value="Hungary">Hungary</option>
+                  <option value="Belgium">Belgium</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="China">China</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Netherlands">Netherlands</option>
+                  <option value="Cyprus">Cyprus</option>
+                  <option value="Sweden">Sweden</option>
+                  <option value="Denmark">Denmark</option>
                       </select>
                     </div>
                     <div>
                       <label className="block mb-1 font-medium">Student's Country of Education<span className="text-red-500">*</span></label>
                       <select    onKeyDown = {handleEnter} {...register('educationCountry', { required: true })} className="w-full border rounded px-3 py-2">
                         <option value="">Select Country</option>
-                        <option value="Bangladesh">Bangladesh</option>
-                        <option value="Finland">Finland</option>
-                        <option value="German">German</option>
+                        <option value="Germany">Germany</option>
+                  <option value="Hungary">Hungary</option>
+                  <option value="Belgium">Belgium</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="China">China</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Netherlands">Netherlands</option>
+                  <option value="Cyprus">Cyprus</option>
+                  <option value="Sweden">Sweden</option>
+                  <option value="Denmark">Denmark</option>
                       </select>
                     </div>
                     <div>

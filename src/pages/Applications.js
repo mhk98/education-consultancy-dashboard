@@ -46,7 +46,7 @@ function Applications() {
       {/* <CTA /> */}
 
     {/* <ApplicationsFilterPanel/> */}
-      <ApplicationsTable/>
+    <ApplicationsTable/>
     </>
   )
 }

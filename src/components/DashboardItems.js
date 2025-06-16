@@ -26,7 +26,7 @@ const features = [
   {
     icon: <FaBookOpen className="text-2xl text-brandRed" />,
     title: "Learning Resources",
-    href: "/resources",
+    href: "https://drive.google.com/drive/folders/1fZxeTjsnqDknyE4EhxI11IC0DQljU7kX",
     description:
       "Complete Library of Product Knowledge– Country Guides, Presentation Decks, Outreach Materials.",
   },

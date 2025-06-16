@@ -156,7 +156,7 @@ const EnquiriesRequestedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'https://api.eaconsultancy.info/'; // Adjust to your server's URL
+  const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
 
  const {
       register,
@@ -209,7 +209,7 @@ const EnquiriesRequestedPanel = () => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://api.eaconsultancy.info/api/v1/comment/${selected.id}?type=kc`
+        `http://localhost:5000/api/v1/comment/${selected.id}?type=kc`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -220,7 +220,7 @@ const EnquiriesRequestedPanel = () => {
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
     try {
-      await axios.post("https://api.eaconsultancy.info/api/v1/comment/create", {
+      await axios.post("http://localhost:5000/api/v1/comment/create", {
         user_id:id,
         enquiry_id: selected.id,
         text: newComment,
@@ -239,7 +239,7 @@ const EnquiriesRequestedPanel = () => {
     const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("https://api.eaconsultancy.info/api/v1/reply/create", {
+      await axios.post("http://localhost:5000/api/v1/reply/create", {
         user_id:id,
         comment_id: commentId,
         text: replyText,
@@ -284,7 +284,7 @@ const EnquiriesRequestedPanel = () => {
                   {reply.text}
                 </div>
               ))}
-              <div className="flex gap-2 mt-2">
+              {/* <div className="flex gap-2 mt-2">
                 <input
                   type="text"
                   value={replyContent[comment.id] || ""}
@@ -303,7 +303,30 @@ const EnquiriesRequestedPanel = () => {
                 >
                   Reply
                 </button>
-              </div>
+              </div> */}
+
+
+              <div className="flex flex-col gap-2 mt-2">
+  <textarea
+    rows={2}
+    value={replyContent[comment.id] || ""}
+    onChange={(e) =>
+      setReplyContent((prev) => ({
+        ...prev,
+        [comment.id]: e.target.value,
+      }))
+    }
+    placeholder="Write a reply..."
+    className="flex-1 border px-2 py-1 rounded text-sm resize-none"
+  />
+  <button
+    onClick={() => handleReplySubmit(comment.id)}
+    className="self-start text-sm bg-brandRed text-white px-3 py-1 rounded hover:bg-brandRed-700"
+  >
+    Reply
+  </button>
+</div>
+
             </div>
           </div>
         ))
@@ -319,7 +342,7 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+              const response = await axios.get("http://localhost:5000/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
@@ -343,7 +366,7 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
+              const response = await axios.get("http://localhost:5000/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
@@ -794,7 +817,7 @@ const EnquiriesRequestedPanel = () => {
 
    {/* KC Team Comments Only */}
    
-   <div className="flex items-center gap-2 mt-4">
+   {/* <div className="flex items-center gap-2 mt-4">
                 <input
                   type="text"
                   value={newComment}
@@ -812,7 +835,29 @@ const EnquiriesRequestedPanel = () => {
                   <FiSend size={20} />
                 </button>
               </div>
-              {renderCommentList()}
+              {renderCommentList()} */}
+
+
+              <div className="flex flex-col gap-2 mt-4">
+  <textarea
+    rows={3}
+    value={newComment}
+    onChange={(e) => setNewComment(e.target.value)}
+    placeholder="Write comments..."
+    className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm resize-none"
+  />
+  <div className="flex items-center justify-end">
+    <button
+      className="bg-brandRed text-white p-2 rounded hover:bg-brandRed-700"
+      onClick={handleCommentSubmit}
+    >
+      <FiSend size={20} />
+    </button>
+  </div>
+</div>
+
+{renderCommentList()}
+
           </div>
         </div>
       )}

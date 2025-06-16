@@ -4,7 +4,7 @@
 // import { useCreateEADocumentMutation, useDeleteEADocumentMutation, useGetAllEADocumentQuery } from "../../features/eaDocument/eaDocument";
 
 
-// const BASE_URL = "https://api.eaconsultancy.info/";
+// const BASE_URL = "http://localhost:5000/";
 
 // const EADocument = ({ id }) => {
 //   const [file, setFile] = useState(null);
@@ -171,7 +171,7 @@ import {
   useGetAllEADocumentQuery,
 } from "../../features/eaDocument/eaDocument";
 
-const BASE_URL = "https://api.eaconsultancy.info/";
+const BASE_URL = "http://localhost:5000/";
 
 const EADocument = ({ id }) => {
   const [file, setFile] = useState(null);
@@ -187,12 +187,15 @@ const EADocument = ({ id }) => {
     refetch,
   } = useGetAllEADocumentQuery(id);
 
+  console.log("studentid", id)
+
   const [createEADocument] = useCreateEADocumentMutation();
   const [deleteEADocument] = useDeleteEADocumentMutation();
 
   useEffect(() => {
     if (isError) {
-      toast.error(error?.data?.message || "Failed to load documents.");
+      // toast.error(error?.data?.message || "Failed to load documents.");a
+      console.log(error?.data?.message)
     } else if (!queryLoading && data?.data) {
       setDocument(data.data);
     }
