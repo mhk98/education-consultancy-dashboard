@@ -69,7 +69,7 @@ function Task() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/user");
+        const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student");
         const allUsers = response.data.data;
   
         // ফিল্টার লজিক
@@ -98,7 +98,7 @@ function Task() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/user"); // Replace with your API endpoint
+        const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student"); // Replace with your API endpoint
         const allUsers = response.data.data;
   
         // Filter out students
@@ -115,6 +115,7 @@ function Task() {
   
 
   console.log("Admins:", admins);
+  console.log("superAdmins:", superAdmins);
                   
       
   // Modal logic
@@ -529,7 +530,7 @@ const [isModalOpen1, setIsModalOpen1] = useState(false)
             task.file ?
             <td className="p-3 whitespace-nowrap">
             <a
-              href={`http://localhost:5000/${task.file}`}
+              href={`https://api.eaconsultancy.info/${task.file}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-brandRed"

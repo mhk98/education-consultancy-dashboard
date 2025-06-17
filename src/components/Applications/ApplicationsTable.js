@@ -34,8 +34,8 @@ export default function ApplicationsTable() {
    const [currentPage, setCurrentPage] = useState(1);
   const [startPage, setStartPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [pagesPerSet, setPagesPerSet] = useState(10);
-  const itemsPerPage = 10;
+  const [pagesPerSet, setPagesPerSet] = useState(20);
+  const itemsPerPage = 20;
 
   // ✅ Add query args for student
   // const queryArgs =
@@ -232,7 +232,7 @@ export default function ApplicationsTable() {
     useEffect(() => {
       const fetchUsers = async () => {
         try {
-          const response = await axios.get("http://localhost:5000/api/v1/user");
+          const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student");
           const allUsers = response.data.data;
     
           // ফিল্টার লজিক
@@ -258,7 +258,7 @@ export default function ApplicationsTable() {
       useEffect(() => {
         const fetchUsers = async () => {
           try {
-            const response = await axios.get("http://localhost:5000/api/v1/user"); // Replace with your API endpoint
+            const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student"); // Replace with your API endpoint
             const allUsers = response.data.data;
       
             // Filter out students
