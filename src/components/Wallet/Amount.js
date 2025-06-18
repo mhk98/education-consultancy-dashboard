@@ -7,6 +7,7 @@ import { FaTrash } from 'react-icons/fa'
 import { Modal, ModalHeader, ModalBody } from '@windmill/react-ui'
 import { useDeletePendingPaymentMutation, useGetAllPendingPaymentQuery, useUpdatePendingPaymentMutation } from '../../features/pendingPayment/pendingPayment'
 import Invoice from './Invoice'
+import { TbCurrencyTaka } from 'react-icons/tb'
 
 function Amount() {
 
@@ -54,6 +55,9 @@ const [selectBranch, setSelectBranch] = useState("")
 
         const { data:data2, isLoading:isLoading2, isError:isError2, error:error2 } = useGetAllPendingPaymentQuery();
           const [filteringPayments, setFilteringPayments] = useState([]);
+          const [totalBranchAmount, setTotalBranchAmount] = useState(0);
+          const [totalDebitAmount, setTotalDebitAmount] = useState(0);
+
         
           useEffect(() => {
             if (isError2) {
@@ -63,13 +67,35 @@ const [selectBranch, setSelectBranch] = useState("")
   
         // Filter out students
         const filtered = allPayments.filter(payments => payments.branch === selectBranch);
-
         setFilteringPayments(filtered);
+
+         const filteredBranchCredit = filtered.filter(payment =>
+                      ["Cash-In", "Offline", "Online"].includes(payment.paymentStatus) && payment.status === "PAID"
+                    );
+                    
+                    let credit = 0
+                    filteredBranchCredit.forEach(payment => {
+                      credit += payment.amount
+                    });
+        setTotalBranchAmount(credit)
+
+         const filteredBranchDebit = filtered.filter(payment =>
+                      ["Cash-Out"].includes(payment.paymentStatus) && payment.status === "PAID"
+                    );
+
+                    let debit = 0
+                    filteredBranchDebit.forEach(payment => {
+                      debit += payment.amount
+                    });
+        setTotalDebitAmount(debit)
             }
           }, [data2, isLoading2, isError2, error2, branch, selectBranch]);
     
           console.log("filteringPayments", filteringPayments)
-    
+
+      
+  const branchBalance = totalBranchAmount - totalDebitAmount  
+
           const formatDate = (dateString) => {
             const date = new Date(dateString);
             return date.toLocaleDateString("en-GB", {
@@ -162,7 +188,12 @@ const [selectBranch, setSelectBranch] = useState("")
     role === "superAdmin" &&
 
     <div className="mb-4 grid lg:grid-cols-2 xl:grid-cols-2 grid-cols-1">
-   <div></div>
+   <div>
+    <p>Balance:</p>
+              <button className="px-4 py-2 flex items-center bg-white text-brandRed border-2 border-brandRed rounded-md text-sm md:text-base transition">
+              <TbCurrencyTaka /> {branchBalance}
+              </button>
+   </div>
 
    <div >
             <select

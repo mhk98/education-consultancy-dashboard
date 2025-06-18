@@ -134,7 +134,7 @@ const ComissionPaymentPaid = () => {
                 {
                   payment.file ? <td className="p-3 whitespace-nowrap">
                   <a
-                    href={`https://api.eaconsultancy.info/${payment.file}`}
+                    href={`http://localhost:5000/${payment.file}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-brandRed"

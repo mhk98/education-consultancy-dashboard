@@ -258,7 +258,7 @@ const UserManagementFilter = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-center space-x-2 mt-6">
+      {/* <div className="flex items-center justify-center space-x-2 mt-6">
         <button
           onClick={handlePreviousSet}
           disabled={startPage === 1}
@@ -289,7 +289,40 @@ const UserManagementFilter = () => {
         >
           Next
         </button>
-      </div>
+      </div> */}
+
+<div className="flex items-center justify-center space-x-2 mt-6">
+  <button
+    onClick={handlePreviousSet}
+    disabled={startPage === 1}
+    className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+  >
+    Prev
+  </button>
+  {[...Array(endPage - startPage + 1)].map((_, idx) => {
+    const pageNum = startPage + idx;
+    return (
+      <button
+        key={pageNum}
+        onClick={() => handlePageChange(pageNum)}
+        className={`px-3 py-2 text-white rounded-md transition ${
+          pageNum === currentPage
+            ? 'bg-brandRed'
+            : 'bg-brandDisable hover:bg-brandRed'
+        }`}
+      >
+        {pageNum}
+      </button>
+    );
+  })}
+  <button
+    onClick={handleNextSet}
+    disabled={endPage === totalPages}
+    className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+  >
+    Next
+  </button>
+</div>
 
       {/* Edit Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>

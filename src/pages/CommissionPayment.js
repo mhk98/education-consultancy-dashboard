@@ -70,7 +70,7 @@ function CommissionPayment() {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student");
+        const response = await axios.get("http://localhost:5000/api/v1/user/student");
         const allUsers = response.data.data;
   
         // Filter users with Role "admin" or "superadmin"

@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import EnquiriesRequestedFilter from '../components/Enquiries/EnquiriesRequestedFilter';
-import EnquiriesArchivedFilter from '../components/Enquiries/EnquiriesArchivedFilter';
 import EnquiriesRequestedPanel from '../components/Enquiries/EnquiriesRequestedPanel';
 import { Modal, ModalHeader, ModalBody, Input, Button } from '@windmill/react-ui';
 import toast from 'react-hot-toast';

@@ -183,7 +183,7 @@ const user_id = localStorage.getItem("userId")
               
                   setTotalDebitAmount(total);
                 }
-              }, [data1, isLoading1, isError1, error1]);
+              }, [data1, isLoading1, isError1, error1, branch]);
         
         
               const balance = totalAmount - totalDebitAmount;
