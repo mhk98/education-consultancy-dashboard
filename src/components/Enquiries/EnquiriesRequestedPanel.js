@@ -9,7 +9,7 @@ import axios from "axios";
 const EnquiriesRequestedPanel = () => {
   const id = localStorage.getItem("userId")
   const role = localStorage.getItem("role")
-  const branch = localStorage.getItem("branch")
+  const Branch = localStorage.getItem("branch")
   const [selected, setSelected] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,8 +25,8 @@ const EnquiriesRequestedPanel = () => {
   const itemsPerPage1 = 10;
 
 
-  const { data, isLoading, isError, error } = useGetAllEnquiriesQuery({ page: currentPage,
-        limit: itemsPerPage,});
+
+  const { data, isLoading, isError, error } = useGetAllEnquiriesQuery({ Status:"active", page:currentPage, limit:itemsPerPage,});
   const [programList, setProgramList] = useState([]);
 
 
@@ -34,10 +34,10 @@ const EnquiriesRequestedPanel = () => {
       if (isError) {
         console.log("Error fetching", error);
       } else if (!isLoading && data) {
-        const filteredProgram = data.data.filter(
-          (item) => item.status === "active"
-        );
-        setProgramList(filteredProgram);
+        // const filteredProgram = data.data.filter(
+        //   (item) => item.Status === "active"
+        // );
+        setProgramList(data?.data);
       }
     }, [data, isLoading, isError, error]);
 
@@ -78,22 +78,19 @@ const EnquiriesRequestedPanel = () => {
     
      
     
-   const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllEnquiriesQuery({ page: currentPage1,
-        limit: itemsPerPage1,});
+   const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllEnquiriesQuery({ Status:"active", Branch, page:currentPage, limit:itemsPerPage,});
    const [adminPrograms, setAdminPrograms] = useState([]);
  
    useEffect(() => {
      if (isError1) {
        console.log("Error fetching", error1);
      } else if (!isLoading1 && data1) {
-       const allAdminPrograms = data1.data;
+//        const allAdminPrograms = data1.data;
+//  const filtered = allAdminPrograms.filter(program => program.Status === "active");
 
- // Filter out students
- const filtered = allAdminPrograms.filter(program => program.branch === branch);
-
- setAdminPrograms(filtered);
+ setAdminPrograms(data1?.data);
      }
-   }, [data1, isLoading1, isError1, error1, branch]);
+   }, [data1, isLoading1, isError1, error1, Branch]);
 
    console.log("adminPrograms", adminPrograms)
 
@@ -141,7 +138,7 @@ const EnquiriesRequestedPanel = () => {
                 setPrograms(data2.data);
           
               }
-            }, [data2, isLoading2, isError2, error2, branch]);
+            }, [data2, isLoading2, isError2, error2, Branch]);
       
             console.log("adminPrograms", adminPrograms)
 
@@ -156,7 +153,7 @@ const EnquiriesRequestedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
+  const fileBaseURL = 'https://api.eaconsultancy.info/'; // Adjust to your server's URL
 
  const {
       register,
@@ -206,21 +203,36 @@ const EnquiriesRequestedPanel = () => {
     fetchComments();
   }, [selected]);
 
+  // const fetchComments = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       `https://api.eaconsultancy.info/api/v1/comment/${selected.id}?type=kc`
+  //     );
+  //     setComments(res.data.data);
+  //   } catch (err) {
+  //     console.error("Failed to fetch comments:", err);
+  //   }
+  // };
+
   const fetchComments = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:5000/api/v1/comment/${selected.id}?type=kc`
-      );
-      setComments(res.data.data);
-    } catch (err) {
-      console.error("Failed to fetch comments:", err);
-    }
-  };
+  try {
+    const res = await axios.get(
+      `https://api.eaconsultancy.info/api/v1/comment/${selected.id}?type=kc`
+    );
+    const sortedComments = res.data.data.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    setComments(sortedComments);
+  } catch (err) {
+    console.error("Failed to fetch comments:", err);
+  }
+};
+
 
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
     try {
-      await axios.post("http://localhost:5000/api/v1/comment/create", {
+      await axios.post("https://api.eaconsultancy.info/api/v1/comment/create", {
         user_id:id,
         enquiry_id: selected.id,
         text: newComment,
@@ -239,7 +251,7 @@ const EnquiriesRequestedPanel = () => {
     const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("http://localhost:5000/api/v1/reply/create", {
+      await axios.post("https://api.eaconsultancy.info/api/v1/reply/create", {
         user_id:id,
         comment_id: commentId,
         text: replyText,
@@ -342,13 +354,13 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("http://localhost:5000/api/v1/user");
+              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
               const filtered = allUsers.filter(user => {
                 const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
-                return role && role === "employee" &&  user.Branch === branch      
+                return role && role === "employee" &&  user.Branch === Branch      
               });
         
               setEmployees(filtered);
@@ -358,7 +370,7 @@ const EnquiriesRequestedPanel = () => {
           };
         
           fetchUsers();
-        }, [branch]);
+        }, [Branch]);
   
   
         const [superAdminEmployees, setSuperAdminEmployees] = useState([]);
@@ -366,7 +378,7 @@ const EnquiriesRequestedPanel = () => {
         useEffect(() => {
           const fetchUsers = async () => {
             try {
-              const response = await axios.get("http://localhost:5000/api/v1/user");
+              const response = await axios.get("https://api.eaconsultancy.info/api/v1/user");
               const allUsers = response.data.data;
         
               // ফিল্টার লজিক
@@ -382,7 +394,7 @@ const EnquiriesRequestedPanel = () => {
           };
         
           fetchUsers();
-        }, [branch]);
+        }, [Branch]);
 
 
   return (
@@ -462,15 +474,15 @@ const EnquiriesRequestedPanel = () => {
                                                                <div className="mb-4">
                                                                  <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
                                                                  <select
-                                                                     {...register("status")}
+                                                                     {...register("Status")}
                                                                      className="input input-bordered w-full shadow-md p-3"
                                                                    >
                                                                      <option value="">Select Status</option>
                                                                      <option value="active">Active</option>
                                                                      <option value="archive">Archive</option>               
                                                                    </select>
-                                                                   {errors.status && (
-                                                                     <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+                                                                   {errors.Status && (
+                                                                     <p className="text-red-500 text-sm mt-1">{errors.Status.message}</p>
                                                                    )}
                                                                </div>
                                                               
@@ -530,7 +542,7 @@ const EnquiriesRequestedPanel = () => {
       </div>
 
       </div>
-        ) : role === "admin" ? (
+        ) : role === "admin" || role === "employee" ? (
 <div className="lg:w-1/2 w-full">
         {adminPrograms.map((item, index) => (
           <div
@@ -588,15 +600,15 @@ const EnquiriesRequestedPanel = () => {
                                                                <div className="mb-4">
                                                                  <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
                                                                  <select
-                                                                     {...register("status")}
+                                                                     {...register("Status")}
                                                                      className="input input-bordered w-full shadow-md p-3"
                                                                    >
                                                                      <option value="">Select Status</option>
                                                                      <option value="active">Active</option>
                                                                      <option value="archive">Archive</option>               
                                                                    </select>
-                                                                   {errors.status && (
-                                                                     <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+                                                                   {errors.Status && (
+                                                                     <p className="text-red-500 text-sm mt-1">{errors.Status.message}</p>
                                                                    )}
                                                                </div>
                                                               
@@ -702,15 +714,15 @@ const EnquiriesRequestedPanel = () => {
                                                                <div className="mb-4">
                                                                  <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
                                                                  <select
-                                                                     {...register("status")}
+                                                                     {...register("Status")}
                                                                      className="input input-bordered w-full shadow-md p-3"
                                                                    >
                                                                      <option value="">Select Status</option>
                                                                      <option value="active">Active</option>
                                                                      <option value="archive">Archive</option>               
                                                                    </select>
-                                                                   {errors.status && (
-                                                                     <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
+                                                                   {errors.Status && (
+                                                                     <p className="text-red-500 text-sm mt-1">{errors.Status.message}</p>
                                                                    )}
                                                                </div>
                                                               

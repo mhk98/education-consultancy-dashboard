@@ -69,7 +69,7 @@
 //   useEffect(() => {
 //     const fetchUsers = async () => {
 //       try {
-//         const response = await axios.get("http://localhost:5000/api/v1/user/student");
+//         const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student");
 //         const allUsers = response.data.data;
   
 //         // ফিল্টার লজিক
@@ -98,7 +98,7 @@
 //   useEffect(() => {
 //     const fetchUsers = async () => {
 //       try {
-//         const response = await axios.get("http://localhost:5000/api/v1/user/student"); // Replace with your API endpoint
+//         const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student"); // Replace with your API endpoint
 //         const allUsers = response.data.data;
   
 //         // Filter out students
@@ -388,7 +388,7 @@
 //             task.file ?
 //             <td className="p-3 whitespace-nowrap">
 //             <a
-//               href={`http://localhost:5000/${task.file}`}
+//               href={`https://api.eaconsultancy.info/${task.file}`}
 //               target="_blank"
 //               rel="noopener noreferrer"
 //               className="text-brandRed"
@@ -622,7 +622,7 @@ function Task() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/user/student');
+        const response = await axios.get('https://api.eaconsultancy.info/api/v1/user/student');
         const allUsers = response.data.data;
         const filteredAdmins = allUsers.filter(
           (user) =>
@@ -682,7 +682,7 @@ function Task() {
                 <td className="p-3">
                   {task.file ? (
                     <a
-                      href={`http://localhost:5000/${task.file}`}
+                      href={`https://api.eaconsultancy.info/${task.file}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-brandRed"

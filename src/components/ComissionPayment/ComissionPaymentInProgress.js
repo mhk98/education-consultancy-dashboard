@@ -9,7 +9,8 @@ import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui';
 
 const ComissionPaymentInProgress = () => {
   const role = localStorage.getItem("role")
-  const branch = localStorage.getItem("branch")
+  const Branch = localStorage.getItem("branch")
+  const user_id = localStorage.getItem("userId")
 
 const [isModalOpen, setIsModalOpen] = useState(false)
    
@@ -23,7 +24,7 @@ const [isModalOpen, setIsModalOpen] = useState(false)
           setFile(e.target.files[0]);
         };
 
-   const { data, isLoading, isError, error } = useGetAllCommissionQuery();
+   const { data, isLoading, isError, error } = useGetAllCommissionQuery({ user_id, assignedTo_id: user_id });
                const [payments, setPayments] = useState([]);
              
                 useEffect(() => {
@@ -41,21 +42,21 @@ const [isModalOpen, setIsModalOpen] = useState(false)
 
 
 
-               const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllCommissionQuery();
-               const [superAdminPayments, setSuperAdminPayments] = useState([]);
+            //    const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllCommissionQuery();
+            //    const [superAdminPayments, setSuperAdminPayments] = useState([]);
              
-               useEffect(() => {
-                 if (isError1) {
-                   console.log("Error fetching", error1);
-                 } else if (!isLoading1 && data1) {
-                   const allPayments = data1.data;
+            //    useEffect(() => {
+            //      if (isError1) {
+            //        console.log("Error fetching", error1);
+            //      } else if (!isLoading1 && data1) {
+            //        const allPayments = data1.data;
        
-             // Filter out students
-             const filtered = allPayments.filter(payments => payments.branch === branch);
+            //  // Filter out students
+            //  const filtered = allPayments.filter(payments => payments.branch === branch);
      
-                   setSuperAdminPayments(filtered);
-                 }
-               }, [data1, isLoading1, isError1, error1, branch]);
+            //        setSuperAdminPayments(filtered);
+            //      }
+            //    }, [data1, isLoading1, isError1, error1, branch]);
     
           
                 const formatDate = (dateString) => {
@@ -139,8 +140,8 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                                   
                                 </tr>
                               </thead>
-                          {
-                            role === "superAdmin" ? (
+                          {/* {
+                            role === "superAdmin" ? ( */}
                               <tbody>
                               {payments.map((payment, idx) => (
                                 <tr
@@ -150,7 +151,7 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                                   <td className="p-3 whitespace-nowrap">{formatDate(payment.createdAt)}</td>
                                   <td className="p-3 whitespace-nowrap">{payment.amount}</td>
                                   <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
-                                  <td className="p-3 whitespace-nowrap">{payment.branch}</td>
+                                  <td className="p-3 whitespace-nowrap">{payment.Branch}</td>
                                   <td className="p-3 whitespace-nowrap">{payment.status}</td>
                                   <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                                     <LiaEditSolid
@@ -171,7 +172,7 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                                 </tr>
                               ))}
                             </tbody>
-                            ): (
+                            {/* ): (
                               <tbody>
                               {superAdminPayments.map((payment, idx) => (
                                 <tr
@@ -203,7 +204,7 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                               ))}
                             </tbody>
                             )
-                          }
+                          } */}
         
         {/* ✅ Move this modal outside the map */}
         <Modal isOpen={isModalOpen} onClose={closeModal}>

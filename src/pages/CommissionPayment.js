@@ -11,7 +11,11 @@ import axios from 'axios';
 
 
 function CommissionPayment() {
- 
+
+ const first_Name = localStorage.getItem('FirstName');
+  const last_Name = localStorage.getItem('LastName');
+
+
  const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error1, setError1] = useState(null);
@@ -45,7 +49,8 @@ function CommissionPayment() {
       user_id:id,
       amount: data.amount,
       purpose: data.purpose,
-      branch: data.branch,
+      id: data.branch,
+      assignor: `${first_Name} ${last_Name}`
 
     }
 
@@ -70,16 +75,14 @@ function CommissionPayment() {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/v1/user/student");
+        const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student");
         const allUsers = response.data.data;
   
         // Filter users with Role "admin" or "superadmin"
         const filtered = allUsers.filter(
           (user) =>
-            user.Role?.toLowerCase() === "admin" ||
-            user.Role?.toLowerCase() === "superAdmin"
+        user.Role?.toLowerCase() !== 'student' && user.Role?.toLowerCase() !== 'employee'
         );
-  
         setAdmins(filtered);
       } catch (err) {
         console.error("Error fetching users:", err);
@@ -150,22 +153,27 @@ function CommissionPayment() {
                               )}
                             </div>
                             
-
-                      <div className="mt-4">
-                   <label className="block text-sm mb-1 text-gray-700 mb-4">Branch</label>
-
-                                <Select name="branch" {...register('branch')} className="mt-1">
-                                onKeyDown = {handleEnter}
-                                  <option>Select Branch</option>
-                                  {admins.map((admin) => (
-                                    <option key={admin.id} value={admin.Branch}>
+                     
+            <div className="mb-4">
+                    <label className="block text-sm text-gray-700 mb-2">
+                      Branch
+                    </label>
+                    <select
+                      {...register("branch")}
+                      onKeyDown={handleEnter}
+                      className="input input-bordered w-full shadow-md p-3"
+                    >
+                      <option value="">Select Branch</option>
+                          {admins.map((admin) => (
+                                    <option key={admin.id} value={admin.id}>
                                       {admin.Branch}
                                     </option>
                                   ))}
-                                </Select>
-                                {errors.branch && <p className="text-red-500 text-xs mt-1">{errors.branch.message}</p>}
-                              </div>
-                     
+                    </select>
+                  {errors.branch && <p className="text-red-500 text-xs mt-1">{errors.branch.message}</p>}
+                    
+                  </div>
+
                         </div>
                       
                         <div className="flex justify-end gap-2 mt-6">

@@ -102,7 +102,7 @@ const id = localStorage.getItem("userId")
     formData.append("educationCountry", data.educationCountry);
     formData.append("educationLevel", data.educationLevel);
     formData.append("additionalInfo", data.additionalInfo);
-    formData.append("branch", data.branch);
+    formData.append("Branch", data.branch);
     formData.append("user_id", id);
     files.forEach((file) => {
       formData.append("files", file); // "files" matches multer's field name

@@ -15,7 +15,7 @@
 //   useUpdateAdditionalDocumentMutation,
 // } from "../../features/additionalDocument/additionalDocument";
 
-// const BASE_URL = "http://localhost:5000/";
+// const BASE_URL = "https://api.eaconsultancy.info/";
 
 // const MAX_FILE_SIZE_MB = 5;
 
@@ -345,7 +345,7 @@ import {
   useUpdateAdditionalDocumentMutation,
 } from "../../features/additionalDocument/additionalDocument";
 
-const BASE_URL = "http://localhost:5000/";
+const BASE_URL = "https://api.eaconsultancy.info/";
 const MAX_FILE_SIZE_MB = 5;
 
 const StudentDocument = ({ id }) => {
