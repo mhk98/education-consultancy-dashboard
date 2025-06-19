@@ -232,7 +232,7 @@
 //     useEffect(() => {
 //       const fetchUsers = async () => {
 //         try {
-//           const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student");
+//           const response = await axios.get("http://localhost:5000/api/v1/user/student");
 //           const allUsers = response.data.data;
     
 //           // ফিল্টার লজিক
@@ -258,7 +258,7 @@
 //       useEffect(() => {
 //         const fetchUsers = async () => {
 //           try {
-//             const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student"); // Replace with your API endpoint
+//             const response = await axios.get("http://localhost:5000/api/v1/user/student"); // Replace with your API endpoint
 //             const allUsers = response.data.data;
       
 //             // Filter out students
@@ -589,7 +589,7 @@
 //       useEffect(() => {
 //         const fetchUsers = async () => {
 //           try {
-//             const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student");
+//             const response = await axios.get("http://localhost:5000/api/v1/user/student");
 //             const allUsers = response.data.data;
       
 //             // ফিল্টার লজিক
@@ -618,7 +618,7 @@
 //       useEffect(() => {
 //         const fetchUsers = async () => {
 //           try {
-//             const response = await axios.get("https://api.eaconsultancy.info/api/v1/user/student"); // Replace with your API endpoint
+//             const response = await axios.get("http://localhost:5000/api/v1/user/student"); // Replace with your API endpoint
 //             const allUsers = response.data.data;
       
 //             // Filter out students
@@ -957,7 +957,7 @@
 //   useEffect(() => {
 //     const fetchUsers = async () => {
 //       try {
-//         const res = await axios.get("https://api.eaconsultancy.info/api/v1/user/student");
+//         const res = await axios.get("http://localhost:5000/api/v1/user/student");
 //         const all = res.data.data;
 //         setAdmins(all.filter(u => u.Role?.toLowerCase() !== "student" && u.Branch === branch));
 //         setSuperAdmins(all.filter(u => u.Role?.toLowerCase() !== "student"));
