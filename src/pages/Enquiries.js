@@ -198,8 +198,9 @@ const id = localStorage.getItem("userId")
                    
                       <option value="">Select Branch</option>
                         <option value="Edu Anchor">Edu Anchor</option>
-
+            <option value="Dhaka">Dhaka</option>
             <option value="Khulna">Khulna</option>
+            <option value="Barishal">Barishal</option>
             <option value="Satkhira">Satkhira</option>
             <option value="Tangail">Tangail</option>
             <option value="Jashore">Jashore</option>
@@ -231,6 +232,8 @@ const id = localStorage.getItem("userId")
                   <option value="Cyprus">Cyprus</option>
                   <option value="Sweden">Sweden</option>
                   <option value="Denmark">Denmark</option>
+                  <option value="Bangladesh">Bangladesh</option>
+
 
                       </select>
                     </div>
@@ -368,8 +371,9 @@ const id = localStorage.getItem("userId")
                       <select   onKeyDown = {handleEnter} {...register('branch', { required: true })} className="w-full border rounded px-3 py-2">
                         <option value="">Select Branch</option>
                         <option value="Edu Anchor">Edu Anchor</option>
-
+            <option value="Dhaka">Dhaka</option>
             <option value="Khulna">Khulna</option>
+            <option value="Barishal">Barishal</option>
             <option value="Satkhira">Satkhira</option>
             <option value="Tangail">Tangail</option>
             <option value="Jashore">Jashore</option>
@@ -399,6 +403,8 @@ const id = localStorage.getItem("userId")
                   <option value="Cyprus">Cyprus</option>
                   <option value="Sweden">Sweden</option>
                   <option value="Denmark">Denmark</option>
+                  <option value="Bangladesh">Bangladesh</option>
+
                       </select>
                     </div>
                     <div>
@@ -415,6 +421,7 @@ const id = localStorage.getItem("userId")
                   <option value="Cyprus">Cyprus</option>
                   <option value="Sweden">Sweden</option>
                   <option value="Denmark">Denmark</option>
+                        <option value="Bangladesh">Bangladesh</option>
                       </select>
                     </div>
                     <div>

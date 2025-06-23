@@ -23,6 +23,7 @@ import { CommissionApi } from "../features/commission/commission";
 import { TaskApi } from "../features/task/task";
 import { ContractApi } from "../features/contract/contract";
 import { eaDocumentApi } from "../features/eaDocument/eaDocument";
+import { ConsultationApi } from "../features/consultation/consultation";
 
 
 
@@ -53,6 +54,7 @@ const store = configureStore({
     [TaskApi.reducerPath]: TaskApi.reducer,
     [ContractApi.reducerPath]: ContractApi.reducer,
     [eaDocumentApi.reducerPath]: eaDocumentApi.reducer,
+    [ConsultationApi.reducerPath]: ConsultationApi.reducer,
 
   
   },
@@ -82,6 +84,7 @@ const store = configureStore({
         ContractApi.middleware,
         applicationApi.middleware,
         eaDocumentApi.middleware,
+        ConsultationApi.middleware,
       
     ),
 });

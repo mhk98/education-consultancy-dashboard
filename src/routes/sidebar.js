@@ -51,6 +51,13 @@ const routes = [
 
   },
   {
+    path: '/app/leads',
+    icon: 'PagesIcon',
+    name: 'Leads',
+    roles: ['employee', 'admin', 'superAdmin',],
+
+  },
+  {
     path: '/app/wallet',
     icon: 'MoneyIcon',
     name: 'Wallet',

@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import store from './app/store'
 import PaymentStatus from './components/Students/PaymentStatus'
 import PrivateRoute from './components/PrivateRoute'
+import EditLeads from './components/Leads/EditLeads'
 
 const Layout = lazy(() => import('./containers/Layout'))
 const Login = lazy(() => import('./pages/Login'))
@@ -27,6 +28,7 @@ function App() {
           {/* Place new routes over this */}
           <PrivateRoute path="/app" component={Layout} />
           <PrivateRoute path="/editprofile" component={StudentEditProfile} />
+          <PrivateRoute path="/editLeads" component={EditLeads} />
           <PrivateRoute path="/archive-student" component={StudentEditProfile} />
           <PrivateRoute path="/payments" component={PaymentStatus} />
           {/* If you have an index page, you can remothis Redirect */}

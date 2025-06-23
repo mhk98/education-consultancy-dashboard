@@ -166,7 +166,9 @@ const FilterPanel = () => {
           >
             <option value="">Select Branch</option>
             <option value="Edu Anchor">Edu Anchor</option>
+            <option value="Dhaka">Dhaka</option>
             <option value="Khulna">Khulna</option>
+            <option value="Barishal">Barishal</option>
             <option value="Satkhira">Satkhira</option>
             <option value="Tangail">Tangail</option>
             <option value="Jashore">Jashore</option>

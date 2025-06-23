@@ -35,9 +35,9 @@ export const applicationApi = createApi({
     }),
 
     getAllApplication: build.query({
-      query: ({searchTerm, FirstName, LastName, branch, user_id, page, limit }) => ({
+      query: ({searchTerm, FirstName, LastName, Branch, user_id, page, limit }) => ({
         url: "/application",
-        params: {searchTerm, FirstName, LastName, branch, user_id, page, limit }
+        params: {searchTerm, FirstName, LastName, Branch, user_id, page, limit }
 
       }),
       providesTags: ["application"],
