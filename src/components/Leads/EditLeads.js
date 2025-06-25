@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
 import Client from "./Client";
+import History from "./History";
 
 const EditLeads = () => {
   const { id } = useParams();
@@ -44,7 +45,7 @@ const EditLeads = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 ">
   {/* Profile Section */}
-  <div className="lg:col-span-2 col-span-1 bg-white rounded-2xl shadow p-4 flex justify-around items-center">
+  <div className="lg:col-span-3 col-span-1 bg-white rounded-2xl shadow p-4 flex justify-around items-center">
     <div
       onClick={() => setActiveTab("client")}
       className="flex flex-col items-center cursor-pointer"
@@ -97,7 +98,7 @@ const EditLeads = () => {
         {isClient ? (
           <Client id={id} />
         ) : isHistory ? (
-          <p>This is history</p>
+          <History id={id} />
         ) : (
           <p>This is Documents</p>
         )

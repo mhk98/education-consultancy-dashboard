@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Button } from "@windmill/react-ui";
 
 const FilterPanel = () => {
   const [filters, setFilters] = useState({
@@ -72,6 +73,17 @@ const FilterPanel = () => {
     return 'border-gray-400';
   };
 
+
+  const clearFilters = () => {
+    setFilters({
+       startDate: '',
+    endDate: '',
+    intake: '',
+    year: '',
+    country: '',
+    branch: '',
+    });
+  };
   return (
     <div className="max-w-7xl mx-auto p-6 bg-white rounded shadow">
       <h1 className="text-2xl font-bold mb-6">Application Filters</h1>
@@ -179,6 +191,12 @@ const FilterPanel = () => {
             <option value="Feni">Feni</option>
           </select>
         </div>
+
+        <div className="flex items-end gap-2">
+                  <Button className="w-full bg-brandRed text-white" onClick={clearFilters}>
+                    Clear
+                  </Button>
+                </div>
         
       </div>
 
