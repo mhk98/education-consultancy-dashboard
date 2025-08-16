@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useGetAllEnquiriesQuery, useGetDataByIdQuery, useUpdateEnquiriesMutation } from "../../features/enquiries/enquiries";
+import {
+  useGetAllEnquiriesQuery,
+  useGetDataByIdQuery,
+  useUpdateEnquiriesMutation,
+} from "../../features/enquiries/enquiries";
 import toast from "react-hot-toast";
-import { Modal, ModalHeader, ModalBody, Button } from '@windmill/react-ui';
+import { Modal, ModalHeader, ModalBody, Button } from "@windmill/react-ui";
 import { useForm } from "react-hook-form";
 import { FiSend } from "react-icons/fi";
 import axios from "axios";
 
 const EnquiriesRequestedPanel = () => {
-  const id = localStorage.getItem("userId")
-  const role = localStorage.getItem("role")
-  const Branch = localStorage.getItem("branch")
+  const id = localStorage.getItem("userId");
+  const role = localStorage.getItem("role");
+  const Branch = localStorage.getItem("branch");
   const [selected, setSelected] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,125 +28,135 @@ const EnquiriesRequestedPanel = () => {
   const [pagesPerSet1, setPagesPerSet1] = useState(10);
   const itemsPerPage1 = 10;
 
-
-
-  const { data, isLoading, isError, error } = useGetAllEnquiriesQuery({ Status:"active", page:currentPage, limit:itemsPerPage,});
+  const { data, isLoading, isError, error } = useGetAllEnquiriesQuery({
+    Status: "active",
+    page: currentPage,
+    limit: itemsPerPage,
+  });
   const [programList, setProgramList] = useState([]);
 
-
   useEffect(() => {
-      if (isError) {
-        console.log("Error fetching", error);
-      } else if (!isLoading && data) {
-        // const filteredProgram = data.data.filter(
-        //   (item) => item.Status === "active"
-        // );
-        setProgramList(data?.data);
-      }
-    }, [data, isLoading, isError, error]);
+    if (isError) {
+      console.log("Error fetching", error);
+    } else if (!isLoading && data) {
+      // const filteredProgram = data.data.filter(
+      //   (item) => item.Status === "active"
+      // );
+      setProgramList(data?.data);
+    }
+  }, [data, isLoading, isError, error]);
 
+  // Update total pages when data changes
+  useEffect(() => {
+    if (isError) {
+      console.error("Error fetching user data", error);
+    } else if (data && data.meta?.total != null) {
+      setTotalPages(Math.ceil(data.meta.total / itemsPerPage));
+    }
+  }, [data, isError, error]);
 
-
-
-
-    // Update total pages when data changes
-      useEffect(() => {
-        if (isError) {
-          console.error("Error fetching user data", error);
-        } else if (data && data.meta?.total != null) {
-          setTotalPages(Math.ceil(data.meta.total / itemsPerPage));
-        }
-      }, [data, isError, error]);
-
-                   // Responsive pagination button count
-      useEffect(() => {
-        const handleResize = () => {
-          if (window.innerWidth < 640) setPagesPerSet(5);
-          else if (window.innerWidth < 1024) setPagesPerSet(7);
-          else setPagesPerSet(10);
-        };
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-      }, []);
-
+  // Responsive pagination button count
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) setPagesPerSet(5);
+      else if (window.innerWidth < 1024) setPagesPerSet(7);
+      else setPagesPerSet(10);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const endPage = Math.min(startPage + pagesPerSet - 1, totalPages);
-  const handlePageChange = p => {
+  const handlePageChange = (p) => {
     setCurrentPage(p);
     if (p < startPage) setStartPage(p);
     else if (p > endPage) setStartPage(p - pagesPerSet + 1);
   };
-  const handlePreviousSet = () => setStartPage(Math.max(startPage - pagesPerSet, 1));
-  const handleNextSet = () => setStartPage(Math.min(startPage + pagesPerSet, totalPages - pagesPerSet + 1));
-    
-     
-    
-   const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllEnquiriesQuery({ Status:"active", Branch, page:currentPage, limit:itemsPerPage,});
-   const [adminPrograms, setAdminPrograms] = useState([]);
- 
-   useEffect(() => {
-     if (isError1) {
-       console.log("Error fetching", error1);
-     } else if (!isLoading1 && data1) {
-//        const allAdminPrograms = data1.data;
-//  const filtered = allAdminPrograms.filter(program => program.Status === "active");
+  const handlePreviousSet = () =>
+    setStartPage(Math.max(startPage - pagesPerSet, 1));
+  const handleNextSet = () =>
+    setStartPage(
+      Math.min(startPage + pagesPerSet, totalPages - pagesPerSet + 1)
+    );
 
- setAdminPrograms(data1?.data);
-     }
-   }, [data1, isLoading1, isError1, error1, Branch]);
+  const {
+    data: data1,
+    isLoading: isLoading1,
+    isError: isError1,
+    error: error1,
+  } = useGetAllEnquiriesQuery({
+    Status: "active",
+    Branch,
+    page: currentPage,
+    limit: itemsPerPage,
+  });
+  const [adminPrograms, setAdminPrograms] = useState([]);
 
-   console.log("adminPrograms", adminPrograms)
+  useEffect(() => {
+    if (isError1) {
+      console.log("Error fetching", error1);
+    } else if (!isLoading1 && data1) {
+      //        const allAdminPrograms = data1.data;
+      //  const filtered = allAdminPrograms.filter(program => program.Status === "active");
 
+      setAdminPrograms(data1?.data);
+    }
+  }, [data1, isLoading1, isError1, error1, Branch]);
 
- // Update total pages when data changes
-      useEffect(() => {
-        if (isError1) {
-          console.error("Error fetching user data", error1);
-        } else if (data1 && data1.meta?.total != null) {
-          setTotalPages1(Math.ceil(data1.meta.total / itemsPerPage1));
-        }
-      }, [data1, isError1, error1]);
+  console.log("adminPrograms", adminPrograms);
 
-                   // Responsive pagination button count
-      useEffect(() => {
-        const handleResize = () => {
-          if (window.innerWidth < 640) setPagesPerSet1(5);
-          else if (window.innerWidth < 1024) setPagesPerSet1(7);
-          else setPagesPerSet1(10);
-        };
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-      }, []);
+  // Update total pages when data changes
+  useEffect(() => {
+    if (isError1) {
+      console.error("Error fetching user data", error1);
+    } else if (data1 && data1.meta?.total != null) {
+      setTotalPages1(Math.ceil(data1.meta.total / itemsPerPage1));
+    }
+  }, [data1, isError1, error1]);
 
+  // Responsive pagination button count
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) setPagesPerSet1(5);
+      else if (window.innerWidth < 1024) setPagesPerSet1(7);
+      else setPagesPerSet1(10);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const endPage1 = Math.min(startPage1 + pagesPerSet1 - 1, totalPages1);
-  const handlePageChange1 = p => {
+  const handlePageChange1 = (p) => {
     setCurrentPage1(p);
     if (p < startPage1) setStartPage1(p);
     else if (p > endPage1) setStartPage1(p - pagesPerSet1 + 1);
   };
-  const handlePreviousSet1 = () => setStartPage1(Math.max(startPage1 - pagesPerSet1, 1));
-  const handleNextSet1 = () => setStartPage1(Math.min(startPage1 + pagesPerSet1, totalPages1 - pagesPerSet1 + 1));
+  const handlePreviousSet1 = () =>
+    setStartPage1(Math.max(startPage1 - pagesPerSet1, 1));
+  const handleNextSet1 = () =>
+    setStartPage1(
+      Math.min(startPage1 + pagesPerSet1, totalPages1 - pagesPerSet1 + 1)
+    );
 
+  const {
+    data: data2,
+    isLoading: isLoading2,
+    isError: isError2,
+    error: error2,
+  } = useGetDataByIdQuery(id);
+  const [programs, setPrograms] = useState([]);
 
-   
-   const { data:data2, isLoading:isLoading2, isError:isError2, error:error2 } = useGetDataByIdQuery(id);
-            const [programs, setPrograms] = useState([]);
-          
-            useEffect(() => {
-              if (isError2) {
-                console.log("Error fetching", error2);
-              } else if (!isLoading2 && data2) {
-                setPrograms(data2.data);
-          
-              }
-            }, [data2, isLoading2, isError2, error2, Branch]);
-      
-            console.log("adminPrograms", adminPrograms)
+  useEffect(() => {
+    if (isError2) {
+      console.log("Error fetching", error2);
+    } else if (!isLoading2 && data2) {
+      setPrograms(data2.data);
+    }
+  }, [data2, isLoading2, isError2, error2, Branch]);
 
-
+  console.log("adminPrograms", adminPrograms);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -153,46 +167,41 @@ const EnquiriesRequestedPanel = () => {
     });
   };
 
-  const fileBaseURL = 'http://localhost:5000/'; // Adjust to your server's URL
+  const fileBaseURL = "https://api.eaconsultancy.info/"; // Adjust to your server's URL
 
- const {
-      register,
-      formState: { errors },
-      handleSubmit,
-      reset,
-    } = useForm()
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
 
-   const [enquiryId, setEnquiryId] = useState("")
-            const [isModalOpen, setIsModalOpen] = useState(false)
-        
-            function closeModal() {
-             setIsModalOpen(false)
-           }
+  const [enquiryId, setEnquiryId] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  function closeModal() {
+    setIsModalOpen(false);
+  }
 
-            const [updateEnquiries] = useUpdateEnquiriesMutation()
-                  
-                      const onFormEdit = async (data) => {
-           
-                        console.log("info", data)
-                        console.log("enquiryId", enquiryId)
-           
-                      try {
-                        const res = await updateEnquiries({id:enquiryId, data});
-                        if (res.data?.success) {
-                          toast.success(res.data.message);
-                          reset();
-             setIsModalOpen(false)
+  const [updateEnquiries] = useUpdateEnquiriesMutation();
 
-                        } else {
-                          toast.error(res.error?.data?.message || "Failed. Please try again.");
-                        }
-                      } catch (error) {
-                        toast.error("An unexpected error occurred.");
-                      }
-                    };
+  const onFormEdit = async (data) => {
+    console.log("info", data);
+    console.log("enquiryId", enquiryId);
 
-
+    try {
+      const res = await updateEnquiries({ id: enquiryId, data });
+      if (res.data?.success) {
+        toast.success(res.data.message);
+        reset();
+        setIsModalOpen(false);
+      } else {
+        toast.error(res.error?.data?.message || "Failed. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    }
+  };
 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -206,7 +215,7 @@ const EnquiriesRequestedPanel = () => {
   // const fetchComments = async () => {
   //   try {
   //     const res = await axios.get(
-  //       `http://localhost:5000/api/v1/comment/${selected.id}?type=kc`
+  //       `https://api.eaconsultancy.info/api/v1/comment/${selected.id}?type=kc`
   //     );
   //     setComments(res.data.data);
   //   } catch (err) {
@@ -215,25 +224,24 @@ const EnquiriesRequestedPanel = () => {
   // };
 
   const fetchComments = async () => {
-  try {
-    const res = await axios.get(
-      `http://localhost:5000/api/v1/comment/${selected.id}?type=kc`
-    );
-    const sortedComments = res.data.data.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
-    setComments(sortedComments);
-  } catch (err) {
-    console.error("Failed to fetch comments:", err);
-  }
-};
-
+    try {
+      const res = await axios.get(
+        `https://api.eaconsultancy.info/api/v1/comment/${selected.id}?type=kc`
+      );
+      const sortedComments = res.data.data.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setComments(sortedComments);
+    } catch (err) {
+      console.error("Failed to fetch comments:", err);
+    }
+  };
 
   const handleCommentSubmit = async () => {
     if (!newComment.trim()) return;
     try {
-      await axios.post("http://localhost:5000/api/v1/comment/create", {
-        user_id:id,
+      await axios.post("https://api.eaconsultancy.info/api/v1/comment/create", {
+        user_id: id,
         enquiry_id: selected.id,
         text: newComment,
         type: "kc",
@@ -251,8 +259,8 @@ const EnquiriesRequestedPanel = () => {
     const replyText = replyContent[commentId];
     if (!replyText?.trim()) return;
     try {
-      await axios.post("http://localhost:5000/api/v1/reply/create", {
-        user_id:id,
+      await axios.post("https://api.eaconsultancy.info/api/v1/reply/create", {
+        user_id: id,
         comment_id: commentId,
         text: replyText,
       });
@@ -262,7 +270,6 @@ const EnquiriesRequestedPanel = () => {
       console.error("Failed to post reply:", err);
     }
   };
-
 
   const renderCommentList = () => (
     <div className="space-y-4">
@@ -306,120 +313,125 @@ const EnquiriesRequestedPanel = () => {
                 </button>
               </div> */}
 
-
               <div className="flex flex-col gap-2 mt-2">
-  <textarea
-    rows={2}
-    value={replyContent[comment.id] || ""}
-    onChange={(e) =>
-      setReplyContent((prev) => ({
-        ...prev,
-        [comment.id]: e.target.value,
-      }))
-    }
-    placeholder="Write a reply..."
-    className="flex-1 border px-2 py-1 rounded text-sm resize-none"
-  />
-  <button
-    onClick={() => handleReplySubmit(comment.id)}
-    className="self-start text-sm bg-brandRed text-white px-3 py-1 rounded hover:bg-brandRed-700"
-  >
-    Reply
-  </button>
-</div>
-
+                <textarea
+                  rows={2}
+                  value={replyContent[comment.id] || ""}
+                  onChange={(e) =>
+                    setReplyContent((prev) => ({
+                      ...prev,
+                      [comment.id]: e.target.value,
+                    }))
+                  }
+                  placeholder="Write a reply..."
+                  className="flex-1 border px-2 py-1 rounded text-sm resize-none"
+                />
+                <button
+                  onClick={() => handleReplySubmit(comment.id)}
+                  className="self-start text-sm bg-brandRed text-white px-3 py-1 rounded hover:bg-brandRed-700"
+                >
+                  Reply
+                </button>
+              </div>
             </div>
           </div>
         ))
-      ) : (        
+      ) : (
         <p className="text-sm text-gray-500">No comments yet.</p>
-
       )}
     </div>
   );
 
-    const [employees, setEmployees] = useState([]);
-      
-        useEffect(() => {
-          const fetchUsers = async () => {
-            try {
-              const response = await axios.get("http://localhost:5000/api/v1/user");
-              const allUsers = response.data.data;
-        
-              // ফিল্টার লজিক
-              const filtered = allUsers.filter(user => {
-                const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
-                return role && role === "employee" &&  user.Branch === Branch      
-              });
-        
-              setEmployees(filtered);
-            } catch (err) {
-              console.error("Error fetching users:", err);
-            }
-          };
-        
-          fetchUsers();
-        }, [Branch]);
-  
-  
-        const [superAdminEmployees, setSuperAdminEmployees] = useState([]);
-      
-        useEffect(() => {
-          const fetchUsers = async () => {
-            try {
-              const response = await axios.get("http://localhost:5000/api/v1/user");
-              const allUsers = response.data.data;
-        
-              // ফিল্টার লজিক
-              const filtered = allUsers.filter(user => {
-                const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
-                return role && role !== "student"   
-              });
-        
-              setSuperAdminEmployees(filtered);
-            } catch (err) {
-              console.error("Error fetching users:", err);
-            }
-          };
-        
-          fetchUsers();
-        }, [Branch]);
+  const [employees, setEmployees] = useState([]);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.eaconsultancy.info/api/v1/user"
+        );
+        const allUsers = response.data.data;
+
+        // ফিল্টার লজিক
+        const filtered = allUsers.filter((user) => {
+          const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+          return role && role === "employee" && user.Branch === Branch;
+        });
+
+        setEmployees(filtered);
+      } catch (err) {
+        console.error("Error fetching users:", err);
+      }
+    };
+
+    fetchUsers();
+  }, [Branch]);
+
+  const [superAdminEmployees, setSuperAdminEmployees] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.eaconsultancy.info/api/v1/user"
+        );
+        const allUsers = response.data.data;
+
+        // ফিল্টার লজিক
+        const filtered = allUsers.filter((user) => {
+          const role = user.Role?.toLowerCase(); // রোল lowercase করে নিচ্ছি
+          return role && role !== "student";
+        });
+
+        setSuperAdminEmployees(filtered);
+      } catch (err) {
+        console.error("Error fetching users:", err);
+      }
+    };
+
+    fetchUsers();
+  }, [Branch]);
 
   return (
     <div className="flex flex-col lg:flex-row p-4 gap-4 max-w-full overflow-x-hidden">
       {/* Left Panel */}
-      
-      {
-        role === "superAdmin" ? (
-          <div className="lg:w-1/2 w-full">
-        {programList.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => setSelected(item)}
-            className={`border rounded-md p-4 mb-3 cursor-pointer ${
-              selected?.name === item.name ? "bg-green-50 border-brandRed" : "bg-white"
-            }`}
-          >
-            <div className="flex justify-between items-center flex-wrap gap-2">
-              <p className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold">
-                Program Options Sent
-              </p>
-              <p onClick={() => {
-                              setIsModalOpen(true);
-                              setEnquiryId(item.id);
-                            }} className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold cursor-pointer">
-                Edit
-              </p>
 
-    <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                                                       <ModalHeader className="mb-8">Edit User Information</ModalHeader>
-                                                                       <ModalBody>
-                                                                       <form onSubmit={handleSubmit(onFormEdit)}>
-                                                           <div className="grid grid-cols-1 gap-4">
-                                                             {/* Left Side */}
-                                                       
-{/*                                                                
+      {role === "superAdmin" ? (
+        <div className="lg:w-1/2 w-full">
+          {programList.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => setSelected(item)}
+              className={`border rounded-md p-4 mb-3 cursor-pointer ${
+                selected?.name === item.name
+                  ? "bg-green-50 border-brandRed"
+                  : "bg-white"
+              }`}
+            >
+              <div className="flex justify-between items-center flex-wrap gap-2">
+                <p className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold">
+                  Program Options Sent
+                </p>
+                <p
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setEnquiryId(item.id);
+                  }}
+                  className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold cursor-pointer"
+                >
+                  Edit
+                </p>
+
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                  <ModalHeader className="mb-8">
+                    Edit User Information
+                  </ModalHeader>
+                  <ModalBody>
+                    <form onSubmit={handleSubmit(onFormEdit)}>
+                      <div className="grid grid-cols-1 gap-4">
+                        {/* Left Side */}
+
+                        {/*                                                                
                                                                <div className="mb-4">
                                                                  <label className="block text-sm mb-1 text-gray-700 mb-4">Assign To</label>
                                                                  <select
@@ -436,312 +448,340 @@ const EnquiriesRequestedPanel = () => {
                                                                    )}
                                                                </div> */}
 
-<div className="mb-4">
-                    <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
-                    <select
-                      {...register("assignedTo")}
-                      className="input input-bordered w-full shadow-md p-3"
-                    >
-                      <option value="">Select Assignee</option>
-                      {
-                        
-                        superAdminEmployees.map((employee) => (
-                        <option
-                          key={employee.id}
-                          value={`${employee.FirstName} ${employee.LastName}`}
-                        >
-                          {employee.FirstName} {employee.LastName}
-                        </option>
-                      ))
-                      
-                      }
-                    </select>
-                    {errors.assignedTo && (
-                      <p className="text-red-500 text-sm mt-1">{errors.assignedTo.message}</p>
-                    )}
-                  </div>
-                                                               <div className="mb-4">
-                                                                 <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
-                                                                 <select
-                                                                     {...register("Status")}
-                                                                     className="input input-bordered w-full shadow-md p-3"
-                                                                   >
-                                                                     <option value="">Select Status</option>
-                                                                     <option value="active">Active</option>
-                                                                     <option value="archive">Archive</option>               
-                                                                   </select>
-                                                                   {errors.Status && (
-                                                                     <p className="text-red-500 text-sm mt-1">{errors.Status.message}</p>
-                                                                   )}
-                                                               </div>
-                                                              
-                                                           </div>
-                                                         
-                                                           <div className="flex justify-end gap-2 mt-6">
-                                                             <Button type="submit" className="btn bg-brandRed">
-                                                               Save
-                                                             </Button>
-                                                           </div>
-                                                         </form>
-                                                         
-                                                                       </ModalBody>
-                                                                     </Modal>             
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700 mb-4">
+                            Assignee
+                          </label>
+                          <select
+                            {...register("assignedTo")}
+                            className="input input-bordered w-full shadow-md p-3"
+                          >
+                            <option value="">Select Assignee</option>
+                            {superAdminEmployees.map((employee) => (
+                              <option
+                                key={employee.id}
+                                value={`${employee.FirstName} ${employee.LastName}`}
+                              >
+                                {employee.FirstName} {employee.LastName}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.assignedTo && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.assignedTo.message}
+                            </p>
+                          )}
+                        </div>
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700 mb-4">
+                            Status
+                          </label>
+                          <select
+                            {...register("Status")}
+                            className="input input-bordered w-full shadow-md p-3"
+                          >
+                            <option value="">Select Status</option>
+                            <option value="active">Active</option>
+                            <option value="archive">Archive</option>
+                          </select>
+                          {errors.Status && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.Status.message}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex justify-end gap-2 mt-6">
+                        <Button type="submit" className="btn bg-brandRed">
+                          Save
+                        </Button>
+                      </div>
+                    </form>
+                  </ModalBody>
+                </Modal>
+              </div>
+              <h3 className="text-sm font-bold mt-2">
+                {item.firstName} {item.lastName}
+              </h3>
+              <p className="text-sm mt-1 text-gray-700">
+                Preferred Destination:{" "}
+                <span className="inline-flex items-center gap-1">
+                  {item.destination}
+                </span>
+              </p>
+              <p className="text-sm mt-1">
+                <span className="font-semibold">Created On:</span>{" "}
+                {formatDate(item.createdAt)}
+              </p>
             </div>
-            <h3 className="text-sm font-bold mt-2">{item.firstName} {item.lastName}</h3>
-            <p className="text-sm mt-1 text-gray-700">
-              Preferred Destination:{" "}
-              <span className="inline-flex items-center gap-1">
-                {item.destination}
-              </span>
-            </p>
-            <p className="text-sm mt-1">
-              <span className="font-semibold">Created On:</span> {formatDate(item.createdAt)}
-            </p>
-          </div>
-        ))}
+          ))}
 
-  {/* -- Pagination -- */}
-      <div className="flex items-center justify-center space-x-2 mt-6">
-        <button
-          onClick={handlePreviousSet}
-          disabled={startPage === 1}
-          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
-        >
-          Prev
-        </button>
-        {[...Array(endPage - startPage + 1)].map((_, i) => {
-          const p = startPage + i;
-          return (
+          {/* -- Pagination -- */}
+          <div className="flex items-center justify-center space-x-2 mt-6">
             <button
-              key={p}
-              onClick={() => handlePageChange(p)}
-              className={`px-3 py-2 text-white rounded-md ${p === currentPage ? "bg-brandRed" : "bg-brandDisable"}`}
+              onClick={handlePreviousSet}
+              disabled={startPage === 1}
+              className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
             >
-              {p}
+              Prev
             </button>
-          );
-        })}
-        <button
-          onClick={handleNextSet}
-          disabled={endPage === totalPages}
-          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
-        >
-          Next
-        </button>
-      </div>
+            {[...Array(endPage - startPage + 1)].map((_, i) => {
+              const p = startPage + i;
+              return (
+                <button
+                  key={p}
+                  onClick={() => handlePageChange(p)}
+                  className={`px-3 py-2 text-white rounded-md ${
+                    p === currentPage ? "bg-brandRed" : "bg-brandDisable"
+                  }`}
+                >
+                  {p}
+                </button>
+              );
+            })}
+            <button
+              onClick={handleNextSet}
+              disabled={endPage === totalPages}
+              className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      ) : role === "admin" || role === "employee" ? (
+        <div className="lg:w-1/2 w-full">
+          {adminPrograms.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => setSelected(item)}
+              className={`border rounded-md p-4 mb-3 cursor-pointer ${
+                selected?.name === item.name
+                  ? "bg-green-50 border-brandRed"
+                  : "bg-white"
+              }`}
+            >
+              <div className="flex justify-between items-center flex-wrap gap-2">
+                <p className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold">
+                  Program Options Sent
+                </p>
+                <p
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setEnquiryId(item.id);
+                  }}
+                  className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold cursor-pointer"
+                >
+                  Edit
+                </p>
 
-      </div>
-        ) : role === "admin" || role === "employee" ? (
-<div className="lg:w-1/2 w-full">
-        {adminPrograms.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => setSelected(item)}
-            className={`border rounded-md p-4 mb-3 cursor-pointer ${
-              selected?.name === item.name ? "bg-green-50 border-brandRed" : "bg-white"
-            }`}
-          >
-            <div className="flex justify-between items-center flex-wrap gap-2">
-              <p className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold">
-                Program Options Sent
-              </p>
-              <p onClick={() => {
-                              setIsModalOpen(true);
-                              setEnquiryId(item.id);
-                            }} className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold cursor-pointer">
-                Edit
-              </p>
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                  <ModalHeader className="mb-8">
+                    Edit User Information
+                  </ModalHeader>
+                  <ModalBody>
+                    <form onSubmit={handleSubmit(onFormEdit)}>
+                      <div className="grid grid-cols-1 gap-4">
+                        {/* Left Side */}
 
-    <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                                                       <ModalHeader className="mb-8">Edit User Information</ModalHeader>
-                                                                       <ModalBody>
-                                                                       <form onSubmit={handleSubmit(onFormEdit)}>
-                                                           <div className="grid grid-cols-1 gap-4">
-                                                             {/* Left Side */}
-                                                       
-                                                               
-                                                             
-<div className="mb-4">
-                    <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
-                    <select
-                      {...register("assignedTo")}
-                      className="input input-bordered w-full shadow-md p-3"
-                    >
-                      <option value="">Select Assignee</option>
-                      {
-                        
-                      employees.map((employee) => (
-                        <option
-                          key={employee.id}
-                          value={`${employee.FirstName} ${employee.LastName}`}
-                        >
-                          {employee.FirstName} {employee.LastName}
-                        </option>
-                      ))
-                      
-                      }
-                    </select>
-                    {errors.assignedTo && (
-                      <p className="text-red-500 text-sm mt-1">{errors.assignedTo.message}</p>
-                    )}
-                  </div>
-                                                               
-                                                               <div className="mb-4">
-                                                                 <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
-                                                                 <select
-                                                                     {...register("Status")}
-                                                                     className="input input-bordered w-full shadow-md p-3"
-                                                                   >
-                                                                     <option value="">Select Status</option>
-                                                                     <option value="active">Active</option>
-                                                                     <option value="archive">Archive</option>               
-                                                                   </select>
-                                                                   {errors.Status && (
-                                                                     <p className="text-red-500 text-sm mt-1">{errors.Status.message}</p>
-                                                                   )}
-                                                               </div>
-                                                              
-                                                           </div>
-                                                         
-                                                           <div className="flex justify-end gap-2 mt-6">
-                                                             <Button type="submit" className="btn bg-brandRed">
-                                                               Save
-                                                             </Button>
-                                                           </div>
-                                                         </form>
-                                                         
-                                                                       </ModalBody>
-                                                                     </Modal>             
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700 mb-4">
+                            Assignee
+                          </label>
+                          <select
+                            {...register("assignedTo")}
+                            className="input input-bordered w-full shadow-md p-3"
+                          >
+                            <option value="">Select Assignee</option>
+                            {employees.map((employee) => (
+                              <option
+                                key={employee.id}
+                                value={`${employee.FirstName} ${employee.LastName}`}
+                              >
+                                {employee.FirstName} {employee.LastName}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.assignedTo && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.assignedTo.message}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700 mb-4">
+                            Status
+                          </label>
+                          <select
+                            {...register("Status")}
+                            className="input input-bordered w-full shadow-md p-3"
+                          >
+                            <option value="">Select Status</option>
+                            <option value="active">Active</option>
+                            <option value="archive">Archive</option>
+                          </select>
+                          {errors.Status && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.Status.message}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex justify-end gap-2 mt-6">
+                        <Button type="submit" className="btn bg-brandRed">
+                          Save
+                        </Button>
+                      </div>
+                    </form>
+                  </ModalBody>
+                </Modal>
+              </div>
+              <h3 className="text-sm font-bold mt-2">
+                {item.firstName} {item.lastName}
+              </h3>
+              <p className="text-sm mt-1 text-gray-700">
+                Preferred Destination:{" "}
+                <span className="inline-flex items-center gap-1">
+                  {item.destination}
+                </span>
+              </p>
+              <p className="text-sm mt-1">
+                <span className="font-semibold">Created On:</span>{" "}
+                {formatDate(item.createdAt)}
+              </p>
             </div>
-            <h3 className="text-sm font-bold mt-2">{item.firstName} {item.lastName}</h3>
-            <p className="text-sm mt-1 text-gray-700">
-              Preferred Destination:{" "}
-              <span className="inline-flex items-center gap-1">
-                {item.destination}
-              </span>
-            </p>
-            <p className="text-sm mt-1">
-              <span className="font-semibold">Created On:</span> {formatDate(item.createdAt)}
-            </p>
-          </div>
-        ))}
+          ))}
 
-             <div className="flex items-center justify-center space-x-2 mt-6">
-        <button
-          onClick={handlePreviousSet1}
-          disabled={startPage1 === 1}
-          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
-        >
-          Prev
-        </button>
-        {[...Array(endPage1 - startPage1 + 1)].map((_, i) => {
-          const p = startPage1 + i;
-          return (
+          <div className="flex items-center justify-center space-x-2 mt-6">
             <button
-              key={p}
-              onClick={() => handlePageChange1(p)}
-              className={`px-3 py-2 text-white rounded-md ${p === currentPage1 ? "bg-brandRed" : "bg-brandDisable"}`}
+              onClick={handlePreviousSet1}
+              disabled={startPage1 === 1}
+              className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
             >
-              {p}
+              Prev
             </button>
-          );
-        })}
-        <button
-          onClick={handleNextSet1}
-          disabled={endPage1 === totalPages1}
-          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
-        >
-          Next
-        </button>
-      </div>
-      </div>
-          
-        ) : (
-          <div className="lg:w-1/2 w-full">
-        {programs.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => setSelected(item)}
-            className={`border rounded-md p-4 mb-3 cursor-pointer ${
-              selected?.name === item.name ? "bg-green-50 border-brandRed" : "bg-white"
-            }`}
-          >
-            <div className="flex justify-between items-center flex-wrap gap-2">
-              <p className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold">
-                Program Options Sent
-              </p>
-              {/* <p onClick={() => {
+            {[...Array(endPage1 - startPage1 + 1)].map((_, i) => {
+              const p = startPage1 + i;
+              return (
+                <button
+                  key={p}
+                  onClick={() => handlePageChange1(p)}
+                  className={`px-3 py-2 text-white rounded-md ${
+                    p === currentPage1 ? "bg-brandRed" : "bg-brandDisable"
+                  }`}
+                >
+                  {p}
+                </button>
+              );
+            })}
+            <button
+              onClick={handleNextSet1}
+              disabled={endPage1 === totalPages1}
+              className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="lg:w-1/2 w-full">
+          {programs.map((item, index) => (
+            <div
+              key={index}
+              onClick={() => setSelected(item)}
+              className={`border rounded-md p-4 mb-3 cursor-pointer ${
+                selected?.name === item.name
+                  ? "bg-green-50 border-brandRed"
+                  : "bg-white"
+              }`}
+            >
+              <div className="flex justify-between items-center flex-wrap gap-2">
+                <p className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold">
+                  Program Options Sent
+                </p>
+                {/* <p onClick={() => {
                               setIsModalOpen(true);
                               setEnquiryId(item.id);
                             }} className="bg-green-200 text-green-800 text-xs px-3 py-1 rounded font-semibold cursor-pointer">
                 Edit
               </p> */}
 
-    <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                                                       <ModalHeader className="mb-8">Edit User Information</ModalHeader>
-                                                                       <ModalBody>
-                                                                       <form onSubmit={handleSubmit(onFormEdit)}>
-                                                           <div className="grid grid-cols-1 gap-4">
-                                                             {/* Left Side */}
-                                                       
-                                                               
-                                                               <div className="mb-4">
-                                                                 <label className="block text-sm mb-1 text-gray-700 mb-4">Assign To</label>
-                                                                 <select
-                                                                     {...register("assignedTo")}
-                                                                     className="input input-bordered w-full shadow-md p-3"
-                                                                   >
-                                                                     <option value="">Select Assignee</option>
-                                                                     <option value="A">A</option>
-                                                                     <option value="B">B</option>        
-                                                                     <option value="C">C</option>        
-                                                                   </select>
-                                                                   {errors.assignedTo && (
-                                                                     <p className="text-red-500 text-sm mt-1">{errors.assignedTo.message}</p>
-                                                                   )}
-                                                               </div>
-                                                               <div className="mb-4">
-                                                                 <label className="block text-sm mb-1 text-gray-700 mb-4">Status</label>
-                                                                 <select
-                                                                     {...register("Status")}
-                                                                     className="input input-bordered w-full shadow-md p-3"
-                                                                   >
-                                                                     <option value="">Select Status</option>
-                                                                     <option value="active">Active</option>
-                                                                     <option value="archive">Archive</option>               
-                                                                   </select>
-                                                                   {errors.Status && (
-                                                                     <p className="text-red-500 text-sm mt-1">{errors.Status.message}</p>
-                                                                   )}
-                                                               </div>
-                                                              
-                                                           </div>
-                                                         
-                                                           <div className="flex justify-end gap-2 mt-6">
-                                                             <Button type="submit" className="btn bg-brandRed">
-                                                               Save
-                                                             </Button>
-                                                           </div>
-                                                         </form>
-                                                         
-                                                                       </ModalBody>
-                                                                     </Modal>             
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                  <ModalHeader className="mb-8">
+                    Edit User Information
+                  </ModalHeader>
+                  <ModalBody>
+                    <form onSubmit={handleSubmit(onFormEdit)}>
+                      <div className="grid grid-cols-1 gap-4">
+                        {/* Left Side */}
+
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700 mb-4">
+                            Assign To
+                          </label>
+                          <select
+                            {...register("assignedTo")}
+                            className="input input-bordered w-full shadow-md p-3"
+                          >
+                            <option value="">Select Assignee</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                          </select>
+                          {errors.assignedTo && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.assignedTo.message}
+                            </p>
+                          )}
+                        </div>
+                        <div className="mb-4">
+                          <label className="block text-sm mb-1 text-gray-700 mb-4">
+                            Status
+                          </label>
+                          <select
+                            {...register("Status")}
+                            className="input input-bordered w-full shadow-md p-3"
+                          >
+                            <option value="">Select Status</option>
+                            <option value="active">Active</option>
+                            <option value="archive">Archive</option>
+                          </select>
+                          {errors.Status && (
+                            <p className="text-red-500 text-sm mt-1">
+                              {errors.Status.message}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex justify-end gap-2 mt-6">
+                        <Button type="submit" className="btn bg-brandRed">
+                          Save
+                        </Button>
+                      </div>
+                    </form>
+                  </ModalBody>
+                </Modal>
+              </div>
+              <h3 className="text-sm font-bold mt-2">
+                {item.firstName} {item.lastName}
+              </h3>
+              <p className="text-sm mt-1 text-gray-700">
+                Preferred Destination:{" "}
+                <span className="inline-flex items-center gap-1">
+                  {item.destination}
+                </span>
+              </p>
+              <p className="text-sm mt-1">
+                <span className="font-semibold">Created On:</span>{" "}
+                {formatDate(item.createdAt)}
+              </p>
             </div>
-            <h3 className="text-sm font-bold mt-2">{item.firstName} {item.lastName}</h3>
-            <p className="text-sm mt-1 text-gray-700">
-              Preferred Destination:{" "}
-              <span className="inline-flex items-center gap-1">
-                {item.destination}
-              </span>
-            </p>
-            <p className="text-sm mt-1">
-              <span className="font-semibold">Created On:</span> {formatDate(item.createdAt)}
-            </p>
-          </div>
-        ))}
-      </div>
-        )
-      }
+          ))}
+        </div>
+      )}
 
       {/* Right Panel */}
       {selected && (
@@ -805,20 +845,20 @@ const EnquiriesRequestedPanel = () => {
                     className="text-brandRed border border-brandRed px-3 py-1 text-sm rounded"
                   >
                     <a
-                      href={`${fileBaseURL}${file.path.replace(/\\/g, '/')}`}
+                      href={`${fileBaseURL}${file.path.replace(/\\/g, "/")}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                     {file.originalName}
+                      {file.originalName}
                     </a>
                   </button>
                 ))}
               </div>
             )}
 
-   {/* KC Team Comments Only */}
-   
-   {/* <div className="flex items-center gap-2 mt-4">
+            {/* KC Team Comments Only */}
+
+            {/* <div className="flex items-center gap-2 mt-4">
                 <input
                   type="text"
                   value={newComment}
@@ -838,27 +878,25 @@ const EnquiriesRequestedPanel = () => {
               </div>
               {renderCommentList()} */}
 
+            <div className="flex flex-col gap-2 mt-4">
+              <textarea
+                rows={3}
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Write comments..."
+                className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm resize-none"
+              />
+              <div className="flex items-center justify-end">
+                <button
+                  className="bg-brandRed text-white p-2 rounded hover:bg-brandRed-700"
+                  onClick={handleCommentSubmit}
+                >
+                  <FiSend size={20} />
+                </button>
+              </div>
+            </div>
 
-              <div className="flex flex-col gap-2 mt-4">
-  <textarea
-    rows={3}
-    value={newComment}
-    onChange={(e) => setNewComment(e.target.value)}
-    placeholder="Write comments..."
-    className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm resize-none"
-  />
-  <div className="flex items-center justify-end">
-    <button
-      className="bg-brandRed text-white p-2 rounded hover:bg-brandRed-700"
-      onClick={handleCommentSubmit}
-    >
-      <FiSend size={20} />
-    </button>
-  </div>
-</div>
-
-{renderCommentList()}
-
+            {renderCommentList()}
           </div>
         </div>
       )}

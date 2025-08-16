@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const CommissionApi = createApi({
   reducerPath: "CommissionApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["commission"], // Define the tag type
@@ -35,9 +35,9 @@ export const CommissionApi = createApi({
     }),
 
     getAllCommission: build.query({
-      query: ({ user_id, assignedTo_id}) => ({
+      query: ({ user_id, assignedTo_id }) => ({
         url: "/commission",
-        params:{user_id, assignedTo_id}
+        params: { user_id, assignedTo_id },
       }),
       providesTags: ["commission"],
 
@@ -58,9 +58,9 @@ export const CommissionApi = createApi({
 });
 
 export const {
-useCreateCommissionMutation,
-useGetAllCommissionQuery,
-useUpdateCommissionMutation,
-useDeleteCommissionMutation,
-useGetDataByIdQuery
+  useCreateCommissionMutation,
+  useGetAllCommissionQuery,
+  useUpdateCommissionMutation,
+  useDeleteCommissionMutation,
+  useGetDataByIdQuery,
 } = CommissionApi;

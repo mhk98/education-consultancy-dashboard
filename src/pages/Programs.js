@@ -1,89 +1,94 @@
-import React, { useEffect, useState } from 'react'
-import { Input } from '@windmill/react-ui'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
+import React, { useEffect, useState } from "react";
+import { Input } from "@windmill/react-ui";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
 import {
   useCreateProgramCountryMutation,
   useGetAllProgramCountryQuery,
-} from '../features/programCountry/programCountry'
+} from "../features/programCountry/programCountry";
 
 import {
   useCreateprogramUniversityMutation,
   useGetAllprogramUniversityQuery,
-} from '../features/programUniversity/programUniversity'
+} from "../features/programUniversity/programUniversity";
 
-import { useCreateprogramNameMutation } from '../features/programName/programName'
-import { useCreateprogramIntakeMutation } from '../features/programIntake/programIntake'
-import { useCreateprogramYearMutation } from '../features/programYears/programYears'
-import axios from 'axios'
+import { useCreateprogramNameMutation } from "../features/programName/programName";
+import { useCreateprogramIntakeMutation } from "../features/programIntake/programIntake";
+import { useCreateprogramYearMutation } from "../features/programYears/programYears";
+import axios from "axios";
 
 function Programs() {
-  const [countries, setCountries] = useState([])
-  const [universities, setUniversities] = useState([])
-  const [selectedCountryId, setSelectedCountryId] = useState('');
+  const [countries, setCountries] = useState([]);
+  const [universities, setUniversities] = useState([]);
+  const [selectedCountryId, setSelectedCountryId] = useState("");
 
-  console.log("selectedCountryId", selectedCountryId)
-  
+  console.log("selectedCountryId", selectedCountryId);
 
-  console.log("countries", countries)
-  console.log("universities", universities)
+  console.log("countries", countries);
+  console.log("universities", universities);
 
   const handleEnter = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      const form = e.target.form
-      const index = Array.prototype.indexOf.call(form, e.target)
-      form.elements[index + 1]?.focus()
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const form = e.target.form;
+      const index = Array.prototype.indexOf.call(form, e.target);
+      form.elements[index + 1]?.focus();
     }
-  }
+  };
 
   // === FETCH DATA ===
-  const { data: countryData, isError: countryErr, error: errCountry } = useGetAllProgramCountryQuery()
-   useEffect(() => {
-    if (countryData?.data) setCountries(countryData.data)
-    if (countryErr) console.log(errCountry?.data?.message)
-  }, [countryData, countryErr, errCountry])
+  const {
+    data: countryData,
+    isError: countryErr,
+    error: errCountry,
+  } = useGetAllProgramCountryQuery();
+  useEffect(() => {
+    if (countryData?.data) setCountries(countryData.data);
+    if (countryErr) console.log(errCountry?.data?.message);
+  }, [countryData, countryErr, errCountry]);
 
+  //   const { data: universityData, isError: universityErr, error: errUniversity } = useGetAllprogramUniversityQuery()
 
-//   const { data: universityData, isError: universityErr, error: errUniversity } = useGetAllprogramUniversityQuery()
+  // useEffect(() => {
+  //     if (universityData?.data) setUniversities(universityData.data)
+  //     if (universityErr) console.log(errUniversity?.data?.message)
+  //   }, [universityData, universityErr, errUniversity])
 
-// useEffect(() => {
-//     if (universityData?.data) setUniversities(universityData.data)
-//     if (universityErr) console.log(errUniversity?.data?.message)
-//   }, [universityData, universityErr, errUniversity])
+  useEffect(() => {
+    const fetchUniversities = async () => {
+      try {
+        const res = await axios.get(
+          "https://api.eaconsultancy.info/api/v1/programUniversity/",
+          {
+            params: {
+              country_id: selectedCountryId,
+            },
+          }
+        );
 
-useEffect(() => {
-  const fetchUniversities = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/api/v1/programUniversity/', {
-        params: {
-          country_id:selectedCountryId
-        },
-      })
-
-      if (res.data?.success) {
-        setUniversities(res.data.data)
-      } else {
-        console.error('Failed to fetch universities:', res.data?.message)
+        if (res.data?.success) {
+          setUniversities(res.data.data);
+        } else {
+          console.error("Failed to fetch universities:", res.data?.message);
+        }
+      } catch (err) {
+        console.error(
+          "Axios error:",
+          err.response?.data?.message || err.message
+        );
       }
-    } catch (err) {
-      console.error('Axios error:', err.response?.data?.message || err.message)
-    }
-  }
+    };
 
-  fetchUniversities()
-}, [selectedCountryId])
-
-
-
+    fetchUniversities();
+  }, [selectedCountryId]);
 
   // === MUTATIONS ===
-  const [createProgramCountry] = useCreateProgramCountryMutation()
-  const [createprogramUniversity] = useCreateprogramUniversityMutation()
-  const [createprogramName] = useCreateprogramNameMutation()
-  const [createprogramIntake] = useCreateprogramIntakeMutation()
-  const [createprogramYear] = useCreateprogramYearMutation()
+  const [createProgramCountry] = useCreateProgramCountryMutation();
+  const [createprogramUniversity] = useCreateprogramUniversityMutation();
+  const [createprogramName] = useCreateprogramNameMutation();
+  const [createprogramIntake] = useCreateprogramIntakeMutation();
+  const [createprogramYear] = useCreateprogramYearMutation();
 
   // === FORM 1: Country ===
   const {
@@ -91,15 +96,15 @@ useEffect(() => {
     handleSubmit: submitCountry,
     reset: resetCountry,
     formState: { errors: errCountryForm },
-  } = useForm()
+  } = useForm();
 
   const onSubmitCountry = async (data) => {
-    const res = await createProgramCountry(data)
+    const res = await createProgramCountry(data);
     if (res.data?.success) {
-      toast.success(res.data.message)
-      resetCountry()
-    } else toast.error(res.error?.data?.message || 'Failed to add country')
-  }
+      toast.success(res.data.message);
+      resetCountry();
+    } else toast.error(res.error?.data?.message || "Failed to add country");
+  };
 
   // === FORM 2: University ===
   const {
@@ -107,19 +112,19 @@ useEffect(() => {
     handleSubmit: submitUniversity,
     reset: resetUniversity,
     formState: { errors: errUniversityForm },
-  } = useForm()
+  } = useForm();
 
   const onSubmitUniversity = async (info) => {
     const data = {
       university: info.university,
       country_id: info.country,
-    }
-    const res = await createprogramUniversity(data)
+    };
+    const res = await createprogramUniversity(data);
     if (res.data?.success) {
-      toast.success(res.data.message)
-      resetUniversity()
-    } else toast.error(res.error?.data?.message || 'Failed to add university')
-  }
+      toast.success(res.data.message);
+      resetUniversity();
+    } else toast.error(res.error?.data?.message || "Failed to add university");
+  };
 
   // === FORM 3: Program Name ===
   const {
@@ -127,22 +132,20 @@ useEffect(() => {
     handleSubmit: submitProgram,
     reset: resetProgram,
     formState: { errors: errProgramForm },
-  } = useForm()
+  } = useForm();
 
   const onSubmitProgram = async (info) => {
-
     const data = {
       program: info.program,
       country_id: info.country,
       university_id: info.university,
-
-    }
-    const res = await createprogramName(data)
+    };
+    const res = await createprogramName(data);
     if (res.data?.success) {
-      toast.success(res.data.message)
-      resetProgram()
-    } else toast.error(res.error?.data?.message || 'Failed to add program')
-  }
+      toast.success(res.data.message);
+      resetProgram();
+    } else toast.error(res.error?.data?.message || "Failed to add program");
+  };
 
   // === FORM 4: Intake ===
   const {
@@ -150,15 +153,15 @@ useEffect(() => {
     handleSubmit: submitIntake,
     reset: resetIntake,
     formState: { errors: errIntakeForm },
-  } = useForm()
+  } = useForm();
 
   const onSubmitIntake = async (data) => {
-    const res = await createprogramIntake(data)
+    const res = await createprogramIntake(data);
     if (res.data?.success) {
-      toast.success(res.data.message)
-      resetIntake()
-    } else toast.error(res.error?.data?.message || 'Failed to add intake')
-  }
+      toast.success(res.data.message);
+      resetIntake();
+    } else toast.error(res.error?.data?.message || "Failed to add intake");
+  };
 
   // === FORM 5: Year ===
   const {
@@ -166,15 +169,15 @@ useEffect(() => {
     handleSubmit: submitYear,
     reset: resetYear,
     formState: { errors: errYearForm },
-  } = useForm()
+  } = useForm();
 
   const onSubmitYear = async (data) => {
-    const res = await createprogramYear(data)
+    const res = await createprogramYear(data);
     if (res.data?.success) {
-      toast.success(res.data.message)
-      resetYear()
-    } else toast.error(res.error?.data?.message || 'Failed to add year')
-  }
+      toast.success(res.data.message);
+      resetYear();
+    } else toast.error(res.error?.data?.message || "Failed to add year");
+  };
 
   return (
     <div className="w-full px-4 py-6 bg-gray-50">
@@ -186,38 +189,83 @@ useEffect(() => {
         <form onSubmit={submitCountry(onSubmitCountry)} className="mb-6">
           <div className="mb-4">
             <label className="block text-sm mb-1 text-gray-700">Country</label>
-            <Input {...regCountry('country', { required: 'Country is required' })} onKeyDown={handleEnter} />
-            {errCountryForm.country && <p className="text-red-500 text-sm">{errCountryForm.country.message}</p>}
+            <Input
+              {...regCountry("country", { required: "Country is required" })}
+              onKeyDown={handleEnter}
+            />
+            {errCountryForm.country && (
+              <p className="text-red-500 text-sm">
+                {errCountryForm.country.message}
+              </p>
+            )}
           </div>
-          <button className="bg-brandRed text-white px-4 py-2 rounded">Add Country</button>
+          <button className="bg-brandRed text-white px-4 py-2 rounded">
+            Add Country
+          </button>
         </form>
 
         {/* === FORM 2: University === */}
-        <form onSubmit={submitUniversity(onSubmitUniversity)} className="mb-6 grid md:grid-cols-2 gap-4">
+        <form
+          onSubmit={submitUniversity(onSubmitUniversity)}
+          className="mb-6 grid md:grid-cols-2 gap-4"
+        >
           <div>
             <label className="block text-sm text-gray-700">University</label>
-            <Input {...regUniversity('university', { required: 'University is required' })} onKeyDown={handleEnter} />
-            {errUniversityForm.university && <p className="text-red-500 text-sm">{errUniversityForm.university.message}</p>}
+            <Input
+              {...regUniversity("university", {
+                required: "University is required",
+              })}
+              onKeyDown={handleEnter}
+            />
+            {errUniversityForm.university && (
+              <p className="text-red-500 text-sm">
+                {errUniversityForm.university.message}
+              </p>
+            )}
           </div>
           <div>
             <label className="block text-sm text-gray-700">Country</label>
-            <select {...regUniversity('country', { required: 'Country is required' })} onKeyDown={handleEnter} className="w-full p-2 border rounded">
+            <select
+              {...regUniversity("country", { required: "Country is required" })}
+              onKeyDown={handleEnter}
+              className="w-full p-2 border rounded"
+            >
               <option value="">Select Country</option>
               {countries.map((c) => (
-                <option key={c.id} value={c.id}>{c.country}</option>
+                <option key={c.id} value={c.id}>
+                  {c.country}
+                </option>
               ))}
             </select>
-            {errUniversityForm.country && <p className="text-red-500 text-sm">{errUniversityForm.country.message}</p>}
+            {errUniversityForm.country && (
+              <p className="text-red-500 text-sm">
+                {errUniversityForm.country.message}
+              </p>
+            )}
           </div>
-          <button className="bg-brandRed text-white px-4 py-2 rounded col-span-full">Add University</button>
+          <button className="bg-brandRed text-white px-4 py-2 rounded col-span-full">
+            Add University
+          </button>
         </form>
 
         {/* === FORM 3: Program Name === */}
-        <form onSubmit={submitProgram(onSubmitProgram)} className="mb-6 grid md:grid-cols-3 gap-4">
+        <form
+          onSubmit={submitProgram(onSubmitProgram)}
+          className="mb-6 grid md:grid-cols-3 gap-4"
+        >
           <div>
             <label className="block text-sm text-gray-700">Program</label>
-            <Input {...regProgram('program', { required: 'Program name is required' })} onKeyDown={handleEnter} />
-            {errProgramForm.program && <p className="text-red-500 text-sm">{errProgramForm.program.message}</p>}
+            <Input
+              {...regProgram("program", {
+                required: "Program name is required",
+              })}
+              onKeyDown={handleEnter}
+            />
+            {errProgramForm.program && (
+              <p className="text-red-500 text-sm">
+                {errProgramForm.program.message}
+              </p>
+            )}
           </div>
           <div>
             <label className="block text-sm text-gray-700">Country</label>
@@ -227,15 +275,16 @@ useEffect(() => {
                 <option key={c.id} value={c.id}>{c.country}</option>
               ))}
             </select> */}
-                    <select className="w-full p-2 border rounded mt-1" onKeyDown={handleEnter}
+            <select
+              className="w-full p-2 border rounded mt-1"
+              onKeyDown={handleEnter}
               name="country"
-              {...regProgram('country', {
+              {...regProgram("country", {
                 onChange: (e) => {
                   const value = e.target.value;
                   setSelectedCountryId(value); // update your local state
                 },
               })}
-           
             >
               <option value="">Select Country</option>
               {countries.map((country) => (
@@ -244,36 +293,72 @@ useEffect(() => {
                 </option>
               ))}
             </select>
-            {errProgramForm.country && <p className="text-red-500 text-sm">{errProgramForm.country.message}</p>}
+            {errProgramForm.country && (
+              <p className="text-red-500 text-sm">
+                {errProgramForm.country.message}
+              </p>
+            )}
           </div>
           <div>
             <label className="block text-sm text-gray-700">University</label>
-            <select {...regProgram('university', { required: 'University is required' })} className="w-full p-2 border rounded" onKeyDown={handleEnter}>
+            <select
+              {...regProgram("university", {
+                required: "University is required",
+              })}
+              className="w-full p-2 border rounded"
+              onKeyDown={handleEnter}
+            >
               <option value="">Select University</option>
               {universities.map((u) => (
-                <option key={u.id} value={u.id}>{u.university}</option>
+                <option key={u.id} value={u.id}>
+                  {u.university}
+                </option>
               ))}
             </select>
-            {errProgramForm.university && <p className="text-red-500 text-sm">{errProgramForm.university.message}</p>}
+            {errProgramForm.university && (
+              <p className="text-red-500 text-sm">
+                {errProgramForm.university.message}
+              </p>
+            )}
           </div>
-          
-          <button className="bg-brandRed text-white px-4 py-2 rounded col-span-full">Add Program</button>
+
+          <button className="bg-brandRed text-white px-4 py-2 rounded col-span-full">
+            Add Program
+          </button>
         </form>
 
         {/* === FORM 4: Intake === */}
-        <form onSubmit={submitIntake(onSubmitIntake)} className="mb-6 flex gap-4 items-center">
-          <Input {...regIntake('intake', { required: 'Intake is required' })} placeholder="Intake" className="w-full md:w-1/2" />
-          <button className="bg-brandRed text-white px-4 py-2 rounded">Add Intake</button>
+        <form
+          onSubmit={submitIntake(onSubmitIntake)}
+          className="mb-6 flex gap-4 items-center"
+        >
+          <Input
+            {...regIntake("intake", { required: "Intake is required" })}
+            placeholder="Intake"
+            className="w-full md:w-1/2"
+          />
+          <button className="bg-brandRed text-white px-4 py-2 rounded">
+            Add Intake
+          </button>
         </form>
 
         {/* === FORM 5: Year === */}
-        <form onSubmit={submitYear(onSubmitYear)} className="mb-6 flex gap-4 items-center">
-          <Input {...regYear('year', { required: 'Year is required' })} placeholder="Year" className="w-full md:w-1/2" />
-          <button className="bg-brandRed text-white px-4 py-2 rounded">Add Year</button>
+        <form
+          onSubmit={submitYear(onSubmitYear)}
+          className="mb-6 flex gap-4 items-center"
+        >
+          <Input
+            {...regYear("year", { required: "Year is required" })}
+            placeholder="Year"
+            className="w-full md:w-1/2"
+          />
+          <button className="bg-brandRed text-white px-4 py-2 rounded">
+            Add Year
+          </button>
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default Programs
+export default Programs;

@@ -16,6 +16,7 @@ export default function StudentTable() {
     university: "",
     intake: "",
     studentId: "",
+    Branch: "",
   });
 
   const [page, setPage] = useState(1);
@@ -45,10 +46,11 @@ export default function StudentTable() {
         }
       : null;
 
-  const {
-    data: allUserData,
-    isLoading,
-  } = useGetAllUserQuery(queryParams, { skip: !queryParams });
+  console.log("StudentQuery", queryParams);
+
+  const { data: allUserData, isLoading } = useGetAllUserQuery(queryParams, {
+    skip: !queryParams,
+  });
 
   const { data: currentUserData } = useGetUserDataByIdQuery(userId);
 
@@ -68,15 +70,34 @@ export default function StudentTable() {
   }, [role, allUserData, currentUserData]);
 
   const filteredStudents = useMemo(() => {
-    const { firstName, lastName, country, university, intake, studentId } = filters;
+    const {
+      firstName,
+      lastName,
+      country,
+      university,
+      intake,
+      studentId,
+      Branch,
+    } = filters;
 
-    return students.filter((student) =>
-      (!firstName || student.FirstName?.toLowerCase().includes(firstName.toLowerCase())) &&
-      (!lastName || student.LastName?.toLowerCase().includes(lastName.toLowerCase())) &&
-      (!country || student.Country?.toLowerCase().includes(country.toLowerCase())) &&
-      (!university || student.University?.toLowerCase().includes(university.toLowerCase())) &&
-      (!intake || student.Intake?.toLowerCase().includes(intake.toLowerCase())) &&
-      (!studentId || student.id?.toLowerCase().includes(studentId.toLowerCase()))
+    return students.filter(
+      (student) =>
+        (!firstName ||
+          student.FirstName?.toLowerCase().includes(firstName.toLowerCase())) &&
+        (!lastName ||
+          student.LastName?.toLowerCase().includes(lastName.toLowerCase())) &&
+        (!country ||
+          student.Country?.toLowerCase().includes(country.toLowerCase())) &&
+        (!university ||
+          student.University?.toLowerCase().includes(
+            university.toLowerCase()
+          )) &&
+        (!intake ||
+          student.Intake?.toLowerCase().includes(intake.toLowerCase())) &&
+        (!studentId ||
+          student.id?.toLowerCase().includes(studentId.toLowerCase())) &&
+        (!Branch ||
+          student.Branch?.toLowerCase().includes(Branch.toLowerCase()))
     );
   }, [students, filters]);
 
@@ -95,6 +116,7 @@ export default function StudentTable() {
       university: "",
       intake: "",
       studentId: "",
+      Branch: "",
     });
   };
 
@@ -102,19 +124,63 @@ export default function StudentTable() {
     <div className="overflow-x-auto p-4">
       {/* Filter Form */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        {["firstName", "lastName", "country", "university", "intake", "studentId"].map((key) => (
+        {[
+          "firstName",
+          "lastName",
+          "country",
+          "university",
+          "intake",
+          "studentId",
+        ].map((key) => (
           <Label key={key}>
-            <span>{key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}</span>
+            <span>
+              {key
+                .replace(/([A-Z])/g, " $1")
+                .replace(/^./, (str) => str.toUpperCase())}
+            </span>
             <Input
               value={filters[key]}
-              onChange={(e) => setFilters({ ...filters, [key]: e.target.value })}
+              onChange={(e) =>
+                setFilters({ ...filters, [key]: e.target.value })
+              }
               className="mt-1"
               placeholder={key}
             />
           </Label>
         ))}
+
+        <Label>
+          <span htmlFor="Branch" className="block mb-1">
+            Branch
+          </span>
+          <select
+            id="Branch"
+            name="Branch"
+            value={filters.Branch}
+            onChange={(e) => setFilters({ ...filters, Branch: e.target.value })}
+            className="w-full border rounded p-2"
+          >
+            <option value="">Select Branch</option>
+            <option value="Edu Anchor">Edu Anchor</option>
+            <option value="Dhaka">Dhaka</option>
+            <option value="Khulna">Khulna</option>
+            <option value="Barishal">Barishal</option>
+            <option value="Satkhira">Satkhira</option>
+            <option value="Tangail">Tangail</option>
+            <option value="Jashore">Jashore</option>
+            <option value="Rangpur">Rangpur</option>
+            <option value="Dinajpur">Dinajpur</option>
+            <option value="Gopalganj">Gopalganj</option>
+            <option value="Savar">Savar</option>
+            <option value="Feni">Feni</option>
+          </select>
+        </Label>
+
         <div className="flex items-end gap-2">
-          <Button className="w-full bg-brandRed text-white" onClick={clearFilters}>
+          <Button
+            className="w-full bg-brandRed text-white"
+            onClick={clearFilters}
+          >
             Clear
           </Button>
         </div>
@@ -142,10 +208,15 @@ export default function StudentTable() {
             filteredStudents.map((student, index) => {
               const rowBg = index % 2 === 0 ? "bg-gray-50" : "bg-white";
               return (
-                <tr key={index} className={`text-sm border-t border-gray-200 ${rowBg}`}>
+                <tr
+                  key={index}
+                  className={`text-sm border-t border-gray-200 ${rowBg}`}
+                >
                   <td className="p-3 whitespace-nowrap">{student.id}</td>
                   <td className="p-3 whitespace-nowrap">{student.CreatedOn}</td>
-                  <td className="p-3 whitespace-nowrap">{formatDate(student.createdAt)}</td>
+                  <td className="p-3 whitespace-nowrap">
+                    {formatDate(student.createdAt)}
+                  </td>
                   <td className="p-3 whitespace-nowrap">
                     {student.FirstName} {student.LastName}
                   </td>
@@ -153,7 +224,9 @@ export default function StudentTable() {
                   <td className="p-3 whitespace-nowrap">{student.Phone}</td>
                   <td className="p-3 whitespace-nowrap">{student.Branch}</td>
                   <td className="p-3 whitespace-nowrap">{student.Assigned}</td>
-                  <td className="p-3 whitespace-nowrap">{student.Status || "N/A"}</td>
+                  <td className="p-3 whitespace-nowrap">
+                    {student.Status || "N/A"}
+                  </td>
                   <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
                     <Link to={`/app/editprofile/${student.id}`}>
                       <LiaEditSolid className="cursor-pointer" />
@@ -207,5 +280,3 @@ export default function StudentTable() {
     </div>
   );
 }
-
-

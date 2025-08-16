@@ -28,18 +28,16 @@
 //     }
 //   }, [data, isLoading, isError, error]);
 
-
 //   const fetchComments = async () => {
 //     try {
 //       const res = await axios.get(
-//         `http://localhost:5000/api/v1/leadComment/${id}`
+//         `https://api.eaconsultancy.info/api/v1/leadComment/${id}`
 //       );
 //       setComments(res.data);
 //     } catch (err) {
 //       console.error("Failed to fetch comments:", err);
 //     }
 //   };
-
 
 //   const handleCommentSubmit = async () => {
 //     if (!newComment.trim() && !newCommentFile) return;
@@ -52,7 +50,7 @@
 //       formData.append("hidden", false);
 //       if (newCommentFile) formData.append("file", newCommentFile);
 
-//       await axios.post("http://localhost:5000/api/v1/leadComment/create", formData);
+//       await axios.post("https://api.eaconsultancy.info/api/v1/leadComment/create", formData);
 //       setNewComment("");
 //       setNewCommentFile(null);
 //       fetchComments();
@@ -72,7 +70,7 @@
 //       formData.append("text", replyText);
 //       if (file) formData.append("file", file);
 
-//       await axios.post("http://localhost:5000/api/v1/leadReply/create", formData);
+//       await axios.post("https://api.eaconsultancy.info/api/v1/leadReply/create", formData);
 //       setReplyContent((prev) => ({ ...prev, [commentId]: "" }));
 //       setReplyFiles((prev) => ({ ...prev, [commentId]: null }));
 //       fetchComments();
@@ -103,7 +101,7 @@
 
 //             {comment.file && (
 //               <a
-//                 href={`http://localhost:5000/${comment.file}`}
+//                 href={`https://api.eaconsultancy.info/${comment.file}`}
 //                 target="_blank"
 //                 rel="noopener noreferrer"
 //                 className="text-sm text-blue-600 underline"
@@ -121,7 +119,7 @@
 //                   {reply.text}
 //                   {reply.file && (
 //                     <a
-//                       href={`http://localhost:5000/${reply.file}`}
+//                       href={`https://api.eaconsultancy.info/${reply.file}`}
 //                       target="_blank"
 //                       rel="noopener noreferrer"
 //                       className="ml-2 text-blue-600 underline"
@@ -169,14 +167,10 @@
 //     </div>
 //   );
 
-//   return (     
-//           <>           
+//   return (
+//           <>
 //             <div className="px-4 py-2">
-           
 
-             
-
-            
 //                 <>
 //                   {renderCommentList(comments, "studentReplies", replyContent, setReplyContent, handleReplySubmit, replyFiles, setReplyFiles)}
 //                   <div className="flex flex-col gap-2 mt-4">
@@ -199,7 +193,6 @@
 // };
 
 // export default History;
-
 
 import React, { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
@@ -237,7 +230,9 @@ const History = ({ id }) => {
 
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/v1/leadComment/${id}`);
+      const res = await axios.get(
+        `https://api.eaconsultancy.info/api/v1/leadComment/${id}`
+      );
       setComments(res.data.data); // Assuming `res.data.data` holds array
     } catch (err) {
       console.error("Failed to fetch comments:", err);
@@ -254,7 +249,10 @@ const History = ({ id }) => {
       formData.append("text", newComment);
       if (newCommentFile) formData.append("file", newCommentFile);
 
-      await axios.post("http://localhost:5000/api/v1/leadComment/create", formData);
+      await axios.post(
+        "https://api.eaconsultancy.info/api/v1/leadComment/create",
+        formData
+      );
       setNewComment("");
       setNewCommentFile(null);
       fetchComments();
@@ -264,26 +262,28 @@ const History = ({ id }) => {
   };
 
   const handleReplySubmit = async (commentId) => {
-  const replyText = replyContent[commentId];
-  const file = replyFiles[commentId];
-  if (!replyText?.trim() && !file) return;
+    const replyText = replyContent[commentId];
+    const file = replyFiles[commentId];
+    if (!replyText?.trim() && !file) return;
 
-  try {
-    const formData = new FormData();
-    formData.append("user_id", userId);
-    formData.append("comment_id", commentId); // ✅ match Sequelize foreignKey
-    formData.append("text", replyText);
-    if (file) formData.append("file", file);
+    try {
+      const formData = new FormData();
+      formData.append("user_id", userId);
+      formData.append("comment_id", commentId); // ✅ match Sequelize foreignKey
+      formData.append("text", replyText);
+      if (file) formData.append("file", file);
 
-    await axios.post("http://localhost:5000/api/v1/leadReply/create", formData);
-    setReplyContent((prev) => ({ ...prev, [commentId]: "" }));
-    setReplyFiles((prev) => ({ ...prev, [commentId]: null }));
-    fetchComments();
-  } catch (err) {
-    console.error("Failed to post reply:", err);
-  }
-};
-
+      await axios.post(
+        "https://api.eaconsultancy.info/api/v1/leadReply/create",
+        formData
+      );
+      setReplyContent((prev) => ({ ...prev, [commentId]: "" }));
+      setReplyFiles((prev) => ({ ...prev, [commentId]: null }));
+      fetchComments();
+    } catch (err) {
+      console.error("Failed to post reply:", err);
+    }
+  };
 
   const renderCommentList = () => (
     <div className="space-y-4">
@@ -299,7 +299,7 @@ const History = ({ id }) => {
 
             {comment.file && (
               <a
-                href={`http://localhost:5000/${comment.file}`}
+                href={`https://api.eaconsultancy.info/${comment.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-blue-600 underline"
@@ -311,14 +311,17 @@ const History = ({ id }) => {
             {/* Replies */}
             <div className="ml-4 space-y-2 mt-2">
               {(comment.leadReplies || []).map((reply) => (
-                <div key={reply.id} className="text-sm bg-white p-2 rounded border">
+                <div
+                  key={reply.id}
+                  className="text-sm bg-white p-2 rounded border"
+                >
                   <span className="font-medium">
                     {reply.User?.FirstName} {reply.User?.LastName}:
                   </span>{" "}
                   {reply.text}
                   {reply.file && (
                     <a
-                      href={`http://localhost:5000/${reply.file}`}
+                      href={`https://api.eaconsultancy.info/${reply.file}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="ml-2 text-blue-600 underline"
@@ -335,7 +338,10 @@ const History = ({ id }) => {
                   rows={2}
                   value={replyContent[comment.id] || ""}
                   onChange={(e) =>
-                    setReplyContent((prev) => ({ ...prev, [comment.id]: e.target.value }))
+                    setReplyContent((prev) => ({
+                      ...prev,
+                      [comment.id]: e.target.value,
+                    }))
                   }
                   placeholder="Write a reply..."
                   className="border px-2 py-1 rounded text-sm resize-none"
@@ -343,7 +349,10 @@ const History = ({ id }) => {
                 <input
                   type="file"
                   onChange={(e) =>
-                    setReplyFiles((prev) => ({ ...prev, [comment.id]: e.target.files[0] }))
+                    setReplyFiles((prev) => ({
+                      ...prev,
+                      [comment.id]: e.target.files[0],
+                    }))
                   }
                   className="text-sm"
                 />

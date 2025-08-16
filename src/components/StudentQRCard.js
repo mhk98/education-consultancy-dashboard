@@ -17,7 +17,7 @@ const StudentQRCard = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 flex justify-center items-center">
+    <div className="w-full max-w-7xl mx-auto px-0 mt-8">
       <div className="bg-white rounded-2xl shadow-xl p-6 w-full text-center">
         <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6">
           Student Registration

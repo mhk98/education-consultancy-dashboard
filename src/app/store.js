@@ -24,6 +24,7 @@ import { TaskApi } from "../features/task/task";
 import { ContractApi } from "../features/contract/contract";
 import { eaDocumentApi } from "../features/eaDocument/eaDocument";
 import { ConsultationApi } from "../features/consultation/consultation";
+import { leadDocumentApi } from "../features/leadDocument/leadDocument";
 
 
 
@@ -55,6 +56,7 @@ const store = configureStore({
     [ContractApi.reducerPath]: ContractApi.reducer,
     [eaDocumentApi.reducerPath]: eaDocumentApi.reducer,
     [ConsultationApi.reducerPath]: ConsultationApi.reducer,
+    [leadDocumentApi.reducerPath]: leadDocumentApi.reducer,
 
   
   },
@@ -85,6 +87,7 @@ const store = configureStore({
         applicationApi.middleware,
         eaDocumentApi.middleware,
         ConsultationApi.middleware,
+        leadDocumentApi.middleware,
       
     ),
 });

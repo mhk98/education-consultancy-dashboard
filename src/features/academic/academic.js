@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const academicApi = createApi({
   reducerPath: "academicApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["academic"], // Define the tag type
@@ -57,9 +57,9 @@ export const academicApi = createApi({
 });
 
 export const {
- useCreateAcademicMutation,
- useDeleteAcademicMutation,
- useUpdateAcademicMutation,
- useGetAllAcademicQuery,
- useGetDataByIdQuery,
+  useCreateAcademicMutation,
+  useDeleteAcademicMutation,
+  useUpdateAcademicMutation,
+  useGetAllAcademicQuery,
+  useGetDataByIdQuery,
 } = academicApi;

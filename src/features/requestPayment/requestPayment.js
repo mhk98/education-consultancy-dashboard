@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const RequestPaymentApi = createApi({
   reducerPath: "RequestPaymentApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["requestPayment"], // Define the tag type
@@ -57,9 +57,9 @@ export const RequestPaymentApi = createApi({
 });
 
 export const {
- useCreateRequestPaymentMutation,
- useDeleteRequestPaymentMutation,
- useUpdateRequestPaymentMutation,
- useGetAllRequestPaymentQuery,
- useGetDataByIdQuery,
+  useCreateRequestPaymentMutation,
+  useDeleteRequestPaymentMutation,
+  useUpdateRequestPaymentMutation,
+  useGetAllRequestPaymentQuery,
+  useGetDataByIdQuery,
 } = RequestPaymentApi;

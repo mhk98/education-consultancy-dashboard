@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import {
-  useCreateEADocumentMutation,
-  useDeleteEADocumentMutation,
-  useGetAllEADocumentQuery,
-} from "../../features/eaDocument/eaDocument";
+  useCreateLeadDocumentMutation,
+  useDeleteLeadDocumentMutation,
+  useGetAllLeadDocumentQuery,
+} from "../../features/leadDocument/leadDocument";
 
 const BASE_URL = "https://api.eaconsultancy.info/";
 
-const EADocument = ({ id }) => {
+const LeadDocument = ({ id }) => {
   const [file, setFile] = useState(null);
   const [document, setDocument] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,12 +21,12 @@ const EADocument = ({ id }) => {
     isError,
     error,
     refetch,
-  } = useGetAllEADocumentQuery(id);
+  } = useGetAllLeadDocumentQuery(id);
 
   console.log("studentid", id);
 
-  const [createEADocument] = useCreateEADocumentMutation();
-  const [deleteEADocument] = useDeleteEADocumentMutation();
+  const [createEADocument] = useCreateLeadDocumentMutation();
+  const [deleteEADocument] = useDeleteLeadDocumentMutation();
 
   useEffect(() => {
     if (isError) {
@@ -55,7 +55,7 @@ const EADocument = ({ id }) => {
 
     formData.append("title", form.title.value);
     formData.append("file", selectedFile);
-    formData.append("user_id", id);
+    formData.append("lead_id", id);
 
     try {
       setIsLoading(true);
@@ -94,55 +94,53 @@ const EADocument = ({ id }) => {
       <div className="mt-2">
         <h3 className="text-lg font-semibold mb-4">EduAnchor Documents</h3>
 
-        {role === "superAdmin" && (
-          <form
-            onSubmit={handleEADocSubmit}
-            className="flex flex-col md:flex-row gap-4 items-start mb-6"
-          >
+        <form
+          onSubmit={handleEADocSubmit}
+          className="flex flex-col md:flex-row gap-4 items-start mb-6"
+        >
+          <input
+            type="text"
+            name="title"
+            placeholder="Document Title"
+            required
+            className="input border px-3 py-2 rounded w-full md:w-1/2"
+          />
+          <div className="flex flex-col gap-1">
             <input
-              type="text"
-              name="title"
-              placeholder="Document Title"
+              type="file"
+              name="file"
+              accept=".pdf, .doc, .docx, .png, .jpg, .jpeg"
               required
-              className="input border px-3 py-2 rounded w-full md:w-1/2"
+              className="input"
+              onChange={(e) => {
+                const selected = e.target.files[0];
+                if (selected && selected.size > 5 * 1024 * 1024) {
+                  toast.error("File size must be under 5MB");
+                  e.target.value = "";
+                  setFile(null);
+                } else {
+                  setFile(selected);
+                }
+              }}
             />
-            <div className="flex flex-col gap-1">
-              <input
-                type="file"
-                name="file"
-                accept=".pdf, .doc, .docx, .png, .jpg, .jpeg"
-                required
-                className="input"
-                onChange={(e) => {
-                  const selected = e.target.files[0];
-                  if (selected && selected.size > 5 * 1024 * 1024) {
-                    toast.error("File size must be under 5MB");
-                    e.target.value = "";
-                    setFile(null);
-                  } else {
-                    setFile(selected);
-                  }
-                }}
-              />
-              {file && (
-                <p className="text-sm text-gray-700">
-                  Selected: <strong>{file.name}</strong> (
-                  {(file.size / 1024 / 1024).toFixed(2)} MB)
-                </p>
-              )}
-              <p className="text-xs text-gray-500">
-                Max 5MB. Allowed: PDF, DOCX, PNG, JPG
+            {file && (
+              <p className="text-sm text-gray-700">
+                Selected: <strong>{file.name}</strong> (
+                {(file.size / 1024 / 1024).toFixed(2)} MB)
               </p>
-            </div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="bg-brandRed text-white px-4 py-2 rounded hover:bg-red-600"
-            >
-              {isLoading ? "Uploading..." : "Upload"}
-            </button>
-          </form>
-        )}
+            )}
+            <p className="text-xs text-gray-500">
+              Max 5MB. Allowed: PDF, DOCX, PNG, JPG
+            </p>
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="bg-brandRed text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            {isLoading ? "Uploading..." : "Upload"}
+          </button>
+        </form>
 
         {queryLoading && <p className="text-gray-500">Loading documents...</p>}
 
@@ -182,4 +180,4 @@ const EADocument = ({ id }) => {
   );
 };
 
-export default EADocument;
+export default LeadDocument;

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const programIntakeApi = createApi({
   reducerPath: "programIntakeApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["programIntake"], // Define the tag type
@@ -57,9 +57,9 @@ export const programIntakeApi = createApi({
 });
 
 export const {
- useCreateprogramIntakeMutation,
- useDeleteprogramIntakeMutation,
- useUpdateprogramIntakeMutation,
- useGetAllprogramIntakeQuery,
- useGetDataByIdQuery,
+  useCreateprogramIntakeMutation,
+  useDeleteprogramIntakeMutation,
+  useUpdateprogramIntakeMutation,
+  useGetAllprogramIntakeQuery,
+  useGetDataByIdQuery,
 } = programIntakeApi;

@@ -41,7 +41,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
+        `https://api.eaconsultancy.info/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -52,7 +52,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchKCComments = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
+        `https://api.eaconsultancy.info/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
       );
       setKCComments(res.data.data);
     } catch (err) {
@@ -83,7 +83,10 @@ const AppliedProgram = ({ user_id }) => {
       formData.append("hidden", false);
       if (newCommentFile) formData.append("file", newCommentFile);
 
-      await axios.post("http://localhost:5000/api/v1/studentComment/create", formData);
+      await axios.post(
+        "https://api.eaconsultancy.info/api/v1/studentComment/create",
+        formData
+      );
       setNewComment("");
       setNewCommentFile(null);
       fetchComments();
@@ -103,7 +106,10 @@ const AppliedProgram = ({ user_id }) => {
       formData.append("text", replyText);
       if (file) formData.append("file", file);
 
-      await axios.post("http://localhost:5000/api/v1/studentReply/create", formData);
+      await axios.post(
+        "https://api.eaconsultancy.info/api/v1/studentReply/create",
+        formData
+      );
       setReplyContent((prev) => ({ ...prev, [commentId]: "" }));
       setReplyFiles((prev) => ({ ...prev, [commentId]: null }));
       fetchComments();
@@ -123,7 +129,10 @@ const AppliedProgram = ({ user_id }) => {
       formData.append("hidden", false);
       if (newKCCommentFile) formData.append("file", newKCCommentFile);
 
-      await axios.post("http://localhost:5000/api/v1/kcComment/create", formData);
+      await axios.post(
+        "https://api.eaconsultancy.info/api/v1/kcComment/create",
+        formData
+      );
       setNewKCComment("");
       setNewKCCommentFile(null);
       fetchKCComments();
@@ -143,7 +152,10 @@ const AppliedProgram = ({ user_id }) => {
       formData.append("text", replyText);
       if (file) formData.append("file", file);
 
-      await axios.post("http://localhost:5000/api/v1/kcReply/create", formData);
+      await axios.post(
+        "https://api.eaconsultancy.info/api/v1/kcReply/create",
+        formData
+      );
       setReplyKCContent((prev) => ({ ...prev, [commentId]: "" }));
       setReplyKCFiles((prev) => ({ ...prev, [commentId]: null }));
       fetchKCComments();
@@ -174,7 +186,7 @@ const AppliedProgram = ({ user_id }) => {
 
             {comment.file && (
               <a
-                href={`http://localhost:5000/${comment.file}`}
+                href={`https://api.eaconsultancy.info/${comment.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-blue-600 underline"
@@ -185,14 +197,17 @@ const AppliedProgram = ({ user_id }) => {
 
             <div className="ml-4 space-y-2 mt-2">
               {comment[repliesKey]?.map((reply) => (
-                <div key={reply.id} className="text-sm bg-white p-2 rounded border">
+                <div
+                  key={reply.id}
+                  className="text-sm bg-white p-2 rounded border"
+                >
                   <span className="font-medium">
                     {reply.User?.FirstName} {reply.User?.LastName}:
                   </span>{" "}
                   {reply.text}
                   {reply.file && (
                     <a
-                      href={`http://localhost:5000/${reply.file}`}
+                      href={`https://api.eaconsultancy.info/${reply.file}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="ml-2 text-blue-600 underline"
@@ -263,9 +278,15 @@ const AppliedProgram = ({ user_id }) => {
                   {item.priority}
                 </span>
               </div>
-              <div><strong>Date:</strong> {formatDateTime(item.createdAt)}</div>
-              <div><strong>Course:</strong> {item.program}</div>
-              <div><strong>University:</strong> {item.university}</div>
+              <div>
+                <strong>Date:</strong> {formatDateTime(item.createdAt)}
+              </div>
+              <div>
+                <strong>Course:</strong> {item.program}
+              </div>
+              <div>
+                <strong>University:</strong> {item.university}
+              </div>
             </div>
           </div>
         ))}
@@ -275,17 +296,25 @@ const AppliedProgram = ({ user_id }) => {
         {selectedProgram ? (
           <>
             <div className="flex justify-between items-center bg-green-100 px-4 py-2 rounded-t-md">
-              <span className="text-sm">{formatDateTime(selectedProgram.createdAt)}</span>
-              <span className="text-sm text-green-800 font-medium">{selectedProgram.status}</span>
+              <span className="text-sm">
+                {formatDateTime(selectedProgram.createdAt)}
+              </span>
+              <span className="text-sm text-green-800 font-medium">
+                {selectedProgram.status}
+              </span>
             </div>
 
             <div className="px-4 py-2">
-              <p className="text-gray-800 font-medium mb-4">{selectedProgram.program}</p>
+              <p className="text-gray-800 font-medium mb-4">
+                {selectedProgram.program}
+              </p>
 
               <div className="flex border-b mb-4">
                 <button
                   className={`px-4 py-2 text-sm font-medium ${
-                    tab === "kc" ? "text-brandRed border-b-2 border-brandRed" : "text-gray-600"
+                    tab === "kc"
+                      ? "text-brandRed border-b-2 border-brandRed"
+                      : "text-gray-600"
                   }`}
                   onClick={() => setTab("kc")}
                 >
@@ -293,7 +322,9 @@ const AppliedProgram = ({ user_id }) => {
                 </button>
                 <button
                   className={`px-4 py-2 text-sm font-medium ${
-                    tab === "student" ? "text-brandRed border-b-2 border-brandRed" : "text-gray-600"
+                    tab === "student"
+                      ? "text-brandRed border-b-2 border-brandRed"
+                      : "text-gray-600"
                   }`}
                   onClick={() => setTab("student")}
                 >
@@ -303,7 +334,15 @@ const AppliedProgram = ({ user_id }) => {
 
               {tab === "student" ? (
                 <>
-                  {renderCommentList(comments, "studentReplies", replyContent, setReplyContent, handleReplySubmit, replyFiles, setReplyFiles)}
+                  {renderCommentList(
+                    comments,
+                    "studentReplies",
+                    replyContent,
+                    setReplyContent,
+                    handleReplySubmit,
+                    replyFiles,
+                    setReplyFiles
+                  )}
                   <div className="flex flex-col gap-2 mt-4">
                     <textarea
                       rows={3}
@@ -312,15 +351,30 @@ const AppliedProgram = ({ user_id }) => {
                       placeholder="Write comment..."
                       className="border px-3 py-2 text-sm rounded resize-none"
                     />
-                    <input type="file" onChange={(e) => setNewCommentFile(e.target.files[0])} className="text-sm" />
-                    <button onClick={handleCommentSubmit} className="bg-brandRed text-white p-2 rounded">
+                    <input
+                      type="file"
+                      onChange={(e) => setNewCommentFile(e.target.files[0])}
+                      className="text-sm"
+                    />
+                    <button
+                      onClick={handleCommentSubmit}
+                      className="bg-brandRed text-white p-2 rounded"
+                    >
                       <FiSend size={20} />
                     </button>
                   </div>
                 </>
               ) : (
                 <>
-                  {renderCommentList(kcComments, "kcReplies", replyKCContent, setReplyKCContent, handleKCReplySubmit, replyKCFiles, setReplyKCFiles)}
+                  {renderCommentList(
+                    kcComments,
+                    "kcReplies",
+                    replyKCContent,
+                    setReplyKCContent,
+                    handleKCReplySubmit,
+                    replyKCFiles,
+                    setReplyKCFiles
+                  )}
                   <div className="flex flex-col gap-2 mt-4">
                     <textarea
                       rows={3}
@@ -329,8 +383,15 @@ const AppliedProgram = ({ user_id }) => {
                       placeholder="Write comment..."
                       className="border px-3 py-2 text-sm rounded resize-none"
                     />
-                    <input type="file" onChange={(e) => setNewKCCommentFile(e.target.files[0])} className="text-sm" />
-                    <button onClick={handleKCCommentSubmit} className="bg-brandRed text-white p-2 rounded">
+                    <input
+                      type="file"
+                      onChange={(e) => setNewKCCommentFile(e.target.files[0])}
+                      className="text-sm"
+                    />
+                    <button
+                      onClick={handleKCCommentSubmit}
+                      className="bg-brandRed text-white p-2 rounded"
+                    >
                       <FiSend size={20} />
                     </button>
                   </div>
@@ -339,7 +400,9 @@ const AppliedProgram = ({ user_id }) => {
             </div>
           </>
         ) : (
-          <div className="p-6 text-center text-gray-500">Select an application to see details.</div>
+          <div className="p-6 text-center text-gray-500">
+            Select an application to see details.
+          </div>
         )}
       </div>
     </div>

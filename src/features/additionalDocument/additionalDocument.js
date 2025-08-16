@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const additionalDocumentApi = createApi({
   reducerPath: "additionalDocumentApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["additionalDocument"], // Define the tag type
@@ -36,8 +36,7 @@ export const additionalDocumentApi = createApi({
 
     getAllAdditionalDocument: build.query({
       query: () => ({
-        url: '/additionalDocument',
-
+        url: "/additionalDocument",
       }),
       providesTags: ["additionalDocument"],
 
@@ -58,9 +57,9 @@ export const additionalDocumentApi = createApi({
 });
 
 export const {
- useCreateAdditionalDocumentMutation,
- useDeleteAdditionalDocumentMutation,
- useUpdateAdditionalDocumentMutation,
- useGetAllAdditionalDocumentQuery,
- useGetSingleAdditionalDataByIdQuery,
+  useCreateAdditionalDocumentMutation,
+  useDeleteAdditionalDocumentMutation,
+  useUpdateAdditionalDocumentMutation,
+  useGetAllAdditionalDocumentQuery,
+  useGetSingleAdditionalDataByIdQuery,
 } = additionalDocumentApi;

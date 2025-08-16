@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const EnquiriesApi = createApi({
   reducerPath: "EnquiriesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["enquiries"], // Define the tag type
@@ -35,8 +35,8 @@ export const EnquiriesApi = createApi({
     }),
 
     getAllEnquiries: build.query({
-      query: ({Status, Branch, page, limit}) => ({
-        params: {Status, Branch, page, limit },
+      query: ({ Status, Branch, page, limit }) => ({
+        params: { Status, Branch, page, limit },
         url: "/enquiries",
       }),
       providesTags: ["enquiries"],
@@ -58,9 +58,9 @@ export const EnquiriesApi = createApi({
 });
 
 export const {
-useCreateEnquiriesMutation,
- useDeleteEnquiriesMutation,
- useUpdateEnquiriesMutation,
- useGetAllEnquiriesQuery,
- useGetDataByIdQuery,
+  useCreateEnquiriesMutation,
+  useDeleteEnquiriesMutation,
+  useUpdateEnquiriesMutation,
+  useGetAllEnquiriesQuery,
+  useGetDataByIdQuery,
 } = EnquiriesApi;

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const ContractApi = createApi({
   reducerPath: "ContractApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["contract"], // Define the tag type
@@ -57,9 +57,9 @@ export const ContractApi = createApi({
 });
 
 export const {
- useCreateContractMutation,
- useGetAllContractQuery,
- useUpdateContractMutation,
- useDeleteContractMutation,
- useGetDataByIdQuery
+  useCreateContractMutation,
+  useGetAllContractQuery,
+  useUpdateContractMutation,
+  useDeleteContractMutation,
+  useGetDataByIdQuery,
 } = ContractApi;

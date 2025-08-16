@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const applicationApi = createApi({
   reducerPath: "applicationApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["application"], // Define the tag type
@@ -35,10 +35,29 @@ export const applicationApi = createApi({
     }),
 
     getAllApplication: build.query({
-      query: ({searchTerm, FirstName, LastName, Branch, user_id, page, limit }) => ({
+      query: ({
+        searchTerm,
+        FirstName,
+        LastName,
+        intake,
+        Branch,
+        user_id,
+        university,
+        page,
+        limit,
+      }) => ({
         url: "/application",
-        params: {searchTerm, FirstName, LastName, Branch, user_id, page, limit }
-
+        params: {
+          searchTerm,
+          FirstName,
+          LastName,
+          intake,
+          Branch,
+          user_id,
+          university,
+          page,
+          limit,
+        },
       }),
       providesTags: ["application"],
 
@@ -46,7 +65,7 @@ export const applicationApi = createApi({
       pollingInterval: 1000,
     }),
 
-   getStatusCounts: build.query({
+    getStatusCounts: build.query({
       query: (params) => {
         const queryString = new URLSearchParams(params).toString();
         return `/application//status?${queryString}`;
@@ -66,10 +85,10 @@ export const applicationApi = createApi({
 });
 
 export const {
- useCreateApplicationMutation,
- useDeleteApplicationMutation,
- useUpdateApplicationMutation,
- useGetAllApplicationQuery,
- useGetDataByIdQuery,
- useGetStatusCountsQuery,
+  useCreateApplicationMutation,
+  useDeleteApplicationMutation,
+  useUpdateApplicationMutation,
+  useGetAllApplicationQuery,
+  useGetDataByIdQuery,
+  useGetStatusCountsQuery,
 } = applicationApi;

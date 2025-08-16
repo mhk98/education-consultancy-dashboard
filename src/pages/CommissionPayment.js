@@ -1,36 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, ModalHeader, ModalBody, Input, Button } from '@windmill/react-ui';
-import toast from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
-import { useGetAllUserQuery } from '../features/auth/auth';
-import { Select } from '@windmill/react-ui';
-import { useCreateCommissionMutation } from '../features/commission/commission';
-import ComissionPaymentInProgress from '../components/ComissionPayment/ComissionPaymentInProgress';
-import ComissionPaymentPaid from '../components/ComissionPayment/ComissionPaymentPaid';
-import axios from 'axios';
-
+import React, { useState, useEffect } from "react";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Input,
+  Button,
+} from "@windmill/react-ui";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { useGetAllUserQuery } from "../features/auth/auth";
+import { Select } from "@windmill/react-ui";
+import { useCreateCommissionMutation } from "../features/commission/commission";
+import ComissionPaymentInProgress from "../components/ComissionPayment/ComissionPaymentInProgress";
+import ComissionPaymentPaid from "../components/ComissionPayment/ComissionPaymentPaid";
+import axios from "axios";
 
 function CommissionPayment() {
+  const first_Name = localStorage.getItem("FirstName");
+  const last_Name = localStorage.getItem("LastName");
 
- const first_Name = localStorage.getItem('FirstName');
-  const last_Name = localStorage.getItem('LastName');
-
-
- const [admins, setAdmins] = useState([]);
+  const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error1, setError1] = useState(null);
-    const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null);
   // Tab logic
-  const [activeTab, setActiveTab] = useState('inProgress');
-  const isInProgress = activeTab === 'inProgress';
+  const [activeTab, setActiveTab] = useState("inProgress");
+  const isInProgress = activeTab === "inProgress";
 
   // Modal logic
-  const [isModalOpen, setIsModalOpen] = useState(false)
-   
-    function closeModal() {
-     setIsModalOpen(false)
-   }
-   
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function closeModal() {
+    setIsModalOpen(false);
+  }
 
   // Form setup
   const {
@@ -40,34 +42,32 @@ function CommissionPayment() {
     formState: { errors },
   } = useForm();
 
-  const id = localStorage.getItem("userId")
+  const id = localStorage.getItem("userId");
   const [createCommission] = useCreateCommissionMutation();
 
   const onFormSubmit = async (data) => {
-
     const info = {
-      user_id:id,
+      user_id: id,
       amount: data.amount,
       purpose: data.purpose,
       id: data.branch,
-      assignor: `${first_Name} ${last_Name}`
+      assignor: `${first_Name} ${last_Name}`,
+    };
 
-    }
-
-    console.log("info", info)
+    console.log("info", info);
     try {
       const res = await createCommission(info);
       if (res.data?.success) {
         toast.success(res.data.message);
-        reset()
-     setIsModalOpen(false)
+        reset();
+        setIsModalOpen(false);
 
         reset();
       } else {
-        toast.error(res.error?.data?.message || 'Failed. Please try again.');
+        toast.error(res.error?.data?.message || "Failed. Please try again.");
       }
     } catch (error) {
-      toast.error('An unexpected error occurred.');
+      toast.error("An unexpected error occurred.");
     }
   };
 
@@ -75,13 +75,16 @@ function CommissionPayment() {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/v1/user/student");
+        const response = await axios.get(
+          "https://api.eaconsultancy.info/api/v1/user/student"
+        );
         const allUsers = response.data.data;
-  
+
         // Filter users with Role "admin" or "superadmin"
         const filtered = allUsers.filter(
           (user) =>
-        user.Role?.toLowerCase() !== 'student' && user.Role?.toLowerCase() !== 'employee'
+            user.Role?.toLowerCase() !== "student" &&
+            user.Role?.toLowerCase() !== "employee"
         );
         setAdmins(filtered);
       } catch (err) {
@@ -91,17 +94,14 @@ function CommissionPayment() {
         setLoading(false);
       }
     };
-  
+
     fetchUsers();
   }, []);
-  
 
   console.log("Admins:", admins);
-   
 
-  
   const handleEnter = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       const form = e.target.form;
       const index = Array.prototype.indexOf.call(form, e.target);
@@ -109,89 +109,103 @@ function CommissionPayment() {
     }
   };
 
-        
   return (
     <>
       <div className="w-full px-4 py-6 bg-gray-50">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           {/* Header Section */}
           <div>
-            <h4 className="text-2xl md:text-md font-semibold text-gray-900">Commision Payment</h4>
+            <h4 className="text-2xl md:text-md font-semibold text-gray-900">
+              Commision Payment
+            </h4>
 
-    
             {/* Modal */}
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                                    <ModalHeader>Comission Request Sent</ModalHeader>
-                                    <ModalBody>
-                                    <form onSubmit={handleSubmit(onFormSubmit)}>
-                        <div className="grid grid-cols-1 gap-4">
-                          {/* Left Side */}
-                    
-                            <div className="mb-4">
-                              <label className="block text-sm mb-1 text-gray-700">Amount</label>
-                              <Input
-                                type="text"
-                                {...register("amount")}
-                                onKeyDown = {handleEnter}
-                                className="input input-bordered w-full form-control shadow-md p-3"
-                              />
-                              {errors.amount && (
-                                <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>
-                              )}
-                            </div>
-                            <div className="mb-4">
-                              <label className="block text-sm mb-1 text-gray-700">Purpose</label>
-                              <Input
-                                type="text"
-                                {...register("purpose")}
-                                onKeyDown = {handleEnter}
+              <ModalHeader>Comission Request Sent</ModalHeader>
+              <ModalBody>
+                <form onSubmit={handleSubmit(onFormSubmit)}>
+                  <div className="grid grid-cols-1 gap-4">
+                    {/* Left Side */}
 
-                                className="input input-bordered w-full form-control shadow-md p-3"
-                              />
-                              {errors.purpose && (
-                                <p className="text-red-500 text-sm mt-1">{errors.purpose.message}</p>
-                              )}
-                            </div>
-                            
-                     
-            <div className="mb-4">
-                    <label className="block text-sm text-gray-700 mb-2">
-                      Branch
-                    </label>
-                    <select
-                      {...register("branch")}
-                      onKeyDown={handleEnter}
-                      className="input input-bordered w-full shadow-md p-3"
-                    >
-                      <option value="">Select Branch</option>
-                          {admins.map((admin) => (
-                                    <option key={admin.id} value={admin.id}>
-                                      {admin.Branch}
-                                    </option>
-                                  ))}
-                    </select>
-                  {errors.branch && <p className="text-red-500 text-xs mt-1">{errors.branch.message}</p>}
-                    
+                    <div className="mb-4">
+                      <label className="block text-sm mb-1 text-gray-700">
+                        Amount
+                      </label>
+                      <Input
+                        type="text"
+                        {...register("amount")}
+                        onKeyDown={handleEnter}
+                        className="input input-bordered w-full form-control shadow-md p-3"
+                      />
+                      {errors.amount && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.amount.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-sm mb-1 text-gray-700">
+                        Purpose
+                      </label>
+                      <Input
+                        type="text"
+                        {...register("purpose")}
+                        onKeyDown={handleEnter}
+                        className="input input-bordered w-full form-control shadow-md p-3"
+                      />
+                      {errors.purpose && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.purpose.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="mb-4">
+                      <label className="block text-sm text-gray-700 mb-2">
+                        Branch
+                      </label>
+                      <select
+                        {...register("branch")}
+                        onKeyDown={handleEnter}
+                        className="input input-bordered w-full shadow-md p-3"
+                      >
+                        <option value="">Select Branch</option>
+                        {admins.map((admin) => (
+                          <option key={admin.id} value={admin.id}>
+                            {admin.Branch}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.branch && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.branch.message}
+                        </p>
+                      )}
+                    </div>
                   </div>
 
-                        </div>
-                      
-                        <div className="flex justify-end gap-2 mt-6">
-                          <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
-                            Save
-                          </Button>
-                        </div>
-                      </form>
-                      
-                                    </ModalBody>
-                                  </Modal>
+                  <div className="flex justify-end gap-2 mt-6">
+                    <Button
+                      type="submit"
+                      className="btn"
+                      style={{ backgroundColor: "#C71320" }}
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </form>
+              </ModalBody>
+            </Modal>
           </div>
 
           {/* Right Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <button onClick={() => {
-            setIsModalOpen(true)
-          }}  className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+              className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition"
+            >
               + Request Commission
             </button>
           </div>
@@ -201,14 +215,18 @@ function CommissionPayment() {
         <div className="w-full sm:w-auto mt-6">
           <div className="flex gap-4 text-sm font-medium mb-1">
             <span
-              className={`cursor-pointer pb-1 ${isInProgress ? 'text-brandRed' : 'text-gray-800'}`}
-              onClick={() => setActiveTab('inProgress')}
+              className={`cursor-pointer pb-1 ${
+                isInProgress ? "text-brandRed" : "text-gray-800"
+              }`}
+              onClick={() => setActiveTab("inProgress")}
             >
               In Progress
             </span>
             <span
-              className={`cursor-pointer pb-1 ${!isInProgress ? 'text-brandRed' : 'text-gray-800'}`}
-              onClick={() => setActiveTab('paid')}
+              className={`cursor-pointer pb-1 ${
+                !isInProgress ? "text-brandRed" : "text-gray-800"
+              }`}
+              onClick={() => setActiveTab("paid")}
             >
               Paid
             </span>
@@ -217,7 +235,7 @@ function CommissionPayment() {
           <div className="h-1 bg-brandRed-100 rounded-full">
             <div
               className="h-1 bg-brandRed rounded-full transition-all duration-300"
-              style={{ width: isInProgress ? '10%' : '20%' }}
+              style={{ width: isInProgress ? "10%" : "20%" }}
             ></div>
           </div>
         </div>
@@ -225,9 +243,9 @@ function CommissionPayment() {
         {/* Conditional Tab Content */}
         <div className="mt-4 p-4 bg-white rounded-md shadow-md">
           {isInProgress ? (
-             <ComissionPaymentInProgress/>
+            <ComissionPaymentInProgress />
           ) : (
-            <ComissionPaymentPaid/>
+            <ComissionPaymentPaid />
           )}
         </div>
       </div>

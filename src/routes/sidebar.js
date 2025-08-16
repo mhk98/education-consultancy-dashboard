@@ -78,6 +78,13 @@ const routes = [
     roles: ['admin', 'superAdmin', 'student', 'employee' ],
 
   },
+  {
+    path: '/app/profile',
+    icon: 'OutlinePersonIcon',
+    name: 'Profile',
+    roles: ['admin', 'superAdmin', 'student', 'employee' ],
+
+  },
  
 ]
 

@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const ConsultationApi = createApi({
   reducerPath: "ConsultationApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["consultation"], // Define the tag type
@@ -35,9 +35,41 @@ export const ConsultationApi = createApi({
     }),
 
     getAllConsultation: build.query({
-      query: () => ({
+      query: ({
+        appointmentDate,
+        status,
+        role,
+        startDate,
+        endDate,
+        month,
+        fullName,
+        location,
+        type,
+        phone,
+        ieltsScore,
+        destination,
+        user_id,
+        page,
+        limit,
+      }) => ({
         url: "/consultation",
-        // params:{user_id, assignedTo_id}
+        params: {
+          appointmentDate,
+          status,
+          role,
+          startDate,
+          endDate,
+          month,
+          fullName,
+          location,
+          type,
+          phone,
+          ieltsScore,
+          destination,
+          user_id,
+          page,
+          limit,
+        },
       }),
       providesTags: ["consultation"],
 
@@ -58,9 +90,9 @@ export const ConsultationApi = createApi({
 });
 
 export const {
-useCreateConsultationMutation,
-useGetAllConsultationQuery,
-useUpdateConsultationMutation,
-useDeleteConsultationMutation,
-useGetDataByIdQuery
+  useCreateConsultationMutation,
+  useGetAllConsultationQuery,
+  useUpdateConsultationMutation,
+  useDeleteConsultationMutation,
+  useGetDataByIdQuery,
 } = ConsultationApi;

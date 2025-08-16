@@ -2,13 +2,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Helper function to get the auth token
 const getAuthToken = () => {
-  return localStorage.getItem("token");  // You can use sessionStorage or other storage methods as well
+  return localStorage.getItem("token"); // You can use sessionStorage or other storage methods as well
 };
 
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
 
     // This will attach the token to every request that requires authorization
     prepareHeaders: (headers) => {
@@ -19,7 +19,7 @@ export const authApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["auth"], 
+  tagTypes: ["auth"],
   endpoints: (build) => ({
     userLogin: build.mutation({
       query: (loginData) => ({
@@ -27,7 +27,7 @@ export const authApi = createApi({
         method: "POST",
         body: loginData,
       }),
-      invalidatesTags: ["auth"], 
+      invalidatesTags: ["auth"],
     }),
 
     userRegister: build.mutation({
@@ -36,7 +36,7 @@ export const authApi = createApi({
         method: "POST",
         body: registerData,
       }),
-      invalidatesTags: ["auth"], 
+      invalidatesTags: ["auth"],
     }),
 
     deleteUser: build.mutation({
@@ -57,9 +57,29 @@ export const authApi = createApi({
     }),
 
     getAllUser: build.query({
-      query: ({searchTerm, FirstName, LastName, Branch, Email, id, Profile, page, limit}) => ({
+      query: ({
+        searchTerm,
+        FirstName,
+        LastName,
+        Branch,
+        Email,
+        id,
+        Profile,
+        page,
+        limit,
+      }) => ({
         url: "/user",
-        params: {searchTerm, FirstName, LastName, Branch, Email, id, Profile, page, limit }
+        params: {
+          searchTerm,
+          FirstName,
+          LastName,
+          Branch,
+          Email,
+          id,
+          Profile,
+          page,
+          limit,
+        },
       }),
       providesTags: ["auth"],
       refetchOnMountOrArgChange: true,
@@ -67,15 +87,36 @@ export const authApi = createApi({
     }),
 
     getAllStudent: build.query({
-      query: ({searchTerm, FirstName, LastName, Branch, Email, id, Profile, Role, page, limit}) => ({
+      query: ({
+        searchTerm,
+        FirstName,
+        LastName,
+        Branch,
+        Email,
+        id,
+        Profile,
+        Role,
+        page,
+        limit,
+      }) => ({
         url: "/user/student",
-        params: {searchTerm, FirstName, LastName, Branch, Email, id, Profile, Role, page, limit }
+        params: {
+          searchTerm,
+          FirstName,
+          LastName,
+          Branch,
+          Email,
+          id,
+          Profile,
+          Role,
+          page,
+          limit,
+        },
       }),
       providesTags: ["auth"],
       refetchOnMountOrArgChange: true,
       pollingInterval: 1000,
     }),
-    
 
     getUserDataById: build.query({
       query: (id) => ({
@@ -85,7 +126,6 @@ export const authApi = createApi({
       refetchOnMountOrArgChange: true,
       pollingInterval: 1000,
     }),
-
   }),
 });
 
@@ -97,6 +137,5 @@ export const {
   useGetUserDataByIdQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
-  useGetAllStudentQuery
-
+  useGetAllStudentQuery,
 } = authApi;

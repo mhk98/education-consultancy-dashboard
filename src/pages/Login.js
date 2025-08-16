@@ -1,46 +1,48 @@
-import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import ImageLight from '../assets/img/login-office.jpeg'
-import ImageDark from '../assets/img/login-office-dark.jpeg'
-import { Input, Button } from '@windmill/react-ui'
-import toast from 'react-hot-toast'
-import { useUserLoginMutation } from '../features/auth/auth'
-import { useForm } from 'react-hook-form'
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import ImageLight from "../assets/img/login-office.jpeg";
+import ImageDark from "../assets/img/login-office-dark.jpeg";
+import { Input, Button } from "@windmill/react-ui";
+import toast from "react-hot-toast";
+import { useUserLoginMutation } from "../features/auth/auth";
+import { useForm } from "react-hook-form";
 
 function Login() {
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm()
+  } = useForm();
 
-  const [userLogin] = useUserLoginMutation()
-  const history = useHistory()
+  const [userLogin] = useUserLoginMutation();
+  const history = useHistory();
 
   const onFormSubmit = async (data) => {
     try {
-      const res = await userLogin(data)
+      const res = await userLogin(data);
 
-      console.log("userData", res)
+      console.log("userData", res);
       if (res?.data?.success) {
-        const { accessToken, user } = res.data.data
-        localStorage.setItem("FirstName", user.FirstName)
-        localStorage.setItem("LastName", user.LastName)
-        localStorage.setItem("role", user.Role)
-        localStorage.setItem("branch", user.Branch)
-        localStorage.setItem("userId", user.id)
-        localStorage.setItem("image", user.image)
-        localStorage.setItem("token", accessToken)
+        const { accessToken, user } = res.data.data;
+        localStorage.setItem("FirstName", user.FirstName);
+        localStorage.setItem("LastName", user.LastName);
+        localStorage.setItem("role", user.Role);
+        localStorage.setItem("branch", user.Branch);
+        localStorage.setItem("userId", user.id);
+        localStorage.setItem("image", user.image);
+        localStorage.setItem("token", accessToken);
 
-        toast.success(res.data.message)
-        history.push("/app")
+        toast.success(res.data.message);
+        history.push("/app");
       } else {
-        toast.error(res?.error?.data?.message || "Login failed. Please try again.")
+        toast.error(
+          res?.error?.data?.message || "Login failed. Please try again."
+        );
       }
     } catch (error) {
-      toast.error("An unexpected error occurred.")
+      toast.error("An unexpected error occurred.");
     }
-  }
+  };
 
   return (
     <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
@@ -81,7 +83,9 @@ function Login() {
                       className="shadow-md p-3"
                     />
                     {errors.Email && (
-                      <p className="text-red-500 text-sm mt-1">{errors.Email.message}</p>
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.Email.message}
+                      </p>
                     )}
                   </div>
 
@@ -91,15 +95,24 @@ function Login() {
                     </label>
                     <Input
                       type="password"
-                      {...register("Password", { required: "Password is required" })}
+                      {...register("Password", {
+                        required: "Password is required",
+                      })}
                       className="shadow-md p-3"
                     />
                     {errors.Password && (
-                      <p className="text-red-500 text-sm mt-1">{errors.Password.message}</p>
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.Password.message}
+                      </p>
                     )}
                   </div>
 
-                  <Button type="submit" block className="mt-4" style={{backgroundColor:"#C71320"}}>
+                  <Button
+                    type="submit"
+                    block
+                    className="mt-4"
+                    style={{ backgroundColor: "#C71320" }}
+                  >
                     Login
                   </Button>
                 </div>
@@ -124,7 +137,7 @@ function Login() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

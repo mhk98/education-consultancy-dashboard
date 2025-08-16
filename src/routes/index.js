@@ -12,6 +12,7 @@ import PaymentStatus from '../components/Students/PaymentStatus'
 import Task from '../pages/Task'
 import Leads from '../pages/Leads'
 import EditLeads from '../components/Leads/EditLeads'
+import Profile from '../components/Profile'
 
 // use lazy for better code splitting, a.k.a. load faster
 const Dashboard = lazy(() => import('../pages/Dashboard'))
@@ -86,6 +87,10 @@ const routes = [
   {
     path: '/manage-enquiries',
     component: Enquiries,
+  },
+  {
+    path: '/profile',
+    component: Profile,
   },
   {
     path: '/modals',

@@ -1,28 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, ModalHeader, ModalBody, Input, Button, Select } from '@windmill/react-ui';
-import toast from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
-import { LiaEditSolid } from 'react-icons/lia';
-import { FaTrash } from 'react-icons/fa';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Input,
+  Button,
+  Select,
+} from "@windmill/react-ui";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { LiaEditSolid } from "react-icons/lia";
+import { FaTrash } from "react-icons/fa";
+import axios from "axios";
 import {
   useCreateTaskMutation,
   useDeleteTaskMutation,
   useGetAllTaskQuery,
   useUpdateTaskMutation,
-} from '../features/task/task';
+} from "../features/task/task";
 
 function Task() {
-  const role = localStorage.getItem('role');
-  const branch = localStorage.getItem('branch');
-  const user_id = localStorage.getItem('userId');
-  const first_Name = localStorage.getItem('FirstName');
-  const last_Name = localStorage.getItem('LastName');
+  const role = localStorage.getItem("role");
+  const branch = localStorage.getItem("branch");
+  const user_id = localStorage.getItem("userId");
+  const first_Name = localStorage.getItem("FirstName");
+  const last_Name = localStorage.getItem("LastName");
 
   const [file, setFile] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
-  const [taskId, setTaskId] = useState('');
+  const [taskId, setTaskId] = useState("");
 
   const [admins, setAdmins] = useState([]);
   const [superAdmins, setSuperAdmins] = useState([]);
@@ -39,10 +46,12 @@ function Task() {
   const [updateTask] = useUpdateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
-  const { data, isLoading, isError, error } = useGetAllTaskQuery({ user_id, assignedTo_id: user_id });
+  const { data, isLoading, isError, error } = useGetAllTaskQuery({
+    user_id,
+    assignedTo_id: user_id,
+  });
 
-
-  console.log("task", data?.data)
+  console.log("task", data?.data);
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 10;
@@ -62,15 +71,15 @@ function Task() {
 
   const onFormSubmit = async (data) => {
     const formData = new FormData();
-    formData.append('id', data.assignedTo);
-    formData.append('user_id', user_id);
-    formData.append('assignor', `${first_Name} ${last_Name}`);
-    formData.append('task', data.task);
-    formData.append('branch', branch);
-    formData.append('dueDate', data.dueDate);
-    formData.append('description', data.description);
-    formData.append('comment', data.comment);
-    if (file) formData.append('file', file);
+    formData.append("id", data.assignedTo);
+    formData.append("user_id", user_id);
+    formData.append("assignor", `${first_Name} ${last_Name}`);
+    formData.append("task", data.task);
+    formData.append("branch", branch);
+    formData.append("dueDate", data.dueDate);
+    formData.append("description", data.description);
+    formData.append("comment", data.comment);
+    if (file) formData.append("file", file);
 
     try {
       const res = await createTask(formData);
@@ -79,10 +88,10 @@ function Task() {
         reset();
         setIsModalOpen(false);
       } else {
-        toast.error(res.error?.data?.message || 'Failed. Please try again.');
+        toast.error(res.error?.data?.message || "Failed. Please try again.");
       }
     } catch {
-      toast.error('An unexpected error occurred.');
+      toast.error("An unexpected error occurred.");
     }
   };
 
@@ -94,10 +103,10 @@ function Task() {
         reset();
         setIsModalOpen1(false);
       } else {
-        toast.error(res.error?.data?.message || 'Failed. Please try again.');
+        toast.error(res.error?.data?.message || "Failed. Please try again.");
       }
     } catch {
-      toast.error('An unexpected error occurred.');
+      toast.error("An unexpected error occurred.");
     }
   };
 
@@ -107,17 +116,17 @@ function Task() {
       if (res.data?.success) {
         toast.success(res.data.message);
       } else {
-        toast.error(res.error?.data?.message || 'Failed. Please try again.');
+        toast.error(res.error?.data?.message || "Failed. Please try again.");
       }
     } catch {
-      toast.error('An unexpected error occurred.');
+      toast.error("An unexpected error occurred.");
     }
   };
 
   const handleFileChange = (e) => setFile(e.target.files[0]);
 
   const handleEnter = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       const form = e.target.form;
       const index = Array.prototype.indexOf.call(form, e.target);
@@ -128,19 +137,25 @@ function Task() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/user/student');
+        const response = await axios.get(
+          "https://api.eaconsultancy.info/api/v1/user/student"
+        );
         const allUsers = response.data.data;
         const filteredAdmins = allUsers.filter(
           (user) =>
-            user.Role?.toLowerCase() !== 'student' &&
-            (user.Role?.toLowerCase() === 'superadmin' ||
-              (user.Role?.toLowerCase() === 'admin' && user.Branch === branch) ||
-              (user.Role?.toLowerCase() === 'employee' && user.Branch === branch))
+            user.Role?.toLowerCase() !== "student" &&
+            (user.Role?.toLowerCase() === "superadmin" ||
+              (user.Role?.toLowerCase() === "admin" &&
+                user.Branch === branch) ||
+              (user.Role?.toLowerCase() === "employee" &&
+                user.Branch === branch))
         );
         setAdmins(filteredAdmins);
-        setSuperAdmins(allUsers.filter((user) => user.Role?.toLowerCase() !== 'student'));
+        setSuperAdmins(
+          allUsers.filter((user) => user.Role?.toLowerCase() !== "student")
+        );
       } catch (err) {
-        console.error('Error fetching users:', err);
+        console.error("Error fetching users:", err);
       }
     };
     fetchUsers();
@@ -150,7 +165,9 @@ function Task() {
     <div className="w-full px-4 py-6 bg-gray-50">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h4 className="text-2xl md:text-md font-semibold text-gray-900">Task Management</h4>
+          <h4 className="text-2xl md:text-md font-semibold text-gray-900">
+            Task Management
+          </h4>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           <button
@@ -188,7 +205,7 @@ function Task() {
                 <td className="p-3">
                   {task.file ? (
                     <a
-                      href={`http://localhost:5000/${task.file}`}
+                      href={`https://api.eaconsultancy.info/${task.file}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-brandRed"
@@ -196,7 +213,7 @@ function Task() {
                       Preview
                     </a>
                   ) : (
-                    'Not Available'
+                    "Not Available"
                   )}
                 </td>
                 <td className="p-3">{task.status}</td>
@@ -209,7 +226,10 @@ function Task() {
                       setTaskId(task.id);
                     }}
                   />
-                  <FaTrash className="cursor-pointer text-red-500" onClick={() => handleDeleteUser(task.id)} />
+                  <FaTrash
+                    className="cursor-pointer text-red-500"
+                    onClick={() => handleDeleteUser(task.id)}
+                  />
                 </td>
               </tr>
             ))}
@@ -218,235 +238,277 @@ function Task() {
 
         {/* Pagination Controls */}
         <div className="flex justify-center mt-6 space-x-2">
-  <Button
-    className={`text-white px-4 py-2 rounded ${
-      currentPage === 1 ? 'bg-brandDisable cursor-not-allowed' : 'bg-brandRed hover:bg-brandRed-700'
-    }`}
-    disabled={currentPage === 1}
-    onClick={() => paginate(currentPage - 1)}
-  >
-    Prev
-  </Button>
+          <Button
+            className={`text-white px-4 py-2 rounded ${
+              currentPage === 1
+                ? "bg-brandDisable cursor-not-allowed"
+                : "bg-brandRed hover:bg-brandRed-700"
+            }`}
+            disabled={currentPage === 1}
+            onClick={() => paginate(currentPage - 1)}
+          >
+            Prev
+          </Button>
 
-  {[...Array(totalPages)].map((_, index) => (
-    <Button
-      key={index}
-      className={`px-4 py-2 rounded text-white ${
-        currentPage === index + 1
-          ? 'bg-brandRed'
-          : 'bg-brandDisable hover:bg-brandRed-700'
-      }`}
-      onClick={() => paginate(index + 1)}
-    >
-      {index + 1}
-    </Button>
-  ))}
+          {[...Array(totalPages)].map((_, index) => (
+            <Button
+              key={index}
+              className={`px-4 py-2 rounded text-white ${
+                currentPage === index + 1
+                  ? "bg-brandRed"
+                  : "bg-brandDisable hover:bg-brandRed-700"
+              }`}
+              onClick={() => paginate(index + 1)}
+            >
+              {index + 1}
+            </Button>
+          ))}
 
-  <Button
-    className={`text-white px-4 py-2 rounded ${
-      currentPage === totalPages ? 'bg-brandDisable cursor-not-allowed' : 'bg-brandRed hover:bg-brandRed-700'
-    }`}
-    disabled={currentPage === totalPages}
-    onClick={() => paginate(currentPage + 1)}
-  >
-    Next
-  </Button>
-</div>
-
+          <Button
+            className={`text-white px-4 py-2 rounded ${
+              currentPage === totalPages
+                ? "bg-brandDisable cursor-not-allowed"
+                : "bg-brandRed hover:bg-brandRed-700"
+            }`}
+            disabled={currentPage === totalPages}
+            onClick={() => paginate(currentPage + 1)}
+          >
+            Next
+          </Button>
+        </div>
       </div>
 
       {/* Add Task Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ModalHeader>Add Task</ModalHeader>
         <ModalBody>
-                                    <form onSubmit={handleSubmit(onFormSubmit)}>
-                        <div className="grid grid-cols-1 gap-4">
-                          {/* Left Side */}
-                    
-           <div>
-          <label htmlFor="startDate" className="block mb-1 font-medium">Due Date</label>
-          <input
-            type="date"
-            id="dueDate"
-            name="dueDate"
-            {...register("dueDate")}
-            className="w-full border rounded p-2"
-          />
-        </div>
-                            <div className="mb-4">
-                              <label className="block text-sm mb-1 text-gray-700">Task</label>
-                              <Input
-                                type="text"
-                                {...register("task")}
-                                onKeyDown={handleEnter}
-                                className="input input-bordered w-full form-control shadow-md p-3"
-                              />
-                              {errors.task && (
-                                <p className="text-red-500 text-sm mt-1">{errors.task.message}</p>
-                              )}
-                            </div>
-                            <div className="mb-4">
-                              <label className="block text-sm mb-1 text-gray-700">Description</label>
-                              <Input
-                                type="text"
-                                {...register("description")}
-                                onKeyDown={handleEnter}
-                                className="input input-bordered w-full form-control shadow-md p-3"
-                              />
-                              {errors.description && (
-                                <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
-                              )}
-                            </div>
-                            <div className="mb-4">
-                              <label className="block text-sm mb-1 text-gray-700">Comment</label>
-                              <Input
-                                type="text"
-                                {...register("comment")}
-                                onKeyDown={handleEnter}
-                                className="input input-bordered w-full form-control shadow-md p-3"
-                              />
-                              {errors.comment && (
-                                <p className="text-red-500 text-sm mt-1">{errors.comment.message}</p>
-                              )}
-                            </div>
-                            
+          <form onSubmit={handleSubmit(onFormSubmit)}>
+            <div className="grid grid-cols-1 gap-4">
+              {/* Left Side */}
 
+              <div>
+                <label htmlFor="startDate" className="block mb-1 font-medium">
+                  Due Date
+                </label>
+                <input
+                  type="date"
+                  id="dueDate"
+                  name="dueDate"
+                  {...register("dueDate")}
+                  className="w-full border rounded p-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm mb-1 text-gray-700">Task</label>
+                <Input
+                  type="text"
+                  {...register("task")}
+                  onKeyDown={handleEnter}
+                  className="input input-bordered w-full form-control shadow-md p-3"
+                />
+                {errors.task && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.task.message}
+                  </p>
+                )}
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm mb-1 text-gray-700">
+                  Description
+                </label>
+                <Input
+                  type="text"
+                  {...register("description")}
+                  onKeyDown={handleEnter}
+                  className="input input-bordered w-full form-control shadow-md p-3"
+                />
+                {errors.description && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.description.message}
+                  </p>
+                )}
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm mb-1 text-gray-700">
+                  Comment
+                </label>
+                <Input
+                  type="text"
+                  {...register("comment")}
+                  onKeyDown={handleEnter}
+                  className="input input-bordered w-full form-control shadow-md p-3"
+                />
+                {errors.comment && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.comment.message}
+                  </p>
+                )}
+              </div>
 
-                   {
-                    role === "superAdmin" ? (
-                      
-                      <div className="mt-4">
-                      <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
-   
-                                   <Select name="assignedTo" {...register('assignedTo')} className="mt-1">
-                                     <option>Select Assigned To</option>
-                                     {superAdmins.map((admin) => (
-                                       <option key={admin.id} value={admin.id}>
-                                         {admin.FirstName} {admin.LastName}
-                                       </option>
-                                     ))}
-                                   </Select>
-                                   {errors.assignedTo && <p className="text-red-500 text-xs mt-1">{errors.assignedTo.message}</p>}
-                                 </div>
-                    ): (
-                      <div className="mt-4">
-                      <label className="block text-sm mb-1 text-gray-700 mb-4">Assignee</label>
-   
-                                   <Select name="assignedTo" {...register('assignedTo')} className="mt-1">
-                                     <option>Select Assigned To</option>
-                                     {admins.map((admin) => (
-                                       <option key={admin.id} value={admin.id}>
-                                         {admin.FirstName} {admin.LastName}
-                                       </option>
-                                     ))}
-                                   </Select>
-                                   {errors.assignedTo && <p className="text-red-500 text-xs mt-1">{errors.assignedTo.message}</p>}
-                                 </div>
-                    )
-                   }
+              {role === "superAdmin" ? (
+                <div className="mt-4">
+                  <label className="block text-sm mb-1 text-gray-700 mb-4">
+                    Assignee
+                  </label>
 
-                              <div className="mb-4">
-                    <label className="block text-sm text-gray-700 mb-2">
-                      Branch
-                    </label>
-                    <select
-                      {...register("branch")}
-                      onKeyDown={handleEnter}
-                      className="input input-bordered w-full shadow-md p-3"
-                    >
-                      <option value="">Select Branch</option>
-                        <option value="Edu Anchor">Edu Anchor</option>
-            <option value="Dhaka">Dhaka</option>
-            <option value="Khulna">Khulna</option>
-            <option value="Barishal">Barishal</option>
-            <option value="Satkhira">Satkhira</option>
-            <option value="Tangail">Tangail</option>
-            <option value="Jashore">Jashore</option>
-            <option value="Rangpur">Rangpur</option>
-            <option value="Dinajpur">Dinajpur</option>
-            <option value="Gopalganj">Gopalganj</option>
-            <option value="Savar">Savar</option>
-            <option value="Feni">Feni</option>
-                    </select>
-                    {errors.branch && (
-                      <p className="text-red-500 text-sm mt-1">{errors.branch.message}</p>
-                    )}
-                  </div>
-                              <div>
-                        <label className="block text-sm mb-1 text-gray-700">Attachments</label>
-                        <input
-                          type="file"
-                          name="file"
-                          accept="image/*,application/pdf"
-                          onChange={handleFileChange}
-                          className="input"
-                        />
-                      </div>
-                     
-                        </div>
-                      
-                        <div className="flex justify-end gap-2 mt-6">
-                          <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
-                            Save
-                          </Button>
-                        </div>
-                      </form>
-                      
-                                    </ModalBody>
+                  <Select
+                    name="assignedTo"
+                    {...register("assignedTo")}
+                    className="mt-1"
+                  >
+                    <option>Select Assigned To</option>
+                    {superAdmins.map((admin) => (
+                      <option key={admin.id} value={admin.id}>
+                        {admin.FirstName} {admin.LastName}
+                      </option>
+                    ))}
+                  </Select>
+                  {errors.assignedTo && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.assignedTo.message}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="mt-4">
+                  <label className="block text-sm mb-1 text-gray-700 mb-4">
+                    Assignee
+                  </label>
+
+                  <Select
+                    name="assignedTo"
+                    {...register("assignedTo")}
+                    className="mt-1"
+                  >
+                    <option>Select Assigned To</option>
+                    {admins.map((admin) => (
+                      <option key={admin.id} value={admin.id}>
+                        {admin.FirstName} {admin.LastName}
+                      </option>
+                    ))}
+                  </Select>
+                  {errors.assignedTo && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.assignedTo.message}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div className="mb-4">
+                <label className="block text-sm text-gray-700 mb-2">
+                  Branch
+                </label>
+                <select
+                  {...register("branch")}
+                  onKeyDown={handleEnter}
+                  className="input input-bordered w-full shadow-md p-3"
+                >
+                  <option value="">Select Branch</option>
+                  <option value="Edu Anchor">Edu Anchor</option>
+                  <option value="Dhaka">Dhaka</option>
+                  <option value="Khulna">Khulna</option>
+                  <option value="Barishal">Barishal</option>
+                  <option value="Satkhira">Satkhira</option>
+                  <option value="Tangail">Tangail</option>
+                  <option value="Jashore">Jashore</option>
+                  <option value="Rangpur">Rangpur</option>
+                  <option value="Dinajpur">Dinajpur</option>
+                  <option value="Gopalganj">Gopalganj</option>
+                  <option value="Savar">Savar</option>
+                  <option value="Feni">Feni</option>
+                </select>
+                {errors.branch && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.branch.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm mb-1 text-gray-700">
+                  Attachments
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  accept="image/*,application/pdf"
+                  onChange={handleFileChange}
+                  className="input"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-6">
+              <Button
+                type="submit"
+                className="btn"
+                style={{ backgroundColor: "#C71320" }}
+              >
+                Save
+              </Button>
+            </div>
+          </form>
+        </ModalBody>
       </Modal>
 
       {/* Edit Task Modal */}
       <Modal isOpen={isModalOpen1} onClose={() => setIsModalOpen1(false)}>
         <ModalHeader>Edit Task</ModalHeader>
         <ModalBody>
-    <form onSubmit={handleSubmit(onFormEdit)}>
-      <div className="grid grid-cols-1 gap-4">
-       {
-        role === "superAdmin" ? (
-          <div className="mb-4">
-          <label className="block text-sm text-gray-700 mb-2">
-           Task Status
-          </label>
-          <select
-            {...register("status")}
-            className="input input-bordered w-full shadow-md p-3"
-          >
-            <option value="">Select Status</option>
-            <option value="PENDING">PENDING</option>
-            <option value="APPROVED">APPROVED</option>
-          </select>
-          {errors.status && (
-            <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
-          )}
-        </div>
-        ) : (
-          <div className="mb-4">
-          <label className="block text-sm text-gray-700 mb-2">
-           Task Status
-          </label>
-          <select
-            {...register("status")}
-            className="input input-bordered w-full shadow-md p-3"
-          >
-            <option value="">Select Status</option>
-            <option value="COMPLETE">COMPLETE</option>
-            <option value="PENDING">PENDING</option>
-          </select>
-          {errors.status && (
-            <p className="text-red-500 text-sm mt-1">{errors.status.message}</p>
-          )}
-        </div>
-        )
-       }
-      </div>
+          <form onSubmit={handleSubmit(onFormEdit)}>
+            <div className="grid grid-cols-1 gap-4">
+              {role === "superAdmin" ? (
+                <div className="mb-4">
+                  <label className="block text-sm text-gray-700 mb-2">
+                    Task Status
+                  </label>
+                  <select
+                    {...register("status")}
+                    className="input input-bordered w-full shadow-md p-3"
+                  >
+                    <option value="">Select Status</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="APPROVED">APPROVED</option>
+                  </select>
+                  {errors.status && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.status.message}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="mb-4">
+                  <label className="block text-sm text-gray-700 mb-2">
+                    Task Status
+                  </label>
+                  <select
+                    {...register("status")}
+                    className="input input-bordered w-full shadow-md p-3"
+                  >
+                    <option value="">Select Status</option>
+                    <option value="COMPLETE">COMPLETE</option>
+                    <option value="PENDING">PENDING</option>
+                  </select>
+                  {errors.status && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.status.message}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
 
-      <div className="flex justify-end gap-2 mt-6">
-        <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
-          Save
-        </Button>
-      </div>
-    </form>
-  </ModalBody>
+            <div className="flex justify-end gap-2 mt-6">
+              <Button
+                type="submit"
+                className="btn"
+                style={{ backgroundColor: "#C71320" }}
+              >
+                Save
+              </Button>
+            </div>
+          </form>
+        </ModalBody>
       </Modal>
     </div>
   );

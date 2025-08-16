@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const documentApi = createApi({
   reducerPath: "documentApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://api.eaconsultancy.info/api/v1/",
   }),
 
   tagTypes: ["document"], // Define the tag type
@@ -57,9 +57,9 @@ export const documentApi = createApi({
 });
 
 export const {
- useCreateDocumentMutation,
- useDeleteDocumentMutation,
- useUpdateDocumentMutation,
- useGetAllDocumentQuery,
- useGetDataByIdQuery,
+  useCreateDocumentMutation,
+  useDeleteDocumentMutation,
+  useUpdateDocumentMutation,
+  useGetAllDocumentQuery,
+  useGetDataByIdQuery,
 } = documentApi;
