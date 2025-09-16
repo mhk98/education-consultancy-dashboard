@@ -1,205 +1,205 @@
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Input, Button } from '@windmill/react-ui'
-import toast from 'react-hot-toast'
-import { LiaEditSolid } from 'react-icons/lia'
-import { FaTrash } from 'react-icons/fa'
-import { Modal, ModalHeader, ModalBody } from '@windmill/react-ui'
-import { useDeletePendingPaymentMutation, useGetAllPendingPaymentQuery, useUpdatePendingPaymentMutation } from '../../features/pendingPayment/pendingPayment'
-import Invoice from './Invoice'
-import { TbCurrencyTaka } from 'react-icons/tb'
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Input, Button } from "@windmill/react-ui";
+import toast from "react-hot-toast";
+import { LiaEditSolid } from "react-icons/lia";
+import { FaTrash } from "react-icons/fa";
+import { Modal, ModalHeader, ModalBody } from "@windmill/react-ui";
+import {
+  useDeletePendingPaymentMutation,
+  useGetAllPendingPaymentQuery,
+  useUpdatePendingPaymentMutation,
+} from "../../features/pendingPayment/pendingPayment";
+import Invoice from "./Invoice";
+import { TbCurrencyTaka } from "react-icons/tb";
 
 function SuperAdminStatement() {
+  const role = localStorage.getItem("role");
+  const branch = localStorage.getItem("branch");
+  const [selectBranch, setSelectBranch] = useState("");
+  const user_id = localStorage.getItem("userId");
 
-const role = localStorage.getItem("role")
-const branch = localStorage.getItem("branch")
-const [selectBranch, setSelectBranch] = useState("")
-const user_id = localStorage.getItem("userId")
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
 
+  const { data, isLoading, isError, error } = useGetAllPendingPaymentQuery();
+  const [payments, setPayments] = useState([]);
 
-    const {
-      register,
-      formState: { errors },
-      handleSubmit,
-      reset,
-    } = useForm()
+  useEffect(() => {
+    if (isError) {
+      console.log("Error fetching", error);
+    } else if (!isLoading && data) {
+      const allPayments = data.data;
+      const filtered = allPayments.filter(
+        (payments) => payments.user_id === user_id
+      );
 
-    
-        const { data, isLoading, isError, error } = useGetAllPendingPaymentQuery();
-          const [payments, setPayments] = useState([]);
-        
-          useEffect(() => {
-            if (isError) {
-              console.log("Error fetching", error);
-            } else if (!isLoading && data) {
-              const allPayments = data.data;
-        const filtered = allPayments.filter(payments => payments.user_id === user_id);
+      setPayments(filtered);
+    }
+  }, [data, isLoading, isError, error, branch, user_id]);
 
-              setPayments(filtered);
-            }
-          }, [data, isLoading, isError, error, branch, user_id]);
+  console.log("StudentPayment", payments);
 
-       
-    
-          console.log("StudentPayment", payments)
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  };
 
-   
-    
-          const formatDate = (dateString) => {
-            const date = new Date(dateString);
-            return date.toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "long",
-              year: "numeric",
-            });
-          };
+  const [paymentId, setPaymentId] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-          
-    
-    
-          const [paymentId, setPaymentId] = useState("")
-          const [isModalOpen, setIsModalOpen] = useState(false)
-      
-          function closeModal() {
-           setIsModalOpen(false)
-         }
-       
-       
-      
-       
-           const [updatePendingPayment] = useUpdatePendingPaymentMutation()
-       
-           const onFormEdit = async (data) => {
+  function closeModal() {
+    setIsModalOpen(false);
+  }
 
-             console.log("info", data)
-             console.log("paymentId", paymentId)
+  const [updatePendingPayment] = useUpdatePendingPaymentMutation();
 
-           try {
-             const res = await updatePendingPayment({id:paymentId, data});
-             if (res.data?.success) {
-               toast.success(res.data.message);
-               reset()
-              setIsModalOpen(false)
+  const onFormEdit = async (data) => {
+    console.log("info", data);
+    console.log("paymentId", paymentId);
 
-             } else {
-               toast.error(res.error?.data?.message || "Failed. Please try again.");
-             }
-           } catch (error) {
-             toast.error("An unexpected error occurred.");
-           }
-         };
-       
-           const [deletePendingPayment] = useDeletePendingPaymentMutation()
-       
-           const handleDeleteUser = async (id) => {
-           try {
-             const res = await deletePendingPayment(id);
-             if (res.data?.success) {
-               toast.success(res.data.message);
-             } else {
-               toast.error(res.error?.data?.message || "Failed. Please try again.");
-             }
-           } catch (error) {
-             toast.error("An unexpected error occurred.");
-           }
-         };
-    
+    try {
+      const res = await updatePendingPayment({ id: paymentId, data });
+      if (res.data?.success) {
+        toast.success(res.data.message);
+        reset();
+        setIsModalOpen(false);
+      } else {
+        toast.error(res.error?.data?.message || "Failed. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    }
+  };
 
-         const generateInvoiceNo = () => {
-          const now = new Date();
-          return `INV-${now.getFullYear()}${(now.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}-${now.getTime()}`;
-        };
+  const [deletePendingPayment] = useDeletePendingPaymentMutation();
 
-        
-        const [invoiceNo, setInvoiceNo] = useState('');
+  const handleDeleteUser = async (id) => {
+    try {
+      const res = await deletePendingPayment(id);
+      if (res.data?.success) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.error?.data?.message || "Failed. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    }
+  };
 
-        useEffect(() => {
-          const newInvoiceNo = generateInvoiceNo();
-          setInvoiceNo(newInvoiceNo);
-        }, []);
+  const generateInvoiceNo = () => {
+    const now = new Date();
+    return `INV-${now.getFullYear()}${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${now
+      .getDate()
+      .toString()
+      .padStart(2, "0")}-${now.getTime()}`;
+  };
 
+  const [invoiceNo, setInvoiceNo] = useState("");
 
-        const handleEnter = (e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            const form = e.target.form;
-            const index = Array.prototype.indexOf.call(form, e.target);
-            form.elements[index + 1]?.focus();
-          }
-        };
+  useEffect(() => {
+    const newInvoiceNo = generateInvoiceNo();
+    setInvoiceNo(newInvoiceNo);
+  }, []);
 
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const form = e.target.form;
+      const index = Array.prototype.indexOf.call(form, e.target);
+      form.elements[index + 1]?.focus();
+    }
+  };
 
+  const {
+    data: data2,
+    isLoading: isLoading2,
+    isError: isError2,
+    error: error2,
+  } = useGetAllPendingPaymentQuery();
+  // const [creditPayments, setCreditPayments] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
 
-         const { data:data2, isLoading:isLoading2, isError:isError2, error:error2 } = useGetAllPendingPaymentQuery();
-              // const [creditPayments, setCreditPayments] = useState([]);
-              const [totalAmount, setTotalAmount] = useState(0);
-              
-              useEffect(() => {
-                if (isError2) {
-                  console.log("Error fetching", error2);
-                } else if (!isLoading2 && data2) {
-                  const allCreditPayments = data2.data;
-              
-                  // ✅ Filter payments with any of the 3 paymentStatus values
-                  const filtered = allCreditPayments.filter(payment =>
-                    ["Cash-In", "Offline", "Online"].includes(payment.paymentStatus) && payment.status === "PAID" && payment.branch === branch
-                  );
-              
-                  // setCreditPayments(filtered);
-              
-                  // ✅ Sum amounts
-                  const total = filtered.reduce((sum, payment) => {
-                    return sum + Number(payment.amount || 0);
-                  }, 0);
-              
-                  setTotalAmount(total);
-                }
-              }, [data2, isLoading2, isError2, error2, branch]);
-        
-        
-              const { data:data1, isLoading:isLoading1, isError:isError1, error:error1 } = useGetAllPendingPaymentQuery();
-              // const [creditPayments, setCreditPayments] = useState([]);
-              const [totalDebitAmount, setTotalDebitAmount] = useState(0);
-              
-              useEffect(() => {
-                if (isError1) {
-                  console.log("Error fetching", error1);
-                } else if (!isLoading1 && data1) {
-                  const allCreditPayments = data1.data;
-              
-                  // ✅ Filter payments with any of the 3 paymentStatus values
-                  const filtered = allCreditPayments.filter(payment =>
-                    ["Cash-Out",].includes(payment.paymentStatus) && payment.status === "PAID" && payment.branch === branch
-                  );
-              
-                  // setCreditPayments(filtered);
-              
-                  // ✅ Sum amounts
-                  const total = filtered.reduce((sum, payment) => {
-                    return sum + Number(payment.amount || 0);
-                  }, 0);
-              
-                  setTotalDebitAmount(total);
-                }
-              }, [data1, isLoading1, isError1, error1, branch]);
-        
-        
-              const balance = totalAmount - totalDebitAmount;
-        
-              console.log("balance", balance)
+  useEffect(() => {
+    if (isError2) {
+      console.log("Error fetching", error2);
+    } else if (!isLoading2 && data2) {
+      const allCreditPayments = data2.data;
+
+      // ✅ Filter payments with any of the 3 paymentStatus values
+      const filtered = allCreditPayments.filter(
+        (payment) =>
+          ["Cash-In", "Offline", "Online"].includes(payment.paymentStatus) &&
+          payment.status === "PAID" &&
+          payment.branch === branch
+      );
+
+      // setCreditPayments(filtered);
+
+      // ✅ Sum amounts
+      const total = filtered.reduce((sum, payment) => {
+        return sum + Number(payment.amount || 0);
+      }, 0);
+
+      setTotalAmount(total);
+    }
+  }, [data2, isLoading2, isError2, error2, branch]);
+
+  const {
+    data: data1,
+    isLoading: isLoading1,
+    isError: isError1,
+    error: error1,
+  } = useGetAllPendingPaymentQuery();
+  // const [creditPayments, setCreditPayments] = useState([]);
+  const [totalDebitAmount, setTotalDebitAmount] = useState(0);
+
+  useEffect(() => {
+    if (isError1) {
+      console.log("Error fetching", error1);
+    } else if (!isLoading1 && data1) {
+      const allCreditPayments = data1.data;
+
+      // ✅ Filter payments with any of the 3 paymentStatus values
+      const filtered = allCreditPayments.filter(
+        (payment) =>
+          ["Cash-Out"].includes(payment.paymentStatus) &&
+          payment.status === "PAID" &&
+          payment.branch === branch
+      );
+
+      // setCreditPayments(filtered);
+
+      // ✅ Sum amounts
+      const total = filtered.reduce((sum, payment) => {
+        return sum + Number(payment.amount || 0);
+      }, 0);
+
+      setTotalDebitAmount(total);
+    }
+  }, [data1, isLoading1, isError1, error1, branch]);
+
+  const balance = totalAmount - totalDebitAmount;
+
+  console.log("balance", balance);
 
   return (
     <>
-   
-   {
-    role === "superAdmin" &&
+      {role === "superAdmin" && (
+        <div className="mb-4 grid lg:grid-cols-2 xl:grid-cols-2 grid-cols-1">
+          {/* <div></div> */}
 
-    <div className="mb-4 grid lg:grid-cols-2 xl:grid-cols-2 grid-cols-1">
-   {/* <div></div> */}
-
-   {/* <div >
+          {/* <div >
             <select
                             {...register("status")}
                             className="input input-bordered w-full shadow-md p-3"
@@ -227,21 +227,21 @@ const user_id = localStorage.getItem("userId")
                          
     </div> */}
 
- <div className="flex items-center sm:flex-row gap-3">
-          <p>Balance:</p>
-          <button className="px-4 py-2 flex items-center bg-white text-brandRed border-2 border-brandRed rounded-md text-sm md:text-base transition">
-          <TbCurrencyTaka /> {balance}
-          </button>
+          <div className="flex items-center sm:flex-row gap-3">
+            <p>Balance:</p>
+            <button className="px-4 py-2 flex items-center bg-white text-brandRed border-2 border-brandRed rounded-md text-sm md:text-base transition">
+              <TbCurrencyTaka /> {balance}
+            </button>
 
-          {/* Register New Student */}
-          {/* <button className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
+            {/* Register New Student */}
+            {/* <button className="px-4 py-2 bg-brandRed text-white rounded-md text-sm md:text-base hover:bg-brandRed-700 transition">
             ADD MONEY
           </button> */}
+          </div>
         </div>
-   </div>
-   }
+      )}
 
- <div className="w-full overflow-x-auto">
+      <div className="w-full overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-700 bg-white shadow-md rounded-lg">
           <thead className="bg-gray-100 border-b border-gray-200">
             <tr>
@@ -254,161 +254,175 @@ const user_id = localStorage.getItem("userId")
               <th className="p-3 min-w-[160px]">Mode of Payment</th>
               <th className="p-3 min-w-[160px]">Invoice</th>
               <th className="p-3 min-w-[160px]">Action</th>
-              
+
               {/* <th className="p-3 min-w-[160px]">Action</th> */}
-              
             </tr>
           </thead>
-        {
-          
+          {
             <tbody>
-            {payments.map((payment, idx) => (
-              <tr
-                key={idx}
-                className={`border-b border-gray-200 ${
-                  idx % 2 === 0 ? "bg-gray-50" : "bg-white"
-                }`}
-              >
-                <td className="p-3 whitespace-nowrap">{formatDate(payment.createdAt)}</td>
-                <td className="p-3 whitespace-nowrap">{payment.user_id}</td>
-                <td className="p-3 whitespace-nowrap">{payment.transactionId}</td>
-                <td className="p-3 whitespace-nowrap">{payment.amount}</td>
-                <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
-                <td className="p-3 whitespace-nowrap">{payment.status}</td>
-                <td className="p-3 whitespace-nowrap">{payment.paymentStatus}</td>
-                <td className="p-3 whitespace-nowrap text-brandRed cursor-pointer">
-  <Invoice
-    invoiceData={{
-      invoiceNo: invoiceNo,
-      date: formatDate(payment.createdAt),  // ✅ Corrected here
-      studentId: payment.user_id,
-      name: payment.name,
-      phone: payment.phone,
-      address: payment.address,
-      branch: payment.branch,
-      transactionId: payment.transactionId,
-      paymentMethod: payment.paymentStatus,
-      items: [
-        {
-          qty: 1,
-          purpose: payment.purpose,
-          amount: payment.amount,
-        },
-      ],
-      subTotal: payment.amount,
-      discount: 0, // Adjusted if no discount
-      taxes: 0,
-      total: payment.amount,
-    }}
-  />
-</td>
-
-                {["Cash-In", "Cash-Out", "Offline"].includes(payment.paymentStatus) && (
-                  <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
-                    <LiaEditSolid
-                      fontSize={20}
-                      onClick={() => {
-                        setIsModalOpen(true);
-                        setPaymentId(payment.id);
+              {payments.map((payment, idx) => (
+                <tr
+                  key={idx}
+                  className={`border-b border-gray-200 ${
+                    idx % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  }`}
+                >
+                  <td className="p-3 whitespace-nowrap">
+                    {formatDate(payment.createdAt)}
+                  </td>
+                  <td className="p-3 whitespace-nowrap">{payment.user_id}</td>
+                  <td className="p-3 whitespace-nowrap">
+                    {payment.transactionId}
+                  </td>
+                  <td className="p-3 whitespace-nowrap">{payment.amount}</td>
+                  <td className="p-3 whitespace-nowrap">{payment.purpose}</td>
+                  <td className="p-3 whitespace-nowrap">{payment.status}</td>
+                  <td className="p-3 whitespace-nowrap">
+                    {payment.paymentStatus}
+                  </td>
+                  <td className="p-3 whitespace-nowrap text-brandRed cursor-pointer">
+                    <Invoice
+                      invoiceData={{
+                        invoiceNo: invoiceNo,
+                        date: formatDate(payment.createdAt), // ✅ Corrected here
+                        studentId: payment.user_id,
+                        name: payment.name,
+                        phone: payment.phone,
+                        address: payment.address,
+                        branch: payment.branch,
+                        transactionId: payment.transactionId,
+                        paymentMethod: payment.paymentStatus,
+                        items: [
+                          {
+                            qty: 1,
+                            purpose: payment.purpose,
+                            amount: payment.amount,
+                          },
+                        ],
+                        subTotal: payment.amount,
+                        discount: 0, // Adjusted if no discount
+                        taxes: 0,
+                        total: payment.amount,
                       }}
-                      className="cursor-pointer"
-                    />
-                    <FaTrash
-                      onClick={() => handleDeleteUser(payment.id)}
-                      fontSize={20}
-                      className="cursor-pointer text-red-500"
                     />
                   </td>
-                )}
-          
-                {/* Modal should be outside the condition so it's mounted even when hidden */}
-                <Modal isOpen={isModalOpen} onClose={closeModal}>
-                  <ModalHeader className="mb-8">Edit Statement Information</ModalHeader>
-                  <ModalBody>
-                    <form onSubmit={handleSubmit(onFormEdit)}>
-                      <div className="grid grid-cols-1 gap-4">
-                        <div className="mb-4">
-                          <label className="block text-sm mb-1 text-gray-700">Amount</label>
-                          <Input
-                            type="number"
-                            {...register("amount")}
-                            className="w-full p-3 shadow-md border rounded-md"
-                          />
-                          {errors.amount && (
-                            <p className="text-red-500 text-sm mt-1">
-                              {errors.amount.message}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div className="mb-4">
-                          <label className="block text-sm mb-1 text-gray-700">
-                            Purpose for Cash-In
-                          </label>
-                          <Input
-                            type="text"
-                            {...register("purpose")}
-                            className="w-full p-3 shadow-md border rounded-md"
-                          />
-                          {errors.purpose && (
-                            <p className="text-red-500 text-sm mt-1">
-                              {errors.purpose.message}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div className="mb-4">
-                          <label className="block text-sm mb-1 text-gray-700">Comment</label>
-                          <Input
-                            type="text"
-                            {...register("comment")}
-                            className="w-full p-3 shadow-md border rounded-md"
-                          />
-                          {errors.comment && (
-                            <p className="text-red-500 text-sm mt-1">
-                              {errors.comment.message}
-                            </p>
-                          )}
-                        </div>
-          
-                        <div className="mb-4">
-                          <label className="block text-sm mb-1 text-gray-700 mb-4">
-                            Status
-                          </label>
-                          <select
-                            {...register("status")}
-                            className="input input-bordered w-full shadow-md p-3"
-                          >
-                            <option value="">Select Status</option>
-                            <option value="PAID">PAID</option>
-                            <option value="PENDING">PENDING</option>
-                          </select>
-                          {errors.status && (
-                            <p className="text-red-500 text-sm mt-1">
-                              {errors.status.message}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-          
-                      <div className="flex justify-end gap-2 mt-6">
-                        <Button type="submit" className="btn" style={{backgroundColor:"#C71320"}}>
-                          Save
-                        </Button>
-                      </div>
-                    </form>
-                  </ModalBody>
-                </Modal>
-              </tr>
-            ))}
-          </tbody>
-         
-        }
 
+                  {["Cash-In", "Cash-Out", "Offline"].includes(
+                    payment.paymentStatus
+                  ) && (
+                    <td className="p-3 whitespace-nowrap flex gap-3 text-brandRed">
+                      <LiaEditSolid
+                        fontSize={20}
+                        onClick={() => {
+                          setIsModalOpen(true);
+                          setPaymentId(payment.id);
+                        }}
+                        className="cursor-pointer"
+                      />
+                      <FaTrash
+                        onClick={() => handleDeleteUser(payment.id)}
+                        fontSize={20}
+                        className="cursor-pointer text-red-500"
+                      />
+                    </td>
+                  )}
+
+                  {/* Modal should be outside the condition so it's mounted even when hidden */}
+                  <Modal isOpen={isModalOpen} onClose={closeModal}>
+                    <ModalHeader className="mb-8">
+                      Edit Statement Information
+                    </ModalHeader>
+                    <ModalBody>
+                      <form onSubmit={handleSubmit(onFormEdit)}>
+                        <div className="grid grid-cols-1 gap-4">
+                          <div className="mb-4">
+                            <label className="block text-sm mb-1 text-gray-700">
+                              Amount
+                            </label>
+                            <Input
+                              type="number"
+                              {...register("amount")}
+                              className="w-full p-3 shadow-md border rounded-md"
+                            />
+                            {errors.amount && (
+                              <p className="text-red-500 text-sm mt-1">
+                                {errors.amount.message}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="mb-4">
+                            <label className="block text-sm mb-1 text-gray-700">
+                              Purpose for Cash-In
+                            </label>
+                            <Input
+                              type="text"
+                              {...register("purpose")}
+                              className="w-full p-3 shadow-md border rounded-md"
+                            />
+                            {errors.purpose && (
+                              <p className="text-red-500 text-sm mt-1">
+                                {errors.purpose.message}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="mb-4">
+                            <label className="block text-sm mb-1 text-gray-700">
+                              Comment
+                            </label>
+                            <Input
+                              type="text"
+                              {...register("comment")}
+                              className="w-full p-3 shadow-md border rounded-md"
+                            />
+                            {errors.comment && (
+                              <p className="text-red-500 text-sm mt-1">
+                                {errors.comment.message}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="mb-4">
+                            <label className="block text-sm mb-1 text-gray-700 mb-4">
+                              Status
+                            </label>
+                            <select
+                              {...register("status")}
+                              className="input input-bordered w-full shadow-md p-3"
+                            >
+                              <option value="">Select Status</option>
+                              <option value="PAID">PAID</option>
+                              <option value="PENDING">PENDING</option>
+                            </select>
+                            {errors.status && (
+                              <p className="text-red-500 text-sm mt-1">
+                                {errors.status.message}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex justify-end gap-2 mt-6">
+                          <Button
+                            type="submit"
+                            className="btn"
+                            style={{ backgroundColor: "#C71320" }}
+                          >
+                            Save
+                          </Button>
+                        </div>
+                      </form>
+                    </ModalBody>
+                  </Modal>
+                </tr>
+              ))}
+            </tbody>
+          }
         </table>
       </div>
     </>
-  )
+  );
 }
 
 export default SuperAdminStatement;

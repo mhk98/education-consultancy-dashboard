@@ -315,6 +315,13 @@ function Leads() {
 
   console.log("filters", filters);
 
+  const formatDate = (dateStr) =>
+    new Date(dateStr).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+
   return (
     <div className="w-full px-4 py-6 bg-gray-50 max-w-screen-2xl mx-auto">
       {/* Header */}
@@ -404,15 +411,10 @@ function Leads() {
               <option value="Edu Anchor">Edu Anchor</option>
               <option value="Dhaka">Dhaka</option>
               <option value="Khulna">Khulna</option>
-              <option value="Barishal">Barishal</option>
               <option value="Satkhira">Satkhira</option>
-              <option value="Tangail">Tangail</option>
               <option value="Jashore">Jashore</option>
-              <option value="Rangpur">Rangpur</option>
-              <option value="Dinajpur">Dinajpur</option>
-              <option value="Gopalganj">Gopalganj</option>
-              <option value="Savar">Savar</option>
               <option value="Feni">Feni</option>
+              <option value="Nord Edu">Nord Edu</option>
             </select>
           </div>
         )}
@@ -555,6 +557,7 @@ function Leads() {
           <thead className="bg-gray-100">
             <tr>
               {[
+                "Created Date",
                 "Name",
                 "Assigned",
                 "Type",
@@ -582,6 +585,9 @@ function Leads() {
                   consultation.id % 2 === 0 ? "bg-gray-50" : "bg-white"
                 }`}
               >
+                <td className="p-3 whitespace-nowrap">
+                  {formatDate(consultation.createdAt) ?? ""}
+                </td>
                 <td className="p-3 whitespace-nowrap">
                   {consultation.fullName ?? ""}
                 </td>
@@ -926,16 +932,13 @@ function Leads() {
                     {...registerAdd("location")}
                   >
                     <option value="">Select Location</option>
+                    <option value="Edu Anchor">Edu Anchor</option>
                     <option value="Dhaka">Dhaka</option>
                     <option value="Khulna">Khulna</option>
                     <option value="Satkhira">Satkhira</option>
-                    <option value="Tangail">Tangail</option>
                     <option value="Jashore">Jashore</option>
-                    <option value="Rangpur">Rangpur</option>
-                    <option value="Dinajpur">Dinajpur</option>
-                    <option value="Gopalganj">Gopalganj</option>
-                    <option value="Savar">Savar</option>
                     <option value="Feni">Feni</option>
+                    <option value="Nord Edu">Nord Edu</option>
                   </select>
                   {errorsAdd.location && (
                     <p className="text-red-500 text-sm">Location is required</p>

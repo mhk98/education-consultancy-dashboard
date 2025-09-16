@@ -197,15 +197,10 @@ const FilterPanel = () => {
             <option value="Edu Anchor">Edu Anchor</option>
             <option value="Dhaka">Dhaka</option>
             <option value="Khulna">Khulna</option>
-            <option value="Barishal">Barishal</option>
             <option value="Satkhira">Satkhira</option>
-            <option value="Tangail">Tangail</option>
             <option value="Jashore">Jashore</option>
-            <option value="Rangpur">Rangpur</option>
-            <option value="Dinajpur">Dinajpur</option>
-            <option value="Gopalganj">Gopalganj</option>
-            <option value="Savar">Savar</option>
             <option value="Feni">Feni</option>
+            <option value="Nord Edu">Nord Edu</option>
           </select>
         </div>
 

@@ -615,9 +615,9 @@ export default function ApplicationsTable() {
     setFilters({
       FirstName: "",
       LastName: "",
-      Country: "",
-      University: "",
-      Intake: "",
+      country: "",
+      university: "",
+      intake: "",
       StudentId: "",
     });
     setCurrentPage(1);
@@ -626,7 +626,7 @@ export default function ApplicationsTable() {
   return (
     <div className="overflow-x-auto p-4">
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+      {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         {Object.keys(filters).map((key) => (
           <Label key={key}>
             <span>{key.replace(/([A-Z])/g, " $1")}</span>
@@ -640,6 +640,74 @@ export default function ApplicationsTable() {
             />
           </Label>
         ))}
+        <div className="flex items-end gap-2">
+          <Button
+            className="w-full bg-brandRed text-white"
+            onClick={clearFilters}
+          >
+            Clear
+          </Button>
+        </div>
+      </div> */}
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        {[
+          "FirstName",
+          "LastName",
+          "country",
+          "university",
+          "intake",
+          "StudentId",
+        ].map((key) => (
+          <Label key={key}>
+            <span>
+              {key
+                .replace(/([A-Z])/g, " $1")
+                .replace(/^./, (str) => str.toUpperCase())}
+            </span>
+            <Input
+              value={filters[key]}
+              onChange={(e) =>
+                setFilters({ ...filters, [key]: e.target.value })
+              }
+              className="mt-1"
+              placeholder={key}
+            />
+          </Label>
+        ))}
+
+        {role === "superAdmin" && (
+          <Label>
+            <span htmlFor="Branch" className="block mb-1">
+              Branch
+            </span>
+            <select
+              id="Branch"
+              name="Branch"
+              value={filters.Branch}
+              onChange={(e) =>
+                setFilters({ ...filters, Branch: e.target.value })
+              }
+              className="w-full border rounded p-2"
+            >
+              <option value="">Select Branch</option>
+              {[
+                "Edu Anchor",
+                "Dhaka",
+                "Khulna",
+                "Satkhira",
+                "Jashore",
+                "Feni",
+                "Nord Edu",
+              ].map((branch) => (
+                <option key={branch} value={branch}>
+                  {branch}
+                </option>
+              ))}
+            </select>
+          </Label>
+        )}
+
         <div className="flex items-end gap-2">
           <Button
             className="w-full bg-brandRed text-white"

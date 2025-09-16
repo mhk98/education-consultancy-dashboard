@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Input,
   Label,
@@ -7,16 +6,16 @@ import {
   ModalHeader,
   ModalBody,
   Button,
-} from '@windmill/react-ui';
+} from "@windmill/react-ui";
 import {
   useDeleteUserMutation,
   useGetAllUserQuery,
   useUpdateUserMutation,
-} from '../../features/auth/auth';
-import toast from 'react-hot-toast';
-import { BiSolidTrashAlt } from 'react-icons/bi';
-import { LiaEditSolid } from 'react-icons/lia';
-import { useForm } from 'react-hook-form';
+} from "../../features/auth/auth";
+import toast from "react-hot-toast";
+import { BiSolidTrashAlt } from "react-icons/bi";
+import { LiaEditSolid } from "react-icons/lia";
+import { useForm } from "react-hook-form";
 
 const UserManagementFilter = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,17 +25,17 @@ const UserManagementFilter = () => {
   const [itemsPerPage] = useState(10);
 
   // Search input states
-  const [firstNameInput, setFirstNameInput] = useState('');
-  const [lastNameInput, setLastNameInput] = useState('');
-  const [emailInput, setEmailInput] = useState('');
+  const [firstNameInput, setFirstNameInput] = useState("");
+  const [lastNameInput, setLastNameInput] = useState("");
+  const [emailInput, setEmailInput] = useState("");
 
   const [searchActive, setSearchActive] = useState(false);
 
   // Filtered query states
   const [searchFilter, setSearchFilter] = useState({
-    FirstName: '',
-    LastName: '',
-    Email: '',
+    FirstName: "",
+    LastName: "",
+    Email: "",
   });
 
   const { data, isLoading, isError, error, refetch } = useGetAllUserQuery(
@@ -57,21 +56,20 @@ const UserManagementFilter = () => {
       else setPagesPerSet(10);
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
     if (isError) {
-      console.error('Error fetching user data', error);
+      console.error("Error fetching user data", error);
     } else if (!isLoading && data) {
       setUsers(data.data);
       setTotalPages(Math.ceil(data.meta.total / itemsPerPage));
     }
   }, [data, isLoading, isError, error, itemsPerPage]);
 
-
-  console.log("users", users)
+  console.log("users", users);
   const [updateUser] = useUpdateUserMutation();
   const [deleteUser] = useDeleteUserMutation();
 
@@ -82,7 +80,7 @@ const UserManagementFilter = () => {
     reset,
   } = useForm();
 
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onFormEdit = async (formData) => {
@@ -91,12 +89,12 @@ const UserManagementFilter = () => {
       if (res.data?.success) {
         toast.success(res.data.message);
         refetch();
-        setIsModalOpen(false)
+        setIsModalOpen(false);
       } else {
-        toast.error(res.error?.data?.message || 'Update failed.');
+        toast.error(res.error?.data?.message || "Update failed.");
       }
     } catch {
-      toast.error('An unexpected error occurred.');
+      toast.error("An unexpected error occurred.");
     }
   };
 
@@ -107,10 +105,10 @@ const UserManagementFilter = () => {
         toast.success(res.data.message);
         refetch();
       } else {
-        toast.error(res.error?.data?.message || 'Deletion failed.');
+        toast.error(res.error?.data?.message || "Deletion failed.");
       }
     } catch {
-      toast.error('An unexpected error occurred.');
+      toast.error("An unexpected error occurred.");
     }
   };
 
@@ -126,10 +124,10 @@ const UserManagementFilter = () => {
   };
 
   const handleClearSearch = () => {
-    setFirstNameInput('');
-    setLastNameInput('');
-    setEmailInput('');
-    setSearchFilter({ FirstName: '', LastName: '', Email: '' });
+    setFirstNameInput("");
+    setLastNameInput("");
+    setEmailInput("");
+    setSearchFilter({ FirstName: "", LastName: "", Email: "" });
     setSearchActive(false);
     setCurrentPage(1);
     setStartPage(1);
@@ -151,15 +149,15 @@ const UserManagementFilter = () => {
       Math.min(startPage + pagesPerSet, totalPages - pagesPerSet + 1)
     );
 
-    const handleEnter = (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const form = e.target.form;
-        const index = Array.prototype.indexOf.call(form, e.target);
-        form.elements[index + 1]?.focus();
-      }
-    };
-    
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const form = e.target.form;
+      const index = Array.prototype.indexOf.call(form, e.target);
+      form.elements[index + 1]?.focus();
+    }
+  };
+
   return (
     <div className="w-full bg-white rounded-lg shadow-sm p-4">
       {/* Search Filters */}
@@ -227,7 +225,7 @@ const UserManagementFilter = () => {
               <tr
                 key={user.id}
                 className={`${
-                  idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                  idx % 2 === 0 ? "bg-gray-50" : "bg-white"
                 } border-t`}
               >
                 <td className="p-3">{user.FirstName}</td>
@@ -291,38 +289,38 @@ const UserManagementFilter = () => {
         </button>
       </div> */}
 
-<div className="flex items-center justify-center space-x-2 mt-6">
-  <button
-    onClick={handlePreviousSet}
-    disabled={startPage === 1}
-    className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
-  >
-    Prev
-  </button>
-  {[...Array(endPage - startPage + 1)].map((_, idx) => {
-    const pageNum = startPage + idx;
-    return (
-      <button
-        key={pageNum}
-        onClick={() => handlePageChange(pageNum)}
-        className={`px-3 py-2 text-white rounded-md transition ${
-          pageNum === currentPage
-            ? 'bg-brandRed'
-            : 'bg-brandDisable hover:bg-brandRed'
-        }`}
-      >
-        {pageNum}
-      </button>
-    );
-  })}
-  <button
-    onClick={handleNextSet}
-    disabled={endPage === totalPages}
-    className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
-  >
-    Next
-  </button>
-</div>
+      <div className="flex items-center justify-center space-x-2 mt-6">
+        <button
+          onClick={handlePreviousSet}
+          disabled={startPage === 1}
+          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+        >
+          Prev
+        </button>
+        {[...Array(endPage - startPage + 1)].map((_, idx) => {
+          const pageNum = startPage + idx;
+          return (
+            <button
+              key={pageNum}
+              onClick={() => handlePageChange(pageNum)}
+              className={`px-3 py-2 text-white rounded-md transition ${
+                pageNum === currentPage
+                  ? "bg-brandRed"
+                  : "bg-brandDisable hover:bg-brandRed"
+              }`}
+            >
+              {pageNum}
+            </button>
+          );
+        })}
+        <button
+          onClick={handleNextSet}
+          disabled={endPage === totalPages}
+          className="px-3 py-2 text-white bg-brandRed rounded-md disabled:bg-brandDisable"
+        >
+          Next
+        </button>
+      </div>
 
       {/* Edit Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -333,8 +331,8 @@ const UserManagementFilter = () => {
               <Label>
                 <span>Role</span>
                 <select
-                  {...register('Role')}
-            onKeyDown={handleEnter}
+                  {...register("Role")}
+                  onKeyDown={handleEnter}
                   className="input input-bordered w-full p-2 border border-gray-300"
                 >
                   <option value="">Select Role</option>
@@ -352,8 +350,8 @@ const UserManagementFilter = () => {
               <Label>
                 <span>Profile Status</span>
                 <select
-                  {...register('Profile')}
-            onKeyDown={handleEnter}
+                  {...register("Profile")}
+                  onKeyDown={handleEnter}
                   className="input input-bordered w-full p-2 border border-gray-300"
                 >
                   <option value="">Select Status</option>
@@ -362,9 +360,7 @@ const UserManagementFilter = () => {
                 </select>
               </Label>
               {errors.Profile && (
-                <p className="text-red-500 text-sm">
-                  {errors.Profile.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.Profile.message}</p>
               )}
             </div>
 
@@ -372,13 +368,13 @@ const UserManagementFilter = () => {
               <Label>
                 <span>Regional Status</span>
                 <select
-                  {...register('RegionalStatus')}
-            onKeyDown={handleEnter}
+                  {...register("RegionalStatus")}
+                  onKeyDown={handleEnter}
                   className="input input-bordered w-full p-2 border border-gray-300"
                 >
                   <option value="">Select Regional Status</option>
-                  <option value="Manager">Manager</option>      
-                  <option value="Employee">Employee</option>       
+                  <option value="Manager">Manager</option>
+                  <option value="Employee">Employee</option>
                 </select>
               </Label>
               {errors.RegionalStatus && (
@@ -392,45 +388,40 @@ const UserManagementFilter = () => {
               <Label>
                 <span>Branch</span>
                 <select
-                  {...register('Branch')}
-            onKeyDown={handleEnter}
+                  {...register("Branch")}
+                  onKeyDown={handleEnter}
                   className="input input-bordered w-full p-2 border border-gray-300"
                 >
                   <option value="">Select Branch</option>
-                        <option value="Edu Anchor">Edu Anchor</option>
-            <option value="Dhaka">Dhaka</option>
+                  <option value="Edu Anchor">Edu Anchor</option>
+                  <option value="Dhaka">Dhaka</option>
                   <option value="Khulna">Khulna</option>
-            <option value="Barishal">Barishal</option>
                   <option value="Satkhira">Satkhira</option>
-                  <option value="Tangail">Tangail</option>
                   <option value="Jashore">Jashore</option>
-                  <option value="Rangpur">Rangpur</option>
-                  <option value="Dinajpur">Dinajpur</option>
-                  <option value="Gopalganj">Gopalganj</option>
-                  <option value="Savar">Savar</option>
                   <option value="Feni">Feni</option>
+                  <option value="Nord Edu">Nord Edu</option>
                 </select>
               </Label>
               {errors.Branch && (
-                <p className="text-red-500 text-sm">
-                  {errors.Branch.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.Branch.message}</p>
               )}
             </div>
 
-<div>
-                    <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">
-                      New Password
-                    </label>
-                    <Input
-                      type="password"
-                      {...register("newPassword")}
-                      className="shadow-md p-3"
-                    />
-                    {errors.newPassword && (
-                      <p className="text-red-500 text-sm mt-1">{errors.newPassword.message}</p>
-                    )}
-                  </div>
+            <div>
+              <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">
+                New Password
+              </label>
+              <Input
+                type="password"
+                {...register("newPassword")}
+                className="shadow-md p-3"
+              />
+              {errors.newPassword && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.newPassword.message}
+                </p>
+              )}
+            </div>
             <div className="flex justify-end">
               <Button type="submit" className="bg-brandRed text-white">
                 Save
