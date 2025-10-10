@@ -38,7 +38,8 @@
     "react-scripts": "^5.0.1",
     "react-select": "^5.10.1",
     "react-transition-group": "4.4.1",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",

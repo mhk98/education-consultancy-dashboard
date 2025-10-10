@@ -7,13 +7,14 @@ import {
   useGetAllEADocumentQuery,
 } from "../../features/eaDocument/eaDocument";
 
-const BASE_URL = "https://api.eaconsultancy.info/";
+const BASE_URL = "http://localhost:5000/";
 
 const EADocument = ({ id }) => {
   const [file, setFile] = useState(null);
   const [document, setDocument] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const role = localStorage.getItem("role");
+  const userId = localStorage.getItem("userId");
 
   const {
     data,
@@ -56,6 +57,7 @@ const EADocument = ({ id }) => {
     formData.append("title", form.title.value);
     formData.append("file", selectedFile);
     formData.append("user_id", id);
+    formData.append("userId", userId);
 
     try {
       setIsLoading(true);

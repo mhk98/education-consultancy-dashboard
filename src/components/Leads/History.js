@@ -31,7 +31,7 @@
 //   const fetchComments = async () => {
 //     try {
 //       const res = await axios.get(
-//         `https://api.eaconsultancy.info/api/v1/leadComment/${id}`
+//         `http://localhost:5000/api/v1/leadComment/${id}`
 //       );
 //       setComments(res.data);
 //     } catch (err) {
@@ -50,7 +50,7 @@
 //       formData.append("hidden", false);
 //       if (newCommentFile) formData.append("file", newCommentFile);
 
-//       await axios.post("https://api.eaconsultancy.info/api/v1/leadComment/create", formData);
+//       await axios.post("http://localhost:5000/api/v1/leadComment/create", formData);
 //       setNewComment("");
 //       setNewCommentFile(null);
 //       fetchComments();
@@ -70,7 +70,7 @@
 //       formData.append("text", replyText);
 //       if (file) formData.append("file", file);
 
-//       await axios.post("https://api.eaconsultancy.info/api/v1/leadReply/create", formData);
+//       await axios.post("http://localhost:5000/api/v1/leadReply/create", formData);
 //       setReplyContent((prev) => ({ ...prev, [commentId]: "" }));
 //       setReplyFiles((prev) => ({ ...prev, [commentId]: null }));
 //       fetchComments();
@@ -101,7 +101,7 @@
 
 //             {comment.file && (
 //               <a
-//                 href={`https://api.eaconsultancy.info/${comment.file}`}
+//                 href={`http://localhost:5000/${comment.file}`}
 //                 target="_blank"
 //                 rel="noopener noreferrer"
 //                 className="text-sm text-blue-600 underline"
@@ -119,7 +119,7 @@
 //                   {reply.text}
 //                   {reply.file && (
 //                     <a
-//                       href={`https://api.eaconsultancy.info/${reply.file}`}
+//                       href={`http://localhost:5000/${reply.file}`}
 //                       target="_blank"
 //                       rel="noopener noreferrer"
 //                       className="ml-2 text-blue-600 underline"
@@ -231,7 +231,7 @@ const History = ({ id }) => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://api.eaconsultancy.info/api/v1/leadComment/${id}`
+        `http://localhost:5000/api/v1/leadComment/${id}`
       );
       setComments(res.data.data); // Assuming `res.data.data` holds array
     } catch (err) {
@@ -250,7 +250,7 @@ const History = ({ id }) => {
       if (newCommentFile) formData.append("file", newCommentFile);
 
       await axios.post(
-        "https://api.eaconsultancy.info/api/v1/leadComment/create",
+        "http://localhost:5000/api/v1/leadComment/create",
         formData
       );
       setNewComment("");
@@ -274,7 +274,7 @@ const History = ({ id }) => {
       if (file) formData.append("file", file);
 
       await axios.post(
-        "https://api.eaconsultancy.info/api/v1/leadReply/create",
+        "http://localhost:5000/api/v1/leadReply/create",
         formData
       );
       setReplyContent((prev) => ({ ...prev, [commentId]: "" }));
@@ -299,7 +299,7 @@ const History = ({ id }) => {
 
             {comment.file && (
               <a
-                href={`https://api.eaconsultancy.info/${comment.file}`}
+                href={`http://localhost:5000/${comment.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-blue-600 underline"
@@ -321,7 +321,7 @@ const History = ({ id }) => {
                   {reply.text}
                   {reply.file && (
                     <a
-                      href={`https://api.eaconsultancy.info/${reply.file}`}
+                      href={`http://localhost:5000/${reply.file}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="ml-2 text-blue-600 underline"

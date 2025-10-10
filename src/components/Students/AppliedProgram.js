@@ -41,7 +41,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(
-        `https://api.eaconsultancy.info/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
+        `http://localhost:5000/api/v1/studentComment/${selectedProgram.id}?type=${tab}`
       );
       setComments(res.data.data);
     } catch (err) {
@@ -52,7 +52,7 @@ const AppliedProgram = ({ user_id }) => {
   const fetchKCComments = async () => {
     try {
       const res = await axios.get(
-        `https://api.eaconsultancy.info/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
+        `http://localhost:5000/api/v1/kcComment/${selectedProgram.id}?type=${tab}`
       );
       setKCComments(res.data.data);
     } catch (err) {
@@ -84,7 +84,7 @@ const AppliedProgram = ({ user_id }) => {
       if (newCommentFile) formData.append("file", newCommentFile);
 
       await axios.post(
-        "https://api.eaconsultancy.info/api/v1/studentComment/create",
+        "http://localhost:5000/api/v1/studentComment/create",
         formData
       );
       setNewComment("");
@@ -107,7 +107,7 @@ const AppliedProgram = ({ user_id }) => {
       if (file) formData.append("file", file);
 
       await axios.post(
-        "https://api.eaconsultancy.info/api/v1/studentReply/create",
+        "http://localhost:5000/api/v1/studentReply/create",
         formData
       );
       setReplyContent((prev) => ({ ...prev, [commentId]: "" }));
@@ -130,7 +130,7 @@ const AppliedProgram = ({ user_id }) => {
       if (newKCCommentFile) formData.append("file", newKCCommentFile);
 
       await axios.post(
-        "https://api.eaconsultancy.info/api/v1/kcComment/create",
+        "http://localhost:5000/api/v1/kcComment/create",
         formData
       );
       setNewKCComment("");
@@ -152,10 +152,7 @@ const AppliedProgram = ({ user_id }) => {
       formData.append("text", replyText);
       if (file) formData.append("file", file);
 
-      await axios.post(
-        "https://api.eaconsultancy.info/api/v1/kcReply/create",
-        formData
-      );
+      await axios.post("http://localhost:5000/api/v1/kcReply/create", formData);
       setReplyKCContent((prev) => ({ ...prev, [commentId]: "" }));
       setReplyKCFiles((prev) => ({ ...prev, [commentId]: null }));
       fetchKCComments();
@@ -186,7 +183,7 @@ const AppliedProgram = ({ user_id }) => {
 
             {comment.file && (
               <a
-                href={`https://api.eaconsultancy.info/${comment.file}`}
+                href={`http://localhost:5000/${comment.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-blue-600 underline"
@@ -207,7 +204,7 @@ const AppliedProgram = ({ user_id }) => {
                   {reply.text}
                   {reply.file && (
                     <a
-                      href={`https://api.eaconsultancy.info/${reply.file}`}
+                      href={`http://localhost:5000/${reply.file}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="ml-2 text-blue-600 underline"

@@ -15,7 +15,7 @@ import {
   useUpdateAdditionalDocumentMutation,
 } from "../../features/additionalDocument/additionalDocument";
 
-const BASE_URL = "https://api.eaconsultancy.info/";
+const BASE_URL = "http://localhost:5000/";
 const MAX_FILE_SIZE_MB = 5;
 
 const StudentDocument = ({ id }) => {
@@ -26,6 +26,8 @@ const StudentDocument = ({ id }) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editDoc, setEditDoc] = useState(null);
   const [editFile, setEditFile] = useState(null);
+
+  const userId = localStorage.getItem("userId");
 
   const { data, isLoading, isError, error } = useGetDataByIdQuery(id);
   const [updateDocument] = useUpdateDocumentMutation();
@@ -78,8 +80,13 @@ const StudentDocument = ({ id }) => {
       return;
     }
 
+    const data = {
+      ...formData,
+      userId,
+    };
+
     try {
-      const res = await updateDocument({ data: formData, id });
+      const res = await updateDocument({ data, id });
       if (res.data.success === true) {
         toast.success("Mandatory documents updated");
         setIsModalOpen(false);
@@ -107,6 +114,7 @@ const StudentDocument = ({ id }) => {
     formData.append("title", form.title.value);
     formData.append("file", fileInput);
     formData.append("user_id", id);
+    formData.append("userId", userId);
 
     try {
       const res = await createAdditionalDocument(formData);
@@ -150,6 +158,7 @@ const StudentDocument = ({ id }) => {
     formData.append("title", editDoc.title);
     if (editFile) formData.append("file", editFile);
     formData.append("user_id", id);
+    formData.append("userId", userId);
 
     try {
       const res = await updateAdditionalDocument({

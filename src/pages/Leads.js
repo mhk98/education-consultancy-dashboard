@@ -205,7 +205,11 @@ function Leads() {
   const [deleteConsultation] = useDeleteConsultationMutation();
 
   const onFormSubmit = async (formData) => {
-    const dataExtended = { ...formData, type: "Office Visits" };
+    const dataExtended = {
+      ...formData,
+      type: "Office Visits",
+      url: "leads",
+    };
     const res = await createConsultation(dataExtended);
 
     if (res?.data?.success) {
@@ -262,7 +266,7 @@ function Leads() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://api.eaconsultancy.info/api/v1/user/student"
+          "http://localhost:5000/api/v1/user/student"
         );
         const allUsers = response.data.data;
         const filteredAdmins = allUsers.filter(

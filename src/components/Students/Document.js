@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import StudentDocument from "./StudentDocument";
 import EADocument from "./EADocument";
 
-const Document = ({id}) => {
+const Document = ({ id }) => {
   const [activeTab, setActiveTab] = useState("apply");
 
   return (
@@ -40,11 +40,11 @@ const Document = ({id}) => {
       <div className="p-4">
         {activeTab === "apply" ? (
           <div>
-            <StudentDocument id={id}/>
+            <StudentDocument id={id} />
           </div>
         ) : (
           <div>
-            <EADocument id={id}/>
+            <EADocument id={id} />
           </div>
         )}
       </div>
