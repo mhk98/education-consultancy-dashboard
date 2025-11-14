@@ -321,7 +321,7 @@ export default function Header() {
 
       {/* Search Input */}
       <div className="flex justify-center flex-1 lg:mr-32">
-        <div className="relative w-full max-w-xl mr-6">
+        {/* <div className="relative w-full max-w-xl mr-6">
           <div className="absolute inset-y-0 flex items-center pl-2">
             <SearchIcon className="w-4 h-4" />
           </div>
@@ -330,7 +330,7 @@ export default function Header() {
             placeholder="Search..."
             aria-label="Search"
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Notification & Profile */}
