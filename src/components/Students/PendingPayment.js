@@ -69,6 +69,7 @@ function PendingPayment({ id }) {
     formData.append("employee", `${FirstName} ${LastName}`);
     formData.append("branch", branch);
     formData.append("user_id", id);
+    formData.append("userId", userId);
     if (file) {
       formData.append("file", file);
     }

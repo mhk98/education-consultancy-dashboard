@@ -7,6 +7,7 @@ import { useGetDataByIdQuery, useUpdateContractMutation } from '../../features/c
 function Contract({id}) {
 
   const role = localStorage.getItem("role")
+  const userId = localStorage.getItem("userId")
   const [isModalOpen, setIsModalOpen] = useState(false)
        
   function closeModal() {
@@ -33,6 +34,7 @@ function Contract({id}) {
         spouseServicecharge: data.spouseServicecharge,
         applicationCode: data.applicationCode,
         note: data.note,
+        userId:userId,
       }
     
        try {
