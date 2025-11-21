@@ -1,71 +1,61 @@
-import { lazy } from 'react'
-import Students from '../pages/Students'
-import Applications from '../pages/Applications'
-import Wallet from '../pages/Wallet'
-import CommissionPayment from '../pages/CommissionPayment'
-import Enquiries from '../pages/Enquiries'
-import StudentEditProfile from '../components/Students/StudentEditProfile'
-import Programs from '../pages/Programs'
-import UserManagement from '../pages/UserManagement'
-import ArchiveStudentTable from '../components/Students/ArchiveStudentTable'
-import PaymentStatus from '../components/Students/PaymentStatus'
-import Task from '../pages/Task'
-import Leads from '../pages/Leads'
-import EditLeads from '../components/Leads/EditLeads'
-import Profile from '../components/Profile'
+import { lazy } from "react";
+import Students from "../pages/Students";
+import Applications from "../pages/Applications";
+import Wallet from "../pages/Wallet";
+import CommissionPayment from "../pages/CommissionPayment";
+import Enquiries from "../pages/Enquiries";
+import StudentEditProfile from "../components/Students/StudentEditProfile";
+import Programs from "../pages/Programs";
+import UserManagement from "../pages/UserManagement";
+import ArchiveStudentTable from "../components/Students/ArchiveStudentTable";
+import PaymentStatus from "../components/Students/PaymentStatus";
+import Task from "../pages/Task";
+import Leads from "../pages/Leads";
+import EditLeads from "../components/Leads/EditLeads";
+import Profile from "../components/Profile";
 
 // use lazy for better code splitting, a.k.a. load faster
-const Dashboard = lazy(() => import('../pages/Dashboard'))
-const Modals = lazy(() => import('../pages/Modals'))
-const Tables = lazy(() => import('../pages/Tables'))
-const Page404 = lazy(() => import('../pages/404'))
-const Blank = lazy(() => import('../pages/Blank'))
+const Dashboard = lazy(() => import("../pages/Dashboard"));
+const Modals = lazy(() => import("../pages/Modals"));
+const Tables = lazy(() => import("../pages/Tables"));
+const Page404 = lazy(() => import("../pages/404"));
+const Blank = lazy(() => import("../pages/Blank"));
 
-/**
- * ⚠ These are internal routes!
- * They will be rendered inside the app, using the default `containers/Layout`.
- * If you want to add a route to, let's say, a landing page, you should add
- * it to the `App`'s router, exactly like `Login`, `CreateAccount` and other pages
- * are routed.
- *
- * If you're looking for the links rendered in the SidebarContent, go to
- * `routes/sidebar.js`
- */
 const routes = [
   {
-    path: '/dashboard', // the url
+    path: "/dashboard", // the url
     component: Dashboard, // view rendered
   },
   {
-    path: '/students',
+    path: "/students",
     component: Students,
   },
   {
-    path: '/archive-student',
+    path: "/archive-student",
     component: ArchiveStudentTable,
   },
   {
-    path: '/user-management',
+    path: "/user-management",
     component: UserManagement,
   },
   {
-    path: '/task',
+    path: "/task",
     component: Task,
   },
   {
-    path: '/editprofile/:id',
+    path: "/editprofile/:id",
     component: StudentEditProfile,
   },
   {
-    path: '/editLeads/:id',
+    path: "/editLeads/:id",
     component: EditLeads,
   },
   {
-    path: '/applications',
+    path: "/applications",
     component: Applications,
   },
   {
-    path: '/programs',
+    path: "/programs",
     component: Programs,
   },
   {
@@ -73,41 +63,41 @@ const routes = [
     component: PaymentStatus,
   },
   {
-    path: '/leads',
+    path: "/leads",
     component: Leads,
   },
   {
-    path: '/wallet',
+    path: "/wallet",
     component: Wallet,
   },
   {
-    path: '/commission-payments',
+    path: "/commission-payments",
     component: CommissionPayment,
   },
   {
-    path: '/manage-enquiries',
+    path: "/manage-enquiries",
     component: Enquiries,
   },
   {
-    path: '/profile',
+    path: "/profile",
     component: Profile,
   },
   {
-    path: '/modals',
+    path: "/modals",
     component: Modals,
   },
   {
-    path: '/tables',
+    path: "/tables",
     component: Tables,
   },
   {
-    path: '/404',
+    path: "/404",
     component: Page404,
   },
   {
-    path: '/blank',
+    path: "/blank",
     component: Blank,
   },
-]
+];
 
-export default routes
+export default routes;

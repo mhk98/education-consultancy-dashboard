@@ -12,6 +12,7 @@ function Client({ id }) {
   //   const id = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
   const branch = localStorage.getItem("branch");
+  const userId = localStorage.getItem("userId");
 
   const [consultationId, setConsultationId] = useState("");
 
@@ -41,8 +42,15 @@ function Client({ id }) {
   const [updateConsultation] = useUpdateConsultationMutation();
 
   const onFormEdit = async (data) => {
+    const dataExtended = {
+      ...data,
+      userId: userId,
+    };
     try {
-      const res = await updateConsultation({ id: consultationId, data });
+      const res = await updateConsultation({
+        id: consultationId,
+        dataExtended,
+      });
       if (res.data?.success) {
         toast.success(res.data.message);
         reset();

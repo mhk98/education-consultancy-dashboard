@@ -209,6 +209,7 @@ function Leads() {
       ...formData,
       type: "Office Visits",
       url: "leads",
+      userId: id,
     };
     const res = await createConsultation(dataExtended);
 
@@ -222,7 +223,12 @@ function Leads() {
   };
 
   const onFormEdit = async (data) => {
-    console.log("Submitting Update:", { id: leadId, data });
+    const dataExtended = {
+      ...data,
+      userId: id,
+    };
+
+    console.log("Submitting Update:", { id: leadId, data: dataExtended });
 
     try {
       const res = await updateConsultation({ id: leadId, data }).unwrap(); // .unwrap() throws error on failure

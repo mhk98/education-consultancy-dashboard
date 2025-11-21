@@ -13,7 +13,8 @@ const LeadDocument = ({ id }) => {
   const [file, setFile] = useState(null);
   const [document, setDocument] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const role = localStorage.getItem("role");
+  const user_id = localStorage.getItem("userId");
+  const branch = localStorage.getItem("branch");
 
   const {
     data,
@@ -56,6 +57,8 @@ const LeadDocument = ({ id }) => {
     formData.append("title", form.title.value);
     formData.append("file", selectedFile);
     formData.append("lead_id", id);
+    formData.append("user_id", user_id);
+    formData.append("location", branch);
 
     try {
       setIsLoading(true);
