@@ -272,7 +272,7 @@ function Leads() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/user/student"
+          "https://api.eaconsultancy.info/api/v1/user/student"
         );
         const allUsers = response.data.data;
         const filteredAdmins = allUsers.filter(

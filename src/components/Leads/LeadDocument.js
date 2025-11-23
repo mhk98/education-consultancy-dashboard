@@ -7,7 +7,7 @@ import {
   useGetAllLeadDocumentQuery,
 } from "../../features/leadDocument/leadDocument";
 
-const BASE_URL = "http://localhost:5000/";
+const BASE_URL = "https://api.eaconsultancy.info/";
 
 const LeadDocument = ({ id }) => {
   const [file, setFile] = useState(null);

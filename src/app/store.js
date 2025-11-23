@@ -25,15 +25,12 @@ import { ContractApi } from "../features/contract/contract";
 import { eaDocumentApi } from "../features/eaDocument/eaDocument";
 import { ConsultationApi } from "../features/consultation/consultation";
 import { leadDocumentApi } from "../features/leadDocument/leadDocument";
-
-
-
-
-
+import { NotificationApi } from "../features/notification/notification";
 
 const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
+    [NotificationApi.reducerPath]: NotificationApi.reducer,
     [profileApi.reducerPath]: profileApi.reducer,
     [applicationApi.reducerPath]: applicationApi.reducer,
     [documentApi.reducerPath]: documentApi.reducer,
@@ -57,38 +54,36 @@ const store = configureStore({
     [eaDocumentApi.reducerPath]: eaDocumentApi.reducer,
     [ConsultationApi.reducerPath]: ConsultationApi.reducer,
     [leadDocumentApi.reducerPath]: leadDocumentApi.reducer,
-
-  
   },
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-        // contactApi.middleware,
-        authApi.middleware,
-        profileApi.middleware,
-        documentApi.middleware,
-        academicApi.middleware,
-        testsApi.middleware,
-        studentCommentApi.middleware,
-        studentReplyApi.middleware,
-        additionalDocumentApi.middleware,
-        programCountryApi.middleware,
-        programIntakeApi.middleware,
-        programUniversityApi.middleware,
-        programNameApi.middleware,
-        programYearsApi.middleware,
-        RequestPaymentApi.middleware,
-        PendingPaymentApi.middleware,
-        CashInApi.middleware,
-        CommissionApi.middleware,
-        EnquiriesApi.middleware,
-        TaskApi.middleware,
-        ContractApi.middleware,
-        applicationApi.middleware,
-        eaDocumentApi.middleware,
-        ConsultationApi.middleware,
-        leadDocumentApi.middleware,
-      
+      // contactApi.middleware,
+      authApi.middleware,
+      NotificationApi.middleware,
+      profileApi.middleware,
+      documentApi.middleware,
+      academicApi.middleware,
+      testsApi.middleware,
+      studentCommentApi.middleware,
+      studentReplyApi.middleware,
+      additionalDocumentApi.middleware,
+      programCountryApi.middleware,
+      programIntakeApi.middleware,
+      programUniversityApi.middleware,
+      programNameApi.middleware,
+      programYearsApi.middleware,
+      RequestPaymentApi.middleware,
+      PendingPaymentApi.middleware,
+      CashInApi.middleware,
+      CommissionApi.middleware,
+      EnquiriesApi.middleware,
+      TaskApi.middleware,
+      ContractApi.middleware,
+      applicationApi.middleware,
+      eaDocumentApi.middleware,
+      ConsultationApi.middleware,
+      leadDocumentApi.middleware
     ),
 });
 

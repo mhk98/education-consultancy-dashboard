@@ -63,7 +63,9 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/v1/user/${id}`);
+        const response = await fetch(
+          `https://api.eaconsultancy.info/api/v1/user/${id}`
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -97,7 +99,7 @@ const Profile = () => {
             className="w-20 h-20 rounded-full object-cover"
             src={
               user?.image && user?.image !== "null"
-                ? `http://localhost:5000/${user?.image}`
+                ? `https://api.eaconsultancy.info/${user?.image}`
                 : "https://i.pravatar.cc/300"
             }
             alt="User avatar"
@@ -282,7 +284,7 @@ const Profile = () => {
                 <img
                   src={
                     user?.image && user?.image !== "null"
-                      ? `http://localhost:5000/${user?.image}`
+                      ? `https://api.eaconsultancy.info/${user?.image}`
                       : "https://i.pravatar.cc/300"
                   }
                   alt="Profile Preview"

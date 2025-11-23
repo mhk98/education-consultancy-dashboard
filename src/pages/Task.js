@@ -138,7 +138,7 @@ function Task() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/user/student"
+          "https://api.eaconsultancy.info/api/v1/user/student"
         );
         const allUsers = response.data.data;
         const filteredAdmins = allUsers.filter(
@@ -205,7 +205,7 @@ function Task() {
                 <td className="p-3">
                   {task.file ? (
                     <a
-                      href={`http://localhost:5000/${task.file}`}
+                      href={`https://api.eaconsultancy.info/${task.file}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-brandRed"

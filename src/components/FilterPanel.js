@@ -26,7 +26,7 @@ const FilterPanel = () => {
         );
 
         const response = await axios.get(
-          "http://localhost:5000/api/v1/application/status",
+          "https://api.eaconsultancy.info/api/v1/application/status",
           { params }
         );
 
