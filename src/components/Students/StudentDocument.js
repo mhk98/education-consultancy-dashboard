@@ -64,6 +64,42 @@ const StudentDocument = ({ id }) => {
     }));
   };
 
+  // const onEditSubmit = async () => {
+  //   const formData = new FormData();
+  //   let hasFile = false;
+
+  //   Object.entries(file).forEach(([key, value]) => {
+  //     if (value) {
+  //       formData.append(key, value);
+  //       hasFile = true;
+  //     }
+  //   });
+
+  //   if (!hasFile) {
+  //     toast.error("Please select at least one document to upload");
+  //     return;
+  //   }
+
+  //   const data = {
+  //     ...formData,
+  //     userId,
+  //   };
+
+  //   try {
+  //     const res = await updateDocument({ data, id });
+  //     if (res.data.success === true) {
+  //       toast.success("Mandatory documents updated");
+  //       setIsModalOpen(false);
+  //       reset();
+  //       setFile({});
+  //     } else {
+  //       toast.error(res?.error?.data?.message || "Update failed");
+  //     }
+  //   } catch {
+  //     toast.error("Something went wrong");
+  //   }
+  // };
+
   const onEditSubmit = async () => {
     const formData = new FormData();
     let hasFile = false;
@@ -80,14 +116,11 @@ const StudentDocument = ({ id }) => {
       return;
     }
 
-    const data = {
-      ...formData,
-      userId,
-    };
+    formData.append("userId", userId);
 
     try {
-      const res = await updateDocument({ data, id });
-      if (res.data.success === true) {
+      const res = await updateDocument({ id, data: formData });
+      if (res?.data?.success) {
         toast.success("Mandatory documents updated");
         setIsModalOpen(false);
         reset();

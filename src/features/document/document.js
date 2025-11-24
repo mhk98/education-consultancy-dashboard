@@ -26,7 +26,7 @@ export const documentApi = createApi({
     }),
 
     updateDocument: build.mutation({
-      query: ({ data, id }) => ({
+      query: ({ id, data }) => ({
         url: `/document/${id}`,
         method: "PUT",
         body: data,

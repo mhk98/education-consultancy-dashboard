@@ -76,7 +76,7 @@ import { useEffect, useState } from "react";
 
 const SITE_URL = "http://localhost:5000";
 // Define the polling interval (e.g., every 60 seconds)
-const POLLING_INTERVAL = 20000;
+const POLLING_INTERVAL = 10000;
 
 export default function useNotifications(branch) {
   const [notifications, setNotifications] = useState([]);
