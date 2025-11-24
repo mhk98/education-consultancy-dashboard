@@ -7,7 +7,7 @@ import {
   useGetAllEADocumentQuery,
 } from "../../features/eaDocument/eaDocument";
 
-const BASE_URL = "https://api.eaconsultancy.info/";
+const BASE_URL = "http://localhost:5000/";
 
 const EADocument = ({ id }) => {
   const [file, setFile] = useState(null);

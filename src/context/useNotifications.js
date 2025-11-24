@@ -1,7 +1,7 @@
 // import { useEffect, useRef, useState } from "react";
 // import { io } from "socket.io-client";
 
-// const SOCKET_URL = "https://api.eaconsultancy.info";
+// const SOCKET_URL = "http://localhost:5000";
 
 // export default function useNotifications(branch) {
 //   const socket = useRef(null);
@@ -29,7 +29,7 @@
 //     const fetchNotifications = async () => {
 //       try {
 //         const res = await fetch(
-//           `https://api.eaconsultancy.info/api/v1/notification/${branch}/${userId}`
+//           `http://localhost:5000/api/v1/notification/${branch}/${userId}`
 //         );
 //         const data = await res.json();
 //         if (data.success) setNotifications(data.data);
@@ -74,7 +74,7 @@
 
 import { useEffect, useState } from "react";
 
-const SITE_URL = "https://api.eaconsultancy.info";
+const SITE_URL = "http://localhost:5000";
 // Define the polling interval (e.g., every 60 seconds)
 const POLLING_INTERVAL = 20000;
 

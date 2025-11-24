@@ -51,7 +51,7 @@ const CashIn = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://api.eaconsultancy.info/api/v1/user"
+          "http://localhost:5000/api/v1/user"
         );
         const allUsers = response.data.data;
 
@@ -76,7 +76,7 @@ const CashIn = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://api.eaconsultancy.info/api/v1/user"
+          "http://localhost:5000/api/v1/user"
         );
         const allUsers = response.data.data;
 

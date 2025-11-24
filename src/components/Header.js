@@ -33,7 +33,7 @@
 //   useEffect(() => {
 //     const fetchUser = async () => {
 //       try {
-//         const response = await fetch(`https://api.eaconsultancy.info/api/v1/user/${id}`);
+//         const response = await fetch(`http://localhost:5000/api/v1/user/${id}`);
 //         if (!response.ok) {
 //           throw new Error("Network response was not ok");
 //         }
@@ -118,7 +118,7 @@
 //               className="w-8 h-8 rounded-full object-cover"
 //               src={
 //                 user?.image && user?.image !== "null"
-//                   ? `https://api.eaconsultancy.info/${user?.image}`
+//                   ? `http://localhost:5000/${user?.image}`
 //                   : "https://i.pravatar.cc/300"
 //               }
 //               alt="User avatar"
@@ -176,7 +176,7 @@
 //   useEffect(() => {
 //     const fetchUser = async () => {
 //       try {
-//         const res = await fetch(`https://api.eaconsultancy.info/api/v1/user/${id}`);
+//         const res = await fetch(`http://localhost:5000/api/v1/user/${id}`);
 //         const data = await res.json();
 //         setUser(data.data);
 //       } catch (err) {
@@ -240,7 +240,7 @@
 //               className="w-8 h-8 rounded-full object-cover"
 //               src={
 //                 user?.image && user?.image !== "null"
-//                   ? `https://api.eaconsultancy.info/${user?.image}`
+//                   ? `http://localhost:5000/${user?.image}`
 //                   : "https://i.pravatar.cc/300"
 //               }
 //               alt="User avatar"
@@ -295,7 +295,7 @@ export default function Header() {
     const fetchUser = async () => {
       try {
         const res = await fetch(
-          `https://api.eaconsultancy.info/api/v1/user/${id}`
+          `http://localhost:5000/api/v1/user/${id}`
         );
         const data = await res.json();
         setUser(data.data);
@@ -360,7 +360,7 @@ export default function Header() {
               className="w-8 h-8 rounded-full object-cover"
               src={
                 user?.image && user?.image !== "null"
-                  ? `https://api.eaconsultancy.info/${user?.image}`
+                  ? `http://localhost:5000/${user?.image}`
                   : "https://i.pravatar.cc/300"
               }
               alt="User avatar"
