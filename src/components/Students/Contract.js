@@ -35,6 +35,7 @@ function Contract({id}) {
         applicationCode: data.applicationCode,
         note: data.note,
         userId:userId,
+        user_id:id
       }
     
        try {

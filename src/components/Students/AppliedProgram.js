@@ -592,6 +592,7 @@ const AppliedProgram = ({ user_id }) => {
       const formData = new FormData();
       formData.append("user_id", id);
       formData.append("userId", user_id);
+       formData.append("application_id", selectedProgram.id);
       formData.append("kcComment_id", commentId);
       formData.append("text", replyText);
       if (file) formData.append("file", file);

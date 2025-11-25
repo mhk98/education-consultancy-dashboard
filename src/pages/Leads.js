@@ -8,7 +8,7 @@ import {
   useUpdateConsultationMutation,
 } from "../features/consultation/consultation";
 import toast from "react-hot-toast";
-import { LiaEditSolid } from "react-icons/lia";
+import { LiaEditSolid, LiaInfoCircleSolid } from "react-icons/lia";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MdOutlineGridView } from "react-icons/md";
@@ -222,30 +222,63 @@ function Leads() {
     }
   };
 
+  // const onFormEdit = async (data) => {
+  //   const dataExtended = {
+  //     ...data,
+  //     userId: id,
+  //     location:branch
+  //   };
+
+  //   console.log("Submitting Update:", { id: leadId, data: dataExtended });
+
+  //   try {
+  //     const res = await updateConsultation({ id: leadId, data }).unwrap(); // .unwrap() throws error on failure
+  //     console.log("Update Success:", res);
+
+  //     if (res.success) {
+  //       toast.success(res.message || "Updated successfully");
+  //       resetEdit();
+  //       setIsModalOpen1(false);
+  //     } else {
+  //       toast.error("Update failed");
+  //     }
+  //   } catch (err) {
+  //     console.error("Update Error:", err);
+  //     toast.error(err?.data?.message || "Failed to update");
+  //   }
+  // };
+
+
   const onFormEdit = async (data) => {
-    const dataExtended = {
-      ...data,
-      userId: id,
-    };
-
-    console.log("Submitting Update:", { id: leadId, data: dataExtended });
-
-    try {
-      const res = await updateConsultation({ id: leadId, data }).unwrap(); // .unwrap() throws error on failure
-      console.log("Update Success:", res);
-
-      if (res.success) {
-        toast.success(res.message || "Updated successfully");
-        resetEdit();
-        setIsModalOpen1(false);
-      } else {
-        toast.error("Update failed");
-      }
-    } catch (err) {
-      console.error("Update Error:", err);
-      toast.error(err?.data?.message || "Failed to update");
-    }
+  const info = {
+    appointmentDate: data.appointmentDate,
+    assignedTo: data.assignedTo,
+    status: data.status,
+    type: data.type,
+    userId: id,
+    location: branch
   };
+
+  console.log("Submitting Update:", { id: leadId, info });
+
+  try {
+    const res = await updateConsultation({ id: leadId, data: info }).unwrap();
+    
+    console.log("Update Success:", res);
+
+    if (res.success) {
+      toast.success(res.message || "Updated successfully");
+      resetEdit();
+      setIsModalOpen1(false);
+    } else {
+      toast.error("Update failed");
+    }
+  } catch (err) {
+    console.error("Update Error:", err);
+    toast.error(err?.data?.message || "Failed to update");
+  }
+};
+
 
   const handleDeleteUser = async (id) => {
     if (!window.confirm("Are you sure you want to delete this lead?")) return;

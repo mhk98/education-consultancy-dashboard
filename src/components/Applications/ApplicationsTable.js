@@ -502,6 +502,7 @@ export default function ApplicationsTable() {
       assignee: formData.assignee,
       status: formData.status,
       user_id: stdId,
+      userId:userId,
     };
 
     try {

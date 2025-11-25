@@ -234,11 +234,14 @@ const PersonalInformation = ({ id }) => {
           </div>
           <button
             onClick={() => {
-              // reset({
-              //   dob: profile?.dob || "",
-              //   gender: profile?.gender || "",
-              //   maritalStatus: profile?.maritalStatus || "",
-              // });
+              reset({
+                mailingAddress1: profile?.mailingAddress1 || "",
+                mailingAddress2: profile?.mailingAddress2 || "",
+                mailingCountry: profile?.mailingCountry || "",
+                mailingState: profile?.mailingState || "",
+                mailingCity: profile?.mailingCity || "",
+                mailingPostalCode: profile?.mailingPostalCode || "",
+              });
               setIsModalOpen1(true);
             }}
             className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
@@ -412,11 +415,13 @@ const PersonalInformation = ({ id }) => {
           </div>
           <button
             onClick={() => {
-              // reset({
-              //   dob: profile?.dob || "",
-              //   gender: profile?.gender || "",
-              //   maritalStatus: profile?.maritalStatus || "",
-              // });
+              reset({
+                permanentAddress1: profile?.permanentAddress1 || "",
+                permanentCountry: profile?.permanentCountry || "",
+                permanentState: profile?.permanentState || "",
+                permanentCity: profile?.permanentCity || "",
+                permanentPostalCode: profile?.permanentPostalCode || "",
+              });
               setIsModalOpen2(true);
             }}
             className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
@@ -591,11 +596,14 @@ const PersonalInformation = ({ id }) => {
           </div>
           <button
             onClick={() => {
-              // reset({
-              //   dob: profile?.dob || "",
-              //   gender: profile?.gender || "",
-              //   maritalStatus: profile?.maritalStatus || "",
-              // });
+              reset({
+                passportNumber: profile?.passportNumber || "",
+                passportIssueDate: profile?.passportIssueDate || "",
+                passportExpiryDate: profile?.passportExpiryDate || "",
+                passportIssueCountry: profile?.passportIssueCountry || "",
+                passportCityOfBirth: profile?.passportCityOfBirth || "",
+                passportCountryOfBirth: profile?.passportCountryOfBirth || "",
+              });
               setIsModalOpen3(true);
             }}
             className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
@@ -776,11 +784,12 @@ const PersonalInformation = ({ id }) => {
           </div>
           <button
             onClick={() => {
-              // reset({
-              //   dob: profile?.dob || "",
-              //   gender: profile?.gender || "",
-              //   maritalStatus: profile?.maritalStatus || "",
-              // });
+              reset({
+                nationlity: profile?.nationlity || "",
+                citizenship: profile?.citizenship || "",
+                isMultiCitizenship: profile?.isMultiCitizenship || "",
+                isStudyOrLivingOtherCountry: profile?.isStudyOrLivingOtherCountry || "",
+              });
               setIsModalOpen4(true);
             }}
             className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
@@ -938,11 +947,12 @@ const PersonalInformation = ({ id }) => {
           </div>
           <button
             onClick={() => {
-              // reset({
-              //   dob: profile?.dob || "",
-              //   gender: profile?.gender || "",
-              //   maritalStatus: profile?.maritalStatus || "",
-              // });
+              reset({
+                isCriminalOffence: profile?.isCriminalOffence || "",
+                isAppliedAnyImmigrationBefore: profile?.isAppliedAnyImmigrationBefore || "",
+                isVisaRefusal: profile?.isVisaRefusal || "",
+                isSeriousMedicalCondition: profile?.isSeriousMedicalCondition || "",
+              });
               setIsModalOpen5(true);
             }}
             className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
@@ -1104,11 +1114,12 @@ const PersonalInformation = ({ id }) => {
           </div>
           <button
             onClick={() => {
-              // reset({
-              //   dob: profile?.dob || "",
-              //   gender: profile?.gender || "",
-              //   maritalStatus: profile?.maritalStatus || "",
-              // });
+              reset({
+                emergencyContactName: profile?.emergencyContactName || "",
+                emergencyContactEmail: profile?.emergencyContactEmail || "",
+                emergencyContactPhone: profile?.emergencyContactPhone || "",
+                emergencyContactRelation: profile?.emergencyContactRelation || "",
+              });
               setIsModalOpen6(true);
             }}
             className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"
@@ -1246,11 +1257,9 @@ const PersonalInformation = ({ id }) => {
           </div>
           <button
             onClick={() => {
-              // reset({
-              //   dob: profile?.dob || "",
-              //   gender: profile?.gender || "",
-              //   maritalStatus: profile?.maritalStatus || "",
-              // });
+              reset({
+                gapDetails: profile?.gapDetails || "",
+              });
               setIsModalOpen7(true);
             }}
             className="btn btn-outline btn-sm text-brandRed bg-brandLight p-2 rounded-sm"

@@ -82,6 +82,8 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                  const onFormEdit = async (data) => {
                   const formData = new FormData();
                   formData.append("status", data.status);
+        
+
                   if (file) {
                     formData.append("file", file);
                   }
@@ -235,7 +237,6 @@ const [isModalOpen, setIsModalOpen] = useState(false)
                     name="file"
                     accept="image/*,application/pdf"
                     onChange={handleFileChange}
-                    required
                     className="input"
                   />
                 </div>

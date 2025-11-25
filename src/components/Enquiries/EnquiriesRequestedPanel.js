@@ -261,6 +261,7 @@ const EnquiriesRequestedPanel = () => {
     try {
       await axios.post("http://localhost:5000/api/v1/reply/create", {
         user_id: id,
+        enquiry_id: selected.id,
         comment_id: commentId,
         text: replyText,
       });
